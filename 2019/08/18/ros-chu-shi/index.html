@@ -5,8 +5,7 @@
 <head><meta name="generator" content="Hexo 3.9.0">
     <meta charset="utf-8">
     <meta name="keywords" content="ROS初识, 木匠">
-    <meta name="description" content="1. 启动核心服务点和仿真节点roscore       #核心服务点rosrun turtlesim turtlesim_node   #仿真节点
-2.创建新的海龟turtle3rosservice call /spawn &amp;quot;x">
+    <meta name="description" content="流程1. 启动核心服务点和仿真节点2.创建新的海龟turtle33.控制海龟turtle3原地做圆周运动4.查看海龟仿真系统的计算图5.查看 /turtle2/pose的可视化信息6.查看 /turtle2/pose的实时信息启动核心服务点">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -277,10 +276,99 @@
 
 
 
-<main class="container content">
+<main class="post-container content">
 
     
-    <!-- 文章内容详情 -->
+    <link rel="stylesheet" href="/libs/tocbot/tocbot.css">
+<style>
+    #articleContent h1::before,
+    #articleContent h2::before,
+    #articleContent h3::before,
+    #articleContent h4::before,
+    #articleContent h5::before,
+    #articleContent h6::before {
+        display: block;
+        content: " ";
+        height: 100px;
+        margin-top: -100px;
+        visibility: hidden;
+    }
+
+    #articleContent :focus {
+        outline: none;
+    }
+
+    .toc-fixed {
+        position: fixed;
+        top: 64px;
+    }
+
+    .toc-widget {
+        padding-left: 20px;
+    }
+
+    .toc-widget .toc-title {
+        margin: 35px 0 15px 0;
+        padding-left: 17px;
+        font-size: 1.5rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+    }
+
+    .toc-widget ol {
+        padding: 0;
+        list-style: none;
+    }
+
+    #toc-content ol {
+        padding-left: 10px;
+    }
+
+    #toc-content ol li {
+        padding-left: 10px;
+    }
+
+    #toc-content .toc-link:hover {
+        color: #42b983;
+        font-weight: 700;
+        text-decoration: underline;
+    }
+
+    #toc-content .toc-link::before {
+        background-color: transparent;
+        max-height: 25px;
+    }
+
+    #toc-content .is-active-link {
+        color: #42b983;
+    }
+
+    #toc-content .is-active-link::before {
+        background-color: #42b983;
+    }
+
+    #floating-toc-btn {
+        position: fixed;
+        right: 20px;
+        bottom: 76px;
+        padding-top: 15px;
+        margin-bottom: 0;
+        z-index: 998;
+    }
+
+    #floating-toc-btn .btn-floating {
+        width: 48px;
+        height: 48px;
+    }
+
+    #floating-toc-btn .btn-floating i {
+        line-height: 48px;
+        font-size: 1.4rem;
+    }
+</style>
+<div class="row">
+    <div id="main-content" class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
 <div id="artDetail">
     <div class="card">
         <div class="card-content article-info">
@@ -320,7 +408,7 @@
                     
                     <div class="info-break-policy">
                         <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
-                        134
+                        191
                     </div>
                     
 
@@ -343,24 +431,25 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h4 id="1-启动核心服务点和仿真节点"><a href="#1-启动核心服务点和仿真节点" class="headerlink" title="1. 启动核心服务点和仿真节点"></a>1. 启动核心服务点和仿真节点</h4><pre><code>roscore       #核心服务点</code></pre><pre><code>rosrun turtlesim turtlesim_node   #仿真节点</code></pre><p><img src="https://upload-images.jianshu.io/upload_images/15704030-b5a1e831bfb50072.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="node.png"></p>
-<h4 id="2-创建新的海龟turtle3"><a href="#2-创建新的海龟turtle3" class="headerlink" title="2.创建新的海龟turtle3"></a>2.创建新的海龟turtle3</h4><pre><code>rosservice call /spawn &quot;x: 5.0
+                <h2 id="流程"><a href="#流程" class="headerlink" title="流程"></a>流程</h2><h4 id="1-启动核心服务点和仿真节点"><a href="#1-启动核心服务点和仿真节点" class="headerlink" title="1. 启动核心服务点和仿真节点"></a>1. 启动核心服务点和仿真节点</h4><h4 id="2-创建新的海龟turtle3"><a href="#2-创建新的海龟turtle3" class="headerlink" title="2.创建新的海龟turtle3"></a>2.创建新的海龟turtle3</h4><h4 id="3-控制海龟turtle3原地做圆周运动"><a href="#3-控制海龟turtle3原地做圆周运动" class="headerlink" title="3.控制海龟turtle3原地做圆周运动"></a>3.控制海龟turtle3原地做圆周运动</h4><h4 id="4-查看海龟仿真系统的计算图"><a href="#4-查看海龟仿真系统的计算图" class="headerlink" title="4.查看海龟仿真系统的计算图"></a>4.查看海龟仿真系统的计算图</h4><h4 id="5-查看-turtle2-pose的可视化信息"><a href="#5-查看-turtle2-pose的可视化信息" class="headerlink" title="5.查看 /turtle2/pose的可视化信息"></a>5.查看 /turtle2/pose的可视化信息</h4><h4 id="6-查看-turtle2-pose的实时信息"><a href="#6-查看-turtle2-pose的实时信息" class="headerlink" title="6.查看 /turtle2/pose的实时信息"></a>6.查看 /turtle2/pose的实时信息</h4><h1 id="启动核心服务点和仿真节点"><a href="#启动核心服务点和仿真节点" class="headerlink" title="启动核心服务点和仿真节点"></a>启动核心服务点和仿真节点</h1><pre><code>roscore       #核心服务点</code></pre><pre><code>rosrun turtlesim turtlesim_node   #仿真节点</code></pre><div align="center"><img width="350" height="250" src="./images/ROSchushi/1.png"></div>
+
+<h1 id="创建新的海龟turtle3"><a href="#创建新的海龟turtle3" class="headerlink" title="创建新的海龟turtle3"></a>创建新的海龟turtle3</h1><pre><code>rosservice call /spawn &quot;x: 5.0
 y: 0.0
 theta: 0.5
-name: &#39;turtle3&#39;&quot;</code></pre><p>####3.控制海龟turtle3原地做圆周运动</p>
-<pre><code>rostopic pub -r 10 /turtle3/cmd_vel geometry_msgs/Twist &quot;linear:
+name: &#39;turtle3&#39;&quot;</code></pre><h1 id="控制海龟turtle3原地做圆周运动"><a href="#控制海龟turtle3原地做圆周运动" class="headerlink" title="控制海龟turtle3原地做圆周运动"></a>控制海龟turtle3原地做圆周运动</h1><pre><code>rostopic pub -r 10 /turtle3/cmd_vel geometry_msgs/Twist &quot;linear:
   x: 0.5
   y: 0.0
   z: 0.0
 angular:
   x: 0.0
   y: 0.0
-  z: 1.0&quot;</code></pre><p><img src="https://upload-images.jianshu.io/upload_images/15704030-f4810cf91218d879.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="result.png"></p>
-<h4 id="4-查看海龟仿真系统的计算图"><a href="#4-查看海龟仿真系统的计算图" class="headerlink" title="4.查看海龟仿真系统的计算图"></a>4.查看海龟仿真系统的计算图</h4><pre><code>rqt_graph</code></pre><p><img src="https://upload-images.jianshu.io/upload_images/15704030-5a691c874d44327b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="计算图.png"></p>
-<p>####5.查看 /turtle2/pose的可视化信息</p>
-<pre><code>rqt_plot</code></pre><p><img src="https://upload-images.jianshu.io/upload_images/15704030-8584198e2267f8f4.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="topic可视化.png"></p>
-<p>####6.查看 /turtle2/pose的实时信息</p>
-<pre><code>rostopic echo /turtle2/pose</code></pre>
+  z: 1.0&quot;</code></pre><div align="center"><img width="350" height="250" src="./images/ROSchushi/2.png"></div>
+
+<h1 id="查看海龟仿真系统的计算图"><a href="#查看海龟仿真系统的计算图" class="headerlink" title="查看海龟仿真系统的计算图"></a>查看海龟仿真系统的计算图</h1><pre><code>rqt_graph</code></pre><div align="center"><img width="350" height="250" src="./images/ROSchushi/3.png"></div>
+
+<h1 id="查看-turtle2-pose的可视化信息"><a href="#查看-turtle2-pose的可视化信息" class="headerlink" title="查看 /turtle2/pose的可视化信息"></a>查看 /turtle2/pose的可视化信息</h1><pre><code>rqt_plot</code></pre><div align="center"><img width="350" height="250" src="./images/ROSchushi/4.png"></div>
+
+<h1 id="查看-turtle2-pose的实时信息"><a href="#查看-turtle2-pose的实时信息" class="headerlink" title="查看 /turtle2/pose的实时信息"></a>查看 /turtle2/pose的实时信息</h1><pre><code>rostopic echo /turtle2/pose</code></pre>
             </div>
             <hr/>
 
@@ -560,57 +649,9 @@ angular:
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6 overflow-policy" data-aos="fade-up">
+        <div class="article col s12 m6 overflow-policy" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fa fa-chevron-left"></i>&nbsp;上一篇</div>
-            <div class="card">
-                <a href="/2019/08/18/hello-world/">
-                    <div class="card-image">
-                        
-                        
-                        <img src="/medias/featureimages/12.jpg" class="responsive-img" alt="Hello World">
-                        
-                        <span class="card-title">Hello World</span>
-                    </div>
-                </a>
-                <div class="card-content article-content">
-                    <div class="summary block-with-text">
-                        
-                            Welcome to Hexo! This is your very first post.
-                        
-                    </div>
-                    <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="fa fa-clock-o fa-fw icon-date"></i>2019-08-18
-                        </span>
-                        <span class="publish-author">
-                            
-                            <i class="fa fa-bookmark fa-fw icon-category"></i>
-                            
-                            <a href="/categories/Markdown/" class="post-category" target="_blank">
-                                    Markdown
-                                </a>
-                            
-                            
-                        </span>
-                    </div>
-                </div>
-                
-                <div class="card-action article-tags">
-                    
-                    <a href="/tags/Markdown/" target="_blank">
-                        <span class="chip bg-color">Markdown</span>
-                    </a>
-                    
-                </div>
-                
-            </div>
-        </div>
-        
-        
-        <div class="article col s12 m6 overflow-policy" data-aos="fade-up">
-            <div class="article-badge right-badge text-color">
-                本篇&nbsp;<i class="fa fa-dot-circle-o"></i>
+                <i class="fa fa-dot-circle-o"></i>&nbsp;本篇
             </div>
             <div class="card">
                 <a href="/2019/08/18/ros-chu-shi/">
@@ -625,7 +666,7 @@ angular:
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            通过github来搭建个人博客
+                            关于
                         
                     </div>
                     <div class="publish-info">
@@ -657,12 +698,154 @@ angular:
             </div>
         </div>
         
+        
+        <div class="article col s12 m6 overflow-policy" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fa fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2019/08/18/hello-world/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/12.jpg" class="responsive-img" alt="Hello World">
+                        
+                        <span class="card-title">Hello World</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            Welcome to Hexo! This is your very first post.
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2019-08-18
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fa fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/Markdown/" class="post-category" target="_blank">
+                                    Markdown
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/Markdown/" target="_blank">
+                        <span class="chip bg-color">Markdown</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
     </div>
 </article>
 </div>
 
 
 
+    </div>
+    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
+        <div class="toc-widget">
+            <div class="toc-title"><i class="fa fa-list-alt"></i>&nbsp;&nbsp;目录</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<!-- TOC 悬浮按钮. -->
+
+<div id="floating-toc-btn" class="hide-on-med-and-down">
+    <a class="btn-floating btn-large bg-color">
+        <i class="fa fa-list"></i>
+    </a>
+</div>
+
+
+<script src="/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            // headingsOffset: -205,
+            headingSelector: 'h2, h3, h4'
+        });
+
+        // modify the toc link href to support Chinese.
+        let i = 0;
+        let tocHeading = 'toc-heading-';
+        $('#toc-content a').each(function () {
+            $(this).attr('href', '#' + tocHeading + (++i));
+        });
+
+        // modify the heading title id to support Chinese.
+        i = 0;
+        $('#articleContent').children('h2, h3, h4').each(function () {
+            $(this).attr('id', tocHeading + (++i));
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+
+        
+        /* 修复文章卡片 div 的宽度. */
+        let fixPostCardWidth = function (srcId, targetId) {
+            let srcDiv = $('#' + srcId);
+            if (srcDiv.length === 0) {
+                return;
+            }
+
+            let w = srcDiv.width();
+            if (w >= 450) {
+                w = w + 21;
+            } else if (w >= 350 && w < 450) {
+                w = w + 18;
+            } else if (w >= 300 && w < 350) {
+                w = w + 16;
+            } else {
+                w = w + 14;
+            }
+            $('#' + targetId).width(w);
+        };
+
+        // 切换TOC目录展开收缩的相关操作.
+        const expandedClass = 'expanded';
+        let $tocAside = $('#toc-aside');
+        let $mainContent = $('#main-content');
+        $('#floating-toc-btn .btn-floating').click(function () {
+            if ($tocAside.hasClass(expandedClass)) {
+                $tocAside.removeClass(expandedClass).slideUp(500);
+                $mainContent.removeClass('l9');
+            } else {
+                $tocAside.addClass(expandedClass).slideDown(500);
+                $mainContent.addClass('l9');
+            }
+            fixPostCardWidth('artDetail', 'prenext-posts');
+        });
+        
+    });
+</script>
     
 
 </main>
@@ -674,7 +857,7 @@ angular:
            &copy;<a href="https://suljaxm.github.io/" target="_blank">2019 SULJAXM. All Rights Reserved.
             
                 &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
-                <span class="white-color">207</span>
+                <span class="white-color">264</span>
             
 
             <br>

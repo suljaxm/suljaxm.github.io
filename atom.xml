@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://suljaxm.github.io/"/>
-  <updated>2019-08-18T13:12:13.511Z</updated>
+  <updated>2019-08-18T15:02:44.431Z</updated>
   <id>https://suljaxm.github.io/</id>
   
   <author>
@@ -17,11 +17,11 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>Hello World</title>
-    <link href="https://suljaxm.github.io/2019/08/18/hello-world/"/>
-    <id>https://suljaxm.github.io/2019/08/18/hello-world/</id>
+    <title>ROS初识</title>
+    <link href="https://suljaxm.github.io/2019/08/18/ros-chu-shi/"/>
+    <id>https://suljaxm.github.io/2019/08/18/ros-chu-shi/</id>
     <published>2019-08-18T05:55:47.000Z</published>
-    <updated>2019-08-18T13:12:13.511Z</updated>
+    <updated>2019-08-18T15:02:44.431Z</updated>
     
     <summary type="html">
     
@@ -29,7 +29,7 @@
       
         
         
-          &lt;p&gt;Welcome to &lt;a href=&quot;https://hexo.io/&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;Hexo&lt;/a&gt;! This is your very first post. Check &lt;a
+          &lt;h2 id=&quot;流程&quot;&gt;&lt;a href=&quot;#流程&quot; class=&quot;headerlink&quot; title=&quot;流程&quot;&gt;&lt;/a&gt;流程&lt;/h2&gt;&lt;h4 id=&quot;1-启动核心服务点和仿真节点&quot;&gt;&lt;a href=&quot;#1-启动核心服务点和仿真节点&quot; class=&quot;headerlink&quot;
         
       
     
@@ -43,11 +43,11 @@
   </entry>
   
   <entry>
-    <title>ROS初识</title>
-    <link href="https://suljaxm.github.io/2019/08/18/ros-chu-shi/"/>
-    <id>https://suljaxm.github.io/2019/08/18/ros-chu-shi/</id>
+    <title>Hello World</title>
+    <link href="https://suljaxm.github.io/2019/08/18/hello-world/"/>
+    <id>https://suljaxm.github.io/2019/08/18/hello-world/</id>
     <published>2019-08-18T05:55:47.000Z</published>
-    <updated>2019-08-18T14:15:43.292Z</updated>
+    <updated>2019-08-18T14:57:24.788Z</updated>
     
     <summary type="html">
     
@@ -55,7 +55,7 @@
       
         
         
-          &lt;h4 id=&quot;1-启动核心服务点和仿真节点&quot;&gt;&lt;a href=&quot;#1-启动核心服务点和仿真节点&quot; class=&quot;headerlink&quot; title=&quot;1. 启动核心服务点和仿真节点&quot;&gt;&lt;/a&gt;1. 启动核心服务点和仿真节点&lt;/h4&gt;&lt;pre&gt;&lt;code&gt;roscore    
+          &lt;p&gt;Welcome to &lt;a href=&quot;https://hexo.io/&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;Hexo&lt;/a&gt;! This is your very first post. Check &lt;a
         
       
     
