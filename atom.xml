@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://suljaxm.github.io/"/>
-  <updated>2019-08-18T15:44:55.849Z</updated>
+  <updated>2019-08-18T16:10:21.105Z</updated>
   <id>https://suljaxm.github.io/</id>
   
   <author>
@@ -17,11 +17,37 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>ROS通信(海龟模拟器)</title>
+    <link href="https://suljaxm.github.io/2019/07/29/ros-tong-xin-hai-gui-mo-ni-qi/"/>
+    <id>https://suljaxm.github.io/2019/07/29/ros-tong-xin-hai-gui-mo-ni-qi/</id>
+    <published>2019-07-29T09:28:47.000Z</published>
+    <updated>2019-08-18T16:10:21.105Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h2 id=&quot;一、发布指令&quot;&gt;&lt;a href=&quot;#一、发布指令&quot; class=&quot;headerlink&quot; title=&quot;一、发布指令&quot;&gt;&lt;/a&gt;一、发布指令&lt;/h2&gt;&lt;h3 id=&quot;1-1-发布海龟速度指令，让海龟圆周运动&quot;&gt;&lt;a
+        
+      
+    
+    </summary>
+    
+      <category term="Markdown" scheme="https://suljaxm.github.io/categories/Markdown/"/>
+    
+    
+      <category term="ROS" scheme="https://suljaxm.github.io/tags/ROS/"/>
+    
+  </entry>
+  
+  <entry>
     <title>ROS初识</title>
-    <link href="https://suljaxm.github.io/2019/08/18/ros-chu-shi/"/>
-    <id>https://suljaxm.github.io/2019/08/18/ros-chu-shi/</id>
-    <published>2019-08-18T05:55:47.000Z</published>
-    <updated>2019-08-18T15:44:55.849Z</updated>
+    <link href="https://suljaxm.github.io/2019/07/24/ros-chu-shi/"/>
+    <id>https://suljaxm.github.io/2019/07/24/ros-chu-shi/</id>
+    <published>2019-07-24T14:00:47.000Z</published>
+    <updated>2019-08-18T16:06:29.258Z</updated>
     
     <summary type="html">
     
@@ -38,33 +64,7 @@
       <category term="Markdown" scheme="https://suljaxm.github.io/categories/Markdown/"/>
     
     
-      <category term="Markdown" scheme="https://suljaxm.github.io/tags/Markdown/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Hello World</title>
-    <link href="https://suljaxm.github.io/2019/08/18/hello-world/"/>
-    <id>https://suljaxm.github.io/2019/08/18/hello-world/</id>
-    <published>2019-08-18T05:55:47.000Z</published>
-    <updated>2019-08-18T14:57:24.788Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;p&gt;Welcome to &lt;a href=&quot;https://hexo.io/&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;Hexo&lt;/a&gt;! This is your very first post. Check &lt;a
-        
-      
-    
-    </summary>
-    
-      <category term="Markdown" scheme="https://suljaxm.github.io/categories/Markdown/"/>
-    
-    
-      <category term="Markdown" scheme="https://suljaxm.github.io/tags/Markdown/"/>
+      <category term="ROS" scheme="https://suljaxm.github.io/tags/ROS/"/>
     
   </entry>
   
