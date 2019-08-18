@@ -4,22 +4,9 @@
 
 <head><meta name="generator" content="Hexo 3.9.0">
     <meta charset="utf-8">
-    <meta name="keywords" content="博客搭建, 木匠">
-    <meta name="description" content="感觉还不错。
-目录结构
-安装Node.js
-添加国内镜像源
-安装Git
-注册Github账号
-安装Hexo
-连接Github与本地
-写文章、发布文章
-
-
-安装Node.js
-
-添加国内镜像源(可选)
-npm config set regis">
+    <meta name="keywords" content="ROS初识, 木匠">
+    <meta name="description" content="1. 启动核心服务点和仿真节点roscore       #核心服务点rosrun turtlesim turtlesim_node   #仿真节点
+2.创建新的海龟turtle3rosservice call /spawn &amp;quot;x">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -27,7 +14,7 @@ npm config set regis">
     <meta name="format-detection" content="telephone=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>博客搭建 | 木匠</title>
+    <title>ROS初识 | 木匠</title>
     <link rel="icon" type="image/png" href="/favicon.PNG">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/font-awesome.min.css">
@@ -274,13 +261,13 @@ npm config set regis">
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/21.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/23.jpg')">
     <div class="container">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
                     <div class="description center-align post-title">
-                        博客搭建
+                        ROS初识
                     </div>
                 </div>
             </div>
@@ -333,7 +320,7 @@ npm config set regis">
                     
                     <div class="info-break-policy">
                         <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
-                        321
+                        134
                     </div>
                     
 
@@ -356,46 +343,24 @@ npm config set regis">
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <p>感觉还不错。</p>
-<h2 id="目录结构"><a href="#目录结构" class="headerlink" title="目录结构"></a>目录结构</h2><ul>
-<li>安装Node.js</li>
-<li>添加国内镜像源</li>
-<li>安装Git</li>
-<li>注册Github账号</li>
-<li>安装Hexo</li>
-<li>连接Github与本地</li>
-<li>写文章、发布文章</li>
-</ul>
-<ol>
-<li><p><a href="https://link.zhihu.com/?target=https%3A//nodejs.org/dist/v9.11.1/node-v9.11.1-x64.msi" target="_blank" rel="noopener">安装Node.js</a></p>
-</li>
-<li><p>添加国内镜像源(可选)</p>
-<pre><code>npm config set registry https://registry.npm.taobao.org</code></pre></li>
-<li><p><a href="https://link.zhihu.com/?target=https%3A//git-scm.com/download/win" target="_blank" rel="noopener">安装Git</a></p>
-</li>
-<li><p>注册Github账号</p>
-</li>
-<li><p>安装Hexo</p>
-<pre><code>npm i hexo-cli -g</code></pre><p>选择一个用来写博客的文件夹，使用<code>hexo init</code> 进行初始化。 接着输入<code>npm install</code>安装必备的组件。<br>最后，输入hexo g生成静态网页，然后输入hexo s打开本地服务器，然后浏览器打开<code>http://localhost:4000/</code>，就可以看到如下显示，</p>
-<div align="center"><img width="550" height="250" src="/images/hexo.png"></div>
-</li>
-<li><p>连接Github与本地<br>首先按<code>ctrl+c</code>关闭本地服务器，再打开博客根目录下的<code>_config.yml</code>文件，这是博客的配置文件，在这里你可以修改与博客相关的各种信息。<br>修改最后一行的配置：<br>将</p>
-<pre><code>deploy:
-type: </code></pre><p>改为</p>
-<pre><code>deploy:
-type: git
-repository: https://github.com/suljaxm/suljaxm.github.io
-branch: master</code></pre></li>
-<li><p>写文章、发布文章<br>首先安装一个扩展<code>npm i hexo-deployer-git</code>，然后通过<code>hexo new post &quot;article title&quot;</code>新建一篇名为<strong>article title</strong>的文章。</p>
-</li>
-</ol>
-<p>参考 </p>
-<ol>
-<li><a href="https://github.com/blinkfox/hexo-theme-matery/blob/develop/README_CN.md。" target="_blank" rel="noopener">https://github.com/blinkfox/hexo-theme-matery/blob/develop/README_CN.md。</a></li>
-<li><a href="https://godweiyang.com/2018/04/13/hexo-blog/" target="_blank" rel="noopener">https://godweiyang.com/2018/04/13/hexo-blog/</a></li>
-<li><a href="https://hexuanzhang.github.io/2017/11/03/hexo-常见操作/" target="_blank" rel="noopener">https://hexuanzhang.github.io/2017/11/03/hexo-常见操作/</a></li>
-</ol>
-
+                <h4 id="1-启动核心服务点和仿真节点"><a href="#1-启动核心服务点和仿真节点" class="headerlink" title="1. 启动核心服务点和仿真节点"></a>1. 启动核心服务点和仿真节点</h4><pre><code>roscore       #核心服务点</code></pre><pre><code>rosrun turtlesim turtlesim_node   #仿真节点</code></pre><p><img src="https://upload-images.jianshu.io/upload_images/15704030-b5a1e831bfb50072.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="node.png"></p>
+<h4 id="2-创建新的海龟turtle3"><a href="#2-创建新的海龟turtle3" class="headerlink" title="2.创建新的海龟turtle3"></a>2.创建新的海龟turtle3</h4><pre><code>rosservice call /spawn &quot;x: 5.0
+y: 0.0
+theta: 0.5
+name: &#39;turtle3&#39;&quot;</code></pre><p>####3.控制海龟turtle3原地做圆周运动</p>
+<pre><code>rostopic pub -r 10 /turtle3/cmd_vel geometry_msgs/Twist &quot;linear:
+  x: 0.5
+  y: 0.0
+  z: 0.0
+angular:
+  x: 0.0
+  y: 0.0
+  z: 1.0&quot;</code></pre><p><img src="https://upload-images.jianshu.io/upload_images/15704030-f4810cf91218d879.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="result.png"></p>
+<h4 id="4-查看海龟仿真系统的计算图"><a href="#4-查看海龟仿真系统的计算图" class="headerlink" title="4.查看海龟仿真系统的计算图"></a>4.查看海龟仿真系统的计算图</h4><pre><code>rqt_graph</code></pre><p><img src="https://upload-images.jianshu.io/upload_images/15704030-5a691c874d44327b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="计算图.png"></p>
+<p>####5.查看 /turtle2/pose的可视化信息</p>
+<pre><code>rqt_plot</code></pre><p><img src="https://upload-images.jianshu.io/upload_images/15704030-8584198e2267f8f4.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="topic可视化.png"></p>
+<p>####6.查看 /turtle2/pose的实时信息</p>
+<pre><code>rostopic echo /turtle2/pose</code></pre>
             </div>
             <hr/>
 
@@ -553,9 +518,9 @@ branch: master</code></pre></li>
             <br/>
             <span xmlns:dct="http://purl.org/dc/terms/" href="http://purl.org/dc/dcmitype/Text"
                   property="dct:title" rel="dct:type">
-                    《博客搭建》
+                    《ROS初识》
                 </span> 由
-            <a xmlns:cc="http://creativecommons.org/ns#" href="/2019/08/18/bo-ke-da-jian/" property="cc:attributionName"
+            <a xmlns:cc="http://creativecommons.org/ns#" href="/2019/08/18/ros-chu-shi/" property="cc:attributionName"
                rel="cc:attributionURL">
                 kieranych
             </a> 采用
@@ -648,13 +613,13 @@ branch: master</code></pre></li>
                 本篇&nbsp;<i class="fa fa-dot-circle-o"></i>
             </div>
             <div class="card">
-                <a href="/2019/08/18/bo-ke-da-jian/">
+                <a href="/2019/08/18/ros-chu-shi/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/21.jpg" class="responsive-img" alt="博客搭建">
+                        <img src="/medias/featureimages/23.jpg" class="responsive-img" alt="ROS初识">
                         
-                        <span class="card-title">博客搭建</span>
+                        <span class="card-title">ROS初识</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -709,7 +674,7 @@ branch: master</code></pre></li>
            &copy;<a href="https://suljaxm.github.io/" target="_blank">2019 SULJAXM. All Rights Reserved.
             
                 &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
-                <span class="white-color">394</span>
+                <span class="white-color">207</span>
             
 
             <br>
@@ -777,7 +742,11 @@ branch: master</code></pre></li>
         var todayHour = today.getHours(); 
         var todayMinute = today.getMinutes(); 
         var todaySecond = today.getSeconds();
-        /* Date.UTC() -- 返回date对象距世界标准时间(UTC)1970年1月1日午夜之间的毫秒数(时间戳) year - 作为date对象的年份，为4位年份值 month - 0-11之间的整数，做为date对象的月份 day - 1-31之间的整数，做为date对象的天数 hours - 0(午夜24点)-23之间的整数，做为date对象的小时数 minutes - 0-59之间的整数，做为date对象的分钟数 seconds - 0-59之间的整数，做为date对象的秒数 microseconds - 0-999之间的整数，做为date对象的毫秒数 */
+        /* Date.UTC() -- 返回date对象距世界标准时间(UTC)1970年1月1日午夜之间的毫秒数(时间戳)
+         year - 作为date对象的年份，为4位年份值 month - 0-11之间的整数，做为date对象的月份 
+         day - 1-31之间的整数，做为date对象的天数 hours - 0(午夜24点)-23之间的整数，做为date对象
+         的小时数 minutes - 0-59之间的整数，做为date对象的分钟数 seconds - 0-59之间的整数，做为date
+         对象的秒数 microseconds - 0-999之间的整数，做为date对象的毫秒数 */
         var t1 = Date.UTC(2019, 08, 18, 00, 00, 00); //北京时间2018-2-13 00:00:00 
         var t2 = Date.UTC(todayYear, todayMonth, todayDate, todayHour, todayMinute, todaySecond); 
         var diff = t2 - t1; 
