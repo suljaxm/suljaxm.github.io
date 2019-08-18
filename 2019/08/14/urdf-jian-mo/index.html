@@ -4,8 +4,11 @@
 
 <head><meta name="generator" content="Hexo 3.9.0">
     <meta charset="utf-8">
-    <meta name="keywords" content="ROS通信(海龟模拟器), 木匠">
-    <meta name="description" content="一、发布指令1.1 发布海龟速度指令，让海龟圆周运动创建一个Publisher，发布名为turtle1/cmd_vel的topic，其消息类型为geometry_msgs::Twist，通过控制cmd_vel中linear下的x和angul">
+    <meta name="keywords" content="URDF建模, 木匠">
+    <meta name="description" content="一、URDF介绍URDF(统一机器人描述格式) 是ROS中重要的机器人描述格式。URDF的主要语言是 XML，包含 link，joint，robot 等描述信息。
+二、四轮车建模
+
+2.1 汽车框架&amp;lt;robot name=&amp;quot;">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -13,7 +16,7 @@
     <meta name="format-detection" content="telephone=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>ROS通信(海龟模拟器) | 木匠</title>
+    <title>URDF建模 | 木匠</title>
     <link rel="icon" type="image/png" href="/favicon.PNG">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/font-awesome.min.css">
@@ -260,13 +263,13 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/22.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/2.jpg')">
     <div class="container">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
                     <div class="description center-align post-title">
-                        ROS通信(海龟模拟器)
+                        URDF建模
                     </div>
                 </div>
             </div>
@@ -385,6 +388,10 @@
                                 <span class="chip bg-color">机器人</span>
                             </a>
                         
+                            <a href="/tags/XML/" target="_blank">
+                                <span class="chip bg-color">XML</span>
+                            </a>
+                        
                     </div>
                     
                 </div>
@@ -405,21 +412,21 @@
             <div class="post-info">
                 <div class="post-date info-break-policy">
                     <i class="fa fa-calendar-minus-o fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2019-07-29
+                    2019-08-14
                 </div>
 
                 
                     
                     <div class="info-break-policy">
                         <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
-                        799
+                        512
                     </div>
                     
 
                     
                     <div class="info-break-policy">
                         <i class="fa fa-clock-o fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                        3 分
+                        2 分
                     </div>
                     
                 
@@ -435,144 +442,87 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h2 id="一、发布指令"><a href="#一、发布指令" class="headerlink" title="一、发布指令"></a>一、发布指令</h2><h3 id="1-1-发布海龟速度指令，让海龟圆周运动"><a href="#1-1-发布海龟速度指令，让海龟圆周运动" class="headerlink" title="1.1 发布海龟速度指令，让海龟圆周运动"></a>1.1 发布海龟速度指令，让海龟圆周运动</h3><p>创建一个<strong>Publisher</strong>，发布名为<strong>turtle1/cmd_vel</strong>的<strong>topic</strong>，其消息类型为<strong>geometry_msgs::Twist</strong>，通过控制<strong>cmd_vel</strong>中<strong>linear</strong>下的<strong>x</strong>和<strong>angular</strong>下的<strong>z</strong>。</p>
-<pre class=" language-cpp"><code class="language-cpp">geometry_msgs<span class="token operator">/</span>Vector3 linear
-  float64 x
-  float64 y
-  float64 z
-geometry_msgs<span class="token operator">/</span>Vector3 angular
-  float64 x
-  float64 y
-  float64 z</code></pre>
-<h3 id="1-2-参考代码"><a href="#1-2-参考代码" class="headerlink" title="1.2 参考代码"></a>1.2 参考代码</h3><pre class=" language-cpp"><code class="language-cpp"><span class="token macro property">#<span class="token directive keyword">include</span> <span class="token string">&lt;sstream></span></span>
-<span class="token macro property">#<span class="token directive keyword">include</span> <span class="token string">"ros/ros.h"</span></span>
-<span class="token macro property">#<span class="token directive keyword">include</span> <span class="token string">"std_msgs/String.h"</span></span>
-<span class="token macro property">#<span class="token directive keyword">include</span> <span class="token string">"geometry_msgs/Twist.h"</span></span>
-<span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token keyword">int</span> argc<span class="token punctuation">,</span> <span class="token keyword">char</span> <span class="token operator">*</span><span class="token operator">*</span>argv<span class="token punctuation">)</span>
-<span class="token punctuation">{</span>
-    <span class="token comment" spellcheck="true">// ROS节点初始化</span>
-    ros<span class="token operator">::</span><span class="token function">init</span><span class="token punctuation">(</span>argc<span class="token punctuation">,</span> argv<span class="token punctuation">,</span> <span class="token string">"turtle_publisher"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <h2 id="一、URDF介绍"><a href="#一、URDF介绍" class="headerlink" title="一、URDF介绍"></a>一、URDF介绍</h2><p><a href="http://wiki.ros.org/action/fullsearch/urdf?action=fullsearch&context=180&value=linkto%3A%22urdf%22" title="Click to do a full-text search for this title" target="_blank" rel="noopener">URDF</a>(统一机器人描述格式) 是ROS中重要的机器人描述格式。<strong>URDF</strong>的主要语言是 <a href="http://wiki.ros.org/urdf/XML" target="_blank" rel="noopener">XML</a>，包含 <a href="http://wiki.ros.org/urdf/XML/link" target="_blank" rel="noopener">link</a>，<a href="http://wiki.ros.org/urdf/XML/joint" target="_blank" rel="noopener">joint</a>，<a href="http://wiki.ros.org/urdf/XML/robot" target="_blank" rel="noopener">robot</a> 等描述信息。</p>
+<h2 id="二、四轮车建模"><a href="#二、四轮车建模" class="headerlink" title="二、四轮车建模"></a>二、四轮车建模</h2><div align="center"><img width="400" height="300" src="https://upload-images.jianshu.io/upload_images/15704030-486e191920aa8471.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240"></div>
 
-    <span class="token comment" spellcheck="true">// 创建节点句柄</span>
-    ros<span class="token operator">::</span>NodeHandle n<span class="token punctuation">;</span>
+<h3 id="2-1-汽车框架"><a href="#2-1-汽车框架" class="headerlink" title="2.1 汽车框架"></a>2.1 汽车框架</h3><p><code>&lt;robot name=&quot;mbot&quot;&gt; ... &lt;/robot&gt;</code> 是整个机器人的框架，所有模块的信息都必须在此框架范围内, 及将 <code>...</code> 替换成汽车主体。</p>
+<pre class=" language-xml"><code class="language-xml"><span class="token prolog">&lt;?xml version="1.0" ?></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>robot</span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>mbot<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+   <span class="token comment" spellcheck="true">&lt;!-- mbot robot links and joints and more --></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>robot</span><span class="token punctuation">></span></span></code></pre>
+<h3 id="2-2-车身"><a href="#2-2-车身" class="headerlink" title="2.2 车身"></a>2.2 车身</h3><p>车身当作所有组件的坐标系，中心点为原点。</p>
+<pre class=" language-xml"><code class="language-xml">    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>link</span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>base_link<span class="token punctuation">"</span></span><span class="token punctuation">></span></span> 
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>visual</span><span class="token punctuation">></span></span>
+            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>origin</span> <span class="token attr-name">xyz</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span> 0 0 0<span class="token punctuation">"</span></span> <span class="token attr-name">rpy</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>0 0 0<span class="token punctuation">"</span></span> <span class="token punctuation">/></span></span>
+            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>geometry</span><span class="token punctuation">></span></span>
+                <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>box</span> <span class="token attr-name">size</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>0.40 0.20 0.16<span class="token punctuation">"</span></span><span class="token punctuation">/></span></span>
+            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>geometry</span><span class="token punctuation">></span></span>
+            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>material</span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>yellow<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+                <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>color</span> <span class="token attr-name">rgba</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>1 0.4 0 1<span class="token punctuation">"</span></span><span class="token punctuation">/></span></span>
+            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>material</span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>visual</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>link</span><span class="token punctuation">></span></span></code></pre>
+<h3 id="2-2-车轮"><a href="#2-2-车轮" class="headerlink" title="2.2 车轮"></a>2.2 车轮</h3><p>总共四个轮子，每个轮子都有一个<strong>link</strong>和<strong>joint</strong>属性，与车身连接类型为<strong>continuous</strong>。</p>
+<pre class=" language-xml"><code class="language-xml">    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>link</span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>left_back_wheel_link<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>visual</span><span class="token punctuation">></span></span>
+            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>origin</span> <span class="token attr-name">xyz</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>0 0 0<span class="token punctuation">"</span></span> <span class="token attr-name">rpy</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>1.5707 0 0<span class="token punctuation">"</span></span> <span class="token punctuation">/></span></span>
+            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>geometry</span><span class="token punctuation">></span></span>
+                &lt;cylinder radius="0.06" length = "0.025"/>
+            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>geometry</span><span class="token punctuation">></span></span>
+            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>material</span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>blue<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+                <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>color</span> <span class="token attr-name">rgba</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>0 0 1 0.9<span class="token punctuation">"</span></span><span class="token punctuation">/></span></span>
+            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>material</span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>visual</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>link</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>joint</span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>left_back_wheel_joint<span class="token punctuation">"</span></span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>continuous<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>origin</span> <span class="token attr-name">xyz</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>-0.1 -0.1 -0.08<span class="token punctuation">"</span></span> <span class="token attr-name">rpy</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>0 0 0<span class="token punctuation">"</span></span><span class="token punctuation">/></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>parent</span> <span class="token attr-name">link</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>base_link<span class="token punctuation">"</span></span><span class="token punctuation">/></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>child</span> <span class="token attr-name">link</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>left_back_wheel_link<span class="token punctuation">"</span></span><span class="token punctuation">/></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>axis</span> <span class="token attr-name">xyz</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>0 1 0<span class="token punctuation">"</span></span><span class="token punctuation">/></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>joint</span><span class="token punctuation">></span></span></code></pre>
+<h3 id="2-3-传感器"><a href="#2-3-传感器" class="headerlink" title="2.3 传感器"></a>2.3 传感器</h3><p>大多数传感器与车身的连接类型为<strong>fixed</strong>，相机(camera) 固定在车身头部。</p>
+<pre class=" language-xml"><code class="language-xml">    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>link</span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>left_camera_link<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>visual</span><span class="token punctuation">></span></span>
+            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>origin</span> <span class="token attr-name">xyz</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span> 0 0 0 <span class="token punctuation">"</span></span> <span class="token attr-name">rpy</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>0 0 0<span class="token punctuation">"</span></span> <span class="token punctuation">/></span></span>
+            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>geometry</span><span class="token punctuation">></span></span>
+                <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>box</span> <span class="token attr-name">size</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>0.03 0.04 0.04<span class="token punctuation">"</span></span> <span class="token punctuation">/></span></span>
+            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>geometry</span><span class="token punctuation">></span></span>
+            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>material</span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>black<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+                <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>color</span> <span class="token attr-name">rgba</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>0 0 0 0.95<span class="token punctuation">"</span></span><span class="token punctuation">/></span></span>
+            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>material</span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>visual</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>link</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>joint</span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>left_camera_joint<span class="token punctuation">"</span></span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>fixed<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>origin</span> <span class="token attr-name">xyz</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>0.17 -0.05 0.10<span class="token punctuation">"</span></span> <span class="token attr-name">rpy</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>0 0 0<span class="token punctuation">"</span></span><span class="token punctuation">/></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>parent</span> <span class="token attr-name">link</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>base_link<span class="token punctuation">"</span></span><span class="token punctuation">/></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>child</span> <span class="token attr-name">link</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>left_camera_link<span class="token punctuation">"</span></span><span class="token punctuation">/></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>joint</span><span class="token punctuation">></span></span></code></pre>
+<p>激光雷达(laser) 固定在车身中部</p>
+<pre class=" language-xml"><code class="language-xml">   <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>link</span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>laser_link<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>visual</span><span class="token punctuation">></span></span>
+            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>origin</span> <span class="token attr-name">xyz</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span> 0 0 0 <span class="token punctuation">"</span></span> <span class="token attr-name">rpy</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>0 0 0<span class="token punctuation">"</span></span> <span class="token punctuation">/></span></span>
+            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>geometry</span><span class="token punctuation">></span></span>
+                <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>cylinder</span> <span class="token attr-name">length</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>0.05<span class="token punctuation">"</span></span> <span class="token attr-name">radius</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>0.05<span class="token punctuation">"</span></span><span class="token punctuation">/></span></span>
+            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>geometry</span><span class="token punctuation">></span></span>
+            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>material</span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>black<span class="token punctuation">"</span></span><span class="token punctuation">/></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>visual</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>link</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>joint</span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>laser_joint<span class="token punctuation">"</span></span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>fixed<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>origin</span> <span class="token attr-name">xyz</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>0 0 0.105<span class="token punctuation">"</span></span> <span class="token attr-name">rpy</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>0 0 0<span class="token punctuation">"</span></span><span class="token punctuation">/></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>parent</span> <span class="token attr-name">link</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>base_link<span class="token punctuation">"</span></span><span class="token punctuation">/></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>child</span> <span class="token attr-name">link</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>laser_link<span class="token punctuation">"</span></span><span class="token punctuation">/></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>joint</span><span class="token punctuation">></span></span></code></pre>
+<h2 id="三、模型整体结构分析"><a href="#三、模型整体结构分析" class="headerlink" title="三、模型整体结构分析"></a>三、模型整体结构分析</h2><p>使用 <strong>urdf_to_graphiz</strong> 工具查看模型 <strong>xxx.urdf</strong> 的整体结构。</p>
+<pre class=" language-cpp"><code class="language-cpp">urdf_to_graphiz xxx<span class="token punctuation">.</span>urdf</code></pre>
+<div align="center"><img width="600" height="300" src="https://upload-images.jianshu.io/upload_images/15704030-9a606cc7c78dab3f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240"></div>
 
-    <span class="token comment" spellcheck="true">// 创建一个Publisher，发布名为turtle1/cmd_vel的topic，消息类型为geometry_msgs::Twist，传输空间大小1000</span>
-    ros<span class="token operator">::</span>Publisher chatter_pub <span class="token operator">=</span> n<span class="token punctuation">.</span>advertise<span class="token operator">&lt;</span>geometry_msgs<span class="token operator">::</span>Twist<span class="token operator">></span><span class="token punctuation">(</span><span class="token string">"turtle1/cmd_vel"</span><span class="token punctuation">,</span> <span class="token number">1000</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 
-    <span class="token comment" spellcheck="true">// 设置循环的频率</span>
-    ros<span class="token operator">::</span>Rate <span class="token function">loop_rate</span><span class="token punctuation">(</span><span class="token number">10</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 
-    <span class="token keyword">int</span> count <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
-    <span class="token keyword">while</span> <span class="token punctuation">(</span>ros<span class="token operator">::</span><span class="token function">ok</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
-    <span class="token punctuation">{</span>
-        <span class="token comment" spellcheck="true">// 初始化geometry_msgs::Twist类型的消息</span>
-        geometry_msgs<span class="token operator">::</span>Twist Twist_msg<span class="token punctuation">;</span>
 
-        <span class="token keyword">float</span> linear_x<span class="token punctuation">,</span> linear_y<span class="token punctuation">,</span> angular_z<span class="token punctuation">;</span>
-        linear_x <span class="token operator">=</span> <span class="token number">2</span><span class="token punctuation">;</span>
-        linear_y <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
-        angular_z <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span>
-        Twist_msg<span class="token punctuation">.</span>linear<span class="token punctuation">.</span>x <span class="token operator">=</span> linear_x<span class="token punctuation">;</span>
-        Twist_msg<span class="token punctuation">.</span>linear<span class="token punctuation">.</span>y <span class="token operator">=</span> linear_y<span class="token punctuation">;</span>
-        Twist_msg<span class="token punctuation">.</span>angular<span class="token punctuation">.</span>z <span class="token operator">=</span> angular_z<span class="token punctuation">;</span>
 
-        <span class="token comment" spellcheck="true">// 发布消息</span>
-        <span class="token function">ROS_INFO</span><span class="token punctuation">(</span><span class="token string">"I heard cmd_vel linear.x:[%f] linear.y:[%f] angular.z:[%f]"</span><span class="token punctuation">,</span>linear_x<span class="token punctuation">,</span> linear_y<span class="token punctuation">,</span> angular_z<span class="token punctuation">)</span><span class="token punctuation">;</span>
-        chatter_pub<span class="token punctuation">.</span><span class="token function">publish</span><span class="token punctuation">(</span>Twist_msg<span class="token punctuation">)</span><span class="token punctuation">;</span>
 
-        <span class="token comment" spellcheck="true">// 按照循环频率延时</span>
-        loop_rate<span class="token punctuation">.</span><span class="token function">sleep</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-        <span class="token operator">++</span>count<span class="token punctuation">;</span>
-    <span class="token punctuation">}</span>
 
-    <span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
-<span class="token punctuation">}</span></code></pre>
-<h2 id="二、定阅"><a href="#二、定阅" class="headerlink" title="二、定阅"></a>二、定阅</h2><h3 id="2-1-海龟的位置，并在终端中周期打印输出"><a href="#2-1-海龟的位置，并在终端中周期打印输出" class="headerlink" title="2.1 海龟的位置，并在终端中周期打印输出"></a>2.1 海龟的位置，并在终端中周期打印输出</h3><p>创建一个<strong>Subscriber</strong>，订阅名为<strong>turtle1/pose</strong>的<strong>topic</strong>，其消息类型为<strong>turtlesim::Pose</strong>，注册回调函数<strong>chatterCallback_pose</strong>，而输出<strong>turtle1/pose</strong>中<strong>x</strong>， <strong>y</strong>，<strong>theta</strong>就是海龟<strong>turtle1</strong>的位置。</p>
-<pre class=" language-cpp"><code class="language-cpp">float32 x
-float32 y
-float32 theta
-float32 linear_velocity
-float32 angular_velocity</code></pre>
-<h3 id="2-2-参考代码："><a href="#2-2-参考代码：" class="headerlink" title="2.2 参考代码："></a>2.2 参考代码：</h3><pre class=" language-cpp"><code class="language-cpp"><span class="token macro property">#<span class="token directive keyword">include</span> <span class="token string">"ros/ros.h"</span></span>
-<span class="token macro property">#<span class="token directive keyword">include</span> <span class="token string">"std_msgs/String.h"</span></span>
-<span class="token macro property">#<span class="token directive keyword">include</span> <span class="token string">"turtlesim/Pose.h"</span></span>
-<span class="token comment" spellcheck="true">// 接收到订阅的消息后，会进入消息回调函数</span>
-<span class="token keyword">void</span> <span class="token function">chatterCallback_pose</span><span class="token punctuation">(</span><span class="token keyword">const</span> turtlesim<span class="token operator">::</span>Pose<span class="token operator">::</span>ConstPtr<span class="token operator">&amp;</span> Pose_msg<span class="token punctuation">)</span>
-<span class="token punctuation">{</span>
-    <span class="token comment" spellcheck="true">// 将接收到的消息打印出来</span>
-    <span class="token keyword">float</span> x<span class="token punctuation">,</span> y<span class="token punctuation">,</span> theta<span class="token punctuation">;</span>
-    x<span class="token operator">=</span>Pose_msg<span class="token operator">-</span><span class="token operator">></span>x<span class="token punctuation">;</span>
-    y<span class="token operator">=</span>Pose_msg<span class="token operator">-</span><span class="token operator">></span>y<span class="token punctuation">;</span>
-    theta<span class="token operator">=</span>Pose_msg<span class="token operator">-</span><span class="token operator">></span>theta<span class="token punctuation">;</span>
-    <span class="token function">ROS_INFO</span><span class="token punctuation">(</span><span class="token string">"I heard pose x:[%f] y:[%f] z:[%f]"</span><span class="token punctuation">,</span>x<span class="token punctuation">,</span> y<span class="token punctuation">,</span> theta<span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token punctuation">}</span>
 
-<span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token keyword">int</span> argc<span class="token punctuation">,</span> <span class="token keyword">char</span> <span class="token operator">*</span><span class="token operator">*</span>argv<span class="token punctuation">)</span>
-<span class="token punctuation">{</span>
-    <span class="token comment" spellcheck="true">// 初始化ROS节点</span>
-    ros<span class="token operator">::</span><span class="token function">init</span><span class="token punctuation">(</span>argc<span class="token punctuation">,</span> argv<span class="token punctuation">,</span> <span class="token string">"turtle_subscriber"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-
-    <span class="token comment" spellcheck="true">// 创建节点句柄     </span>
-    ros<span class="token operator">::</span>NodeHandle n<span class="token punctuation">;</span>
-
-    <span class="token comment" spellcheck="true">// 创建一个Subscriber，订阅名为turtle1/pose的topic，注册回调函数chatterCallback_pose</span>
-    ros<span class="token operator">::</span>Subscriber sub <span class="token operator">=</span> n<span class="token punctuation">.</span><span class="token function">subscribe</span><span class="token punctuation">(</span><span class="token string">"turtle1/pose"</span><span class="token punctuation">,</span> <span class="token number">1000</span><span class="token punctuation">,</span> chatterCallback_pose<span class="token punctuation">)</span><span class="token punctuation">;</span>
-
-    <span class="token comment" spellcheck="true">// 循环等待回调函数</span>
-    ros<span class="token operator">::</span><span class="token function">spin</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-
-    <span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
-<span class="token punctuation">}</span></code></pre>
-<h2 id="三、-创建新服务"><a href="#三、-创建新服务" class="headerlink" title="三、 创建新服务"></a>三、 创建新服务</h2><h3 id="3-1-创建新海龟的服务，在仿真器中产生一只新海龟"><a href="#3-1-创建新海龟的服务，在仿真器中产生一只新海龟" class="headerlink" title="3.1 创建新海龟的服务，在仿真器中产生一只新海龟"></a>3.1 创建新海龟的服务，在仿真器中产生一只新海龟</h3><p>创建一个<strong>client</strong>，<strong>service</strong>消息类型是<strong>turtlesim::Spawn</strong>，向服务端传入设置好的海龟位置和名称(<strong>x y theta name</strong>)。</p>
-<pre class=" language-cpp"><code class="language-cpp">Node<span class="token operator">:</span> <span class="token operator">/</span>turtlesim
-URI<span class="token operator">:</span> rosrpc<span class="token operator">:</span><span class="token operator">/</span><span class="token operator">/</span><span class="token number">10.0</span><span class="token punctuation">.</span><span class="token number">2.15</span><span class="token operator">:</span><span class="token number">60487</span>
-Type<span class="token operator">:</span> turtlesim<span class="token operator">/</span>Spawn
-Args<span class="token operator">:</span> x y theta name</code></pre>
-<h3 id="3-2-参考代码："><a href="#3-2-参考代码：" class="headerlink" title="3.2 参考代码："></a>3.2 参考代码：</h3><pre class=" language-cpp"><code class="language-cpp"><span class="token macro property">#<span class="token directive keyword">include</span> <span class="token string">"ros/ros.h"</span></span>
-<span class="token macro property">#<span class="token directive keyword">include</span> <span class="token string">"std_srvs/SetBool.h"</span></span>
-<span class="token macro property">#<span class="token directive keyword">include</span> <span class="token string">"turtlesim/Spawn.h"</span></span>
-<span class="token macro property">#<span class="token directive keyword">include</span> <span class="token string">&lt;stdlib.h></span>             </span><span class="token comment" spellcheck="true">/* srand, rand */</span>
-<span class="token macro property">#<span class="token directive keyword">include</span> <span class="token string">&lt;time.h></span>               </span><span class="token comment" spellcheck="true">/* time */</span>
-<span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token keyword">int</span> argc<span class="token punctuation">,</span> <span class="token keyword">char</span> <span class="token operator">*</span><span class="token operator">*</span>argv<span class="token punctuation">)</span>
-<span class="token punctuation">{</span>
-    <span class="token comment" spellcheck="true">// ROS节点初始化</span>
-    ros<span class="token operator">::</span><span class="token function">init</span><span class="token punctuation">(</span>argc<span class="token punctuation">,</span> argv<span class="token punctuation">,</span> <span class="token string">"turtle_client"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-
-    <span class="token comment" spellcheck="true">// set argv[1] not null</span>
-    <span class="token keyword">if</span><span class="token punctuation">(</span>argv<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span> <span class="token operator">==</span> <span class="token constant">NULL</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
-        argv<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token string">""</span><span class="token punctuation">;</span>
-    <span class="token punctuation">}</span>
-    <span class="token function">ROS_INFO</span><span class="token punctuation">(</span><span class="token string">"argv: %s"</span><span class="token punctuation">,</span> argv<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token comment" spellcheck="true">// 创建节点句柄</span>
-    ros<span class="token operator">::</span>NodeHandle n<span class="token punctuation">;</span>
-
-    <span class="token comment" spellcheck="true">// 创建一个client，service消息类型是turtlesim::Spawn  turtlesim/Spawn</span>
-    ros<span class="token operator">::</span>service<span class="token operator">::</span><span class="token function">waitForService</span><span class="token punctuation">(</span><span class="token string">"/spawn"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    ros<span class="token operator">::</span>ServiceClient client <span class="token operator">=</span> n<span class="token punctuation">.</span>serviceClient<span class="token operator">&lt;</span>turtlesim<span class="token operator">::</span>Spawn<span class="token operator">></span><span class="token punctuation">(</span><span class="token string">"/spawn"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-
-    <span class="token comment" spellcheck="true">// 创建turtlesim::Spawn类型的service消息</span>
-    turtlesim<span class="token operator">::</span>Spawn srv<span class="token punctuation">;</span>
-    <span class="token function">srand</span> <span class="token punctuation">(</span><span class="token function">time</span><span class="token punctuation">(</span><span class="token constant">NULL</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    srv<span class="token punctuation">.</span>request<span class="token punctuation">.</span>x <span class="token operator">=</span> <span class="token function">rand</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">%</span><span class="token number">10</span><span class="token punctuation">;</span>
-    srv<span class="token punctuation">.</span>request<span class="token punctuation">.</span>y <span class="token operator">=</span> <span class="token function">rand</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">%</span><span class="token number">10</span><span class="token punctuation">;</span>
-    srv<span class="token punctuation">.</span>request<span class="token punctuation">.</span>theta <span class="token operator">=</span> <span class="token function">rand</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">%</span><span class="token number">10</span><span class="token operator">*</span><span class="token number">0.5</span><span class="token punctuation">;</span>
-    srv<span class="token punctuation">.</span>request<span class="token punctuation">.</span>name <span class="token operator">=</span> argv<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
-
-    <span class="token comment" spellcheck="true">// 发布service请求，等待应答结果</span>
-    <span class="token keyword">if</span> <span class="token punctuation">(</span>client<span class="token punctuation">.</span><span class="token function">call</span><span class="token punctuation">(</span>srv<span class="token punctuation">)</span><span class="token punctuation">)</span>
-    <span class="token punctuation">{</span>
-        <span class="token function">ROS_INFO</span><span class="token punctuation">(</span><span class="token string">"Response : ok"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token punctuation">}</span>
-    <span class="token keyword">else</span>
-    <span class="token punctuation">{</span>
-        <span class="token function">ROS_ERROR</span><span class="token punctuation">(</span><span class="token string">"Failed to call service spawn"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-        <span class="token keyword">return</span> <span class="token number">1</span><span class="token punctuation">;</span>
-    <span class="token punctuation">}</span>
-    <span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
-<span class="token punctuation">}</span></code></pre>
-<h2 id="四、控制"><a href="#四、控制" class="headerlink" title="四、控制"></a>四、控制</h2><h3 id="控制特定海龟的速度大小"><a href="#控制特定海龟的速度大小" class="headerlink" title="控制特定海龟的速度大小"></a>控制特定海龟的速度大小</h3><p>这里和1中的实现方式相似，可以在终端输入控制的参数<strong>argv</strong>，然后由这些参数控制海龟状态。</p>
-<p>ps:有时候在编译时会出现<strong>warning:  Clock skew detected.  Your build may be incomplete.</strong>这样的警告。这是时钟同步问题，可以</p>
-<pre class=" language-cpp"><code class="language-cpp">find <span class="token punctuation">.</span> <span class="token operator">-</span>type f <span class="token operator">|</span> xargs <span class="token operator">-</span>n <span class="token number">5</span> touch</code></pre>
 
             </div>
             <hr/>
@@ -731,9 +681,9 @@ Args<span class="token operator">:</span> x y theta name</code></pre>
             <br/>
             <span xmlns:dct="http://purl.org/dc/terms/" href="http://purl.org/dc/dcmitype/Text"
                   property="dct:title" rel="dct:type">
-                    《ROS通信(海龟模拟器)》
+                    《URDF建模》
                 </span> 由
-            <a xmlns:cc="http://creativecommons.org/ns#" href="/2019/07/29/ros-tong-xin-hai-gui-mo-ni-qi/" property="cc:attributionName"
+            <a xmlns:cc="http://creativecommons.org/ns#" href="/2019/08/14/urdf-jian-mo/" property="cc:attributionName"
                rel="cc:attributionURL">
                 kieranych
             </a> 采用
@@ -773,9 +723,68 @@ Args<span class="token operator">:</span> x y theta name</code></pre>
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6 overflow-policy" data-aos="fade-up">
+        <div class="article col s12 m6 overflow-policy" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fa fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="fa fa-dot-circle-o"></i>&nbsp;本篇
+            </div>
+            <div class="card">
+                <a href="/2019/08/14/urdf-jian-mo/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/2.jpg" class="responsive-img" alt="URDF建模">
+                        
+                        <span class="card-title">URDF建模</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            URDF机器人建模
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2019-08-14
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fa fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/ROS/" class="post-category" target="_blank">
+                                    ROS
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/C/" target="_blank">
+                        <span class="chip bg-color">C++</span>
+                    </a>
+                    
+                    <a href="/tags/机器人/" target="_blank">
+                        <span class="chip bg-color">机器人</span>
+                    </a>
+                    
+                    <a href="/tags/XML/" target="_blank">
+                        <span class="chip bg-color">XML</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6 overflow-policy" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fa fa-chevron-right"></i>
+            </div>
             <div class="card">
                 <a href="/2019/08/09/ros-ji-qi-ren-de-tf-bian-huan/">
                     <div class="card-image">
@@ -793,61 +802,8 @@ Args<span class="token operator">:</span> x y theta name</code></pre>
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="fa fa-clock-o fa-fw icon-date"></i>2019-08-09
-                        </span>
-                        <span class="publish-author">
-                            
-                            <i class="fa fa-bookmark fa-fw icon-category"></i>
-                            
-                            <a href="/categories/ROS/" class="post-category" target="_blank">
-                                    ROS
-                                </a>
-                            
-                            
-                        </span>
-                    </div>
-                </div>
-                
-                <div class="card-action article-tags">
-                    
-                    <a href="/tags/C/" target="_blank">
-                        <span class="chip bg-color">C++</span>
-                    </a>
-                    
-                    <a href="/tags/机器人/" target="_blank">
-                        <span class="chip bg-color">机器人</span>
-                    </a>
-                    
-                </div>
-                
-            </div>
-        </div>
-        
-        
-        <div class="article col s12 m6 overflow-policy" data-aos="fade-up">
-            <div class="article-badge right-badge text-color">
-                下一篇&nbsp;<i class="fa fa-chevron-right"></i>
-            </div>
-            <div class="card">
-                <a href="/2019/07/24/ros-chu-shi/">
-                    <div class="card-image">
-                        
-                        
-                        <img src="/medias/featureimages/23.jpg" class="responsive-img" alt="ROS初识">
-                        
-                        <span class="card-title">ROS初识</span>
-                    </div>
-                </a>
-                <div class="card-content article-content">
-                    <div class="summary block-with-text">
-                        
-                            ROS海龟的基本操作
-                        
-                    </div>
-                    <div class="publish-info">
                             <span class="publish-date">
-                                <i class="fa fa-clock-o fa-fw icon-date"></i>2019-07-24
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2019-08-09
                             </span>
                         <span class="publish-author">
                             
