@@ -4,13 +4,22 @@
 
 <head><meta name="generator" content="Hexo 3.9.0">
     <meta charset="utf-8">
-    <meta name="keywords" content="博客搭建github.io, 木匠">
-    <meta name="description" content="博客的搭建参考 https://github.com/blinkfox/hexo-theme-matery/blob/develop/README_CN.md。感觉还不错。
+    <meta name="keywords" content="博客搭建, 木匠">
+    <meta name="description" content="感觉还不错。
 目录结构
 安装Node.js
 添加国内镜像源
 安装Git
-注册Gi">
+注册Github账号
+安装Hexo
+连接Github与本地
+写文章、发布文章
+
+
+安装Node.js
+
+添加国内镜像源(可选)
+npm config set regis">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -18,7 +27,7 @@
     <meta name="format-detection" content="telephone=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>博客搭建github.io | 木匠</title>
+    <title>博客搭建 | 木匠</title>
     <link rel="icon" type="image/png" href="/favicon.PNG">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/font-awesome.min.css">
@@ -265,13 +274,13 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/4.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/21.jpg')">
     <div class="container">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
                     <div class="description center-align post-title">
-                        博客搭建github.io
+                        博客搭建
                     </div>
                 </div>
             </div>
@@ -324,7 +333,7 @@
                     
                     <div class="info-break-policy">
                         <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
-                        327
+                        321
                     </div>
                     
 
@@ -347,7 +356,7 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <p>博客的搭建参考 <a href="https://github.com/blinkfox/hexo-theme-matery/blob/develop/README_CN.md。" target="_blank" rel="noopener">https://github.com/blinkfox/hexo-theme-matery/blob/develop/README_CN.md。</a><br>感觉还不错。</p>
+                <p>感觉还不错。</p>
 <h2 id="目录结构"><a href="#目录结构" class="headerlink" title="目录结构"></a>目录结构</h2><ul>
 <li>安装Node.js</li>
 <li>添加国内镜像源</li>
@@ -377,8 +386,14 @@ type: </code></pre><p>改为</p>
 type: git
 repository: https://github.com/suljaxm/suljaxm.github.io
 branch: master</code></pre></li>
-<li><p>写文章、发布文章<br>首先安装一个扩展<code>npm i hexo-deployer-git</code>，然后通过<code>hexo new post &quot;article title&quot;</code>新建一篇名为<strong>article title</strong>的文章。<br><code>.\source\_posts</code>中出现<code>article title.md</code>的文件，这个文件就是博客的内容。</p>
+<li><p>写文章、发布文章<br>首先安装一个扩展<code>npm i hexo-deployer-git</code>，然后通过<code>hexo new post &quot;article title&quot;</code>新建一篇名为<strong>article title</strong>的文章。</p>
 </li>
+</ol>
+<p>参考 </p>
+<ol>
+<li><a href="https://github.com/blinkfox/hexo-theme-matery/blob/develop/README_CN.md。" target="_blank" rel="noopener">https://github.com/blinkfox/hexo-theme-matery/blob/develop/README_CN.md。</a></li>
+<li><a href="https://godweiyang.com/2018/04/13/hexo-blog/" target="_blank" rel="noopener">https://godweiyang.com/2018/04/13/hexo-blog/</a></li>
+<li><a href="https://hexuanzhang.github.io/2017/11/03/hexo-常见操作/" target="_blank" rel="noopener">https://hexuanzhang.github.io/2017/11/03/hexo-常见操作/</a></li>
 </ol>
 
             </div>
@@ -538,9 +553,9 @@ branch: master</code></pre></li>
             <br/>
             <span xmlns:dct="http://purl.org/dc/terms/" href="http://purl.org/dc/dcmitype/Text"
                   property="dct:title" rel="dct:type">
-                    《博客搭建github.io》
+                    《博客搭建》
                 </span> 由
-            <a xmlns:cc="http://creativecommons.org/ns#" href="/2019/08/18/bo-ke-da-jian-githubio/" property="cc:attributionName"
+            <a xmlns:cc="http://creativecommons.org/ns#" href="/2019/08/18/bo-ke-da-jian/" property="cc:attributionName"
                rel="cc:attributionURL">
                 kieranych
             </a> 采用
@@ -580,18 +595,66 @@ branch: master</code></pre></li>
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6 overflow-policy" data-aos="fade-up" data-aos="fade-up">
+        <div class="article col s12 m6 overflow-policy" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fa fa-dot-circle-o"></i>&nbsp;本篇
-            </div>
+                <i class="fa fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2019/08/18/bo-ke-da-jian-githubio/">
+                <a href="/2019/08/18/hello-world/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/4.jpg" class="responsive-img" alt="博客搭建github.io">
+                        <img src="/medias/featureimages/12.jpg" class="responsive-img" alt="Hello World">
                         
-                        <span class="card-title">博客搭建github.io</span>
+                        <span class="card-title">Hello World</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            Welcome to Hexo! This is your very first post.
+                        
+                    </div>
+                    <div class="publish-info">
+                        <span class="publish-date">
+                            <i class="fa fa-clock-o fa-fw icon-date"></i>2019-08-18
+                        </span>
+                        <span class="publish-author">
+                            
+                            <i class="fa fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/Markdown/" class="post-category" target="_blank">
+                                    Markdown
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/Markdown/" target="_blank">
+                        <span class="chip bg-color">Markdown</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6 overflow-policy" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                本篇&nbsp;<i class="fa fa-dot-circle-o"></i>
+            </div>
+            <div class="card">
+                <a href="/2019/08/18/bo-ke-da-jian/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/21.jpg" class="responsive-img" alt="博客搭建">
+                        
+                        <span class="card-title">博客搭建</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -629,43 +692,6 @@ branch: master</code></pre></li>
             </div>
         </div>
         
-        
-        <div class="article col s12 m6 overflow-policy" data-aos="fade-up">
-            <div class="article-badge right-badge text-color">
-                下一篇&nbsp;<i class="fa fa-chevron-right"></i>
-            </div>
-            <div class="card">
-                <a href="/2019/08/18/hello-world/">
-                    <div class="card-image">
-                        
-                        
-                        <img src="/medias/featureimages/12.jpg" class="responsive-img" alt="Hello World">
-                        
-                        <span class="card-title">Hello World</span>
-                    </div>
-                </a>
-                <div class="card-content article-content">
-                    <div class="summary block-with-text">
-                        
-                            Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hex
-                        
-                    </div>
-                    <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="fa fa-clock-o fa-fw icon-date"></i>2019-08-18
-                            </span>
-                        <span class="publish-author">
-                            
-                            <i class="fa fa-user fa-fw"></i>
-                            提着木剑走天下
-                            
-                        </span>
-                    </div>
-                </div>
-                
-            </div>
-        </div>
-        
     </div>
 </article>
 </div>
@@ -683,7 +709,7 @@ branch: master</code></pre></li>
            &copy;<a href="https://suljaxm.github.io/" target="_blank">2019 SULJAXM. All Rights Reserved.
             
                 &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
-                <span class="white-color">400</span>
+                <span class="white-color">394</span>
             
 
             <br>
@@ -752,7 +778,7 @@ branch: master</code></pre></li>
         var todayMinute = today.getMinutes(); 
         var todaySecond = today.getSeconds();
         /* Date.UTC() -- 返回date对象距世界标准时间(UTC)1970年1月1日午夜之间的毫秒数(时间戳) year - 作为date对象的年份，为4位年份值 month - 0-11之间的整数，做为date对象的月份 day - 1-31之间的整数，做为date对象的天数 hours - 0(午夜24点)-23之间的整数，做为date对象的小时数 minutes - 0-59之间的整数，做为date对象的分钟数 seconds - 0-59之间的整数，做为date对象的秒数 microseconds - 0-999之间的整数，做为date对象的毫秒数 */
-        var t1 = Date.UTC(2017, 09, 11, 00, 00, 00); //北京时间2018-2-13 00:00:00 
+        var t1 = Date.UTC(2019, 08, 18, 00, 00, 00); //北京时间2018-2-13 00:00:00 
         var t2 = Date.UTC(todayYear, todayMonth, todayDate, todayHour, todayMinute, todaySecond); 
         var diff = t2 - t1; 
         var diffYears = Math.floor(diff / years); 
@@ -760,7 +786,8 @@ branch: master</code></pre></li>
         var diffHours = Math.floor((diff - (diffYears * 365 + diffDays) * days) / hours); 
         var diffMinutes = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours) / minutes); 
         var diffSeconds = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours - diffMinutes * minutes) / seconds); 
-        document.getElementById("sitetime").innerHTML = "本站已运行 " +diffYears+" 年 "+diffDays + " 天 " + diffHours + " 小时 " + diffMinutes + " 分钟 " + diffSeconds + " 秒"; 
+        // document.getElementById("sitetime").innerHTML = "本站已运行 " +diffYears+" 年 "+diffDays + " 天 " + diffHours + " 小时 " + diffMinutes + " 分钟 " + diffSeconds + " 秒"; 
+        document.getElementById("sitetime").innerHTML = "本站已运行 " + diffDays + " 天 " + diffHours + " 小时 " + diffMinutes + " 分钟 " + diffSeconds + " 秒"; 
     }/*因为建站时间还没有一年，就将之注释掉了。需要的可以取消*/ 
     siteTime(); 
 </script>

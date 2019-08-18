@@ -295,11 +295,11 @@ $('.bg-cover').css('background-image', 'url(/medias/banner/' + new Date().getDay
             <div class="tag-chips">
                 
                 
-                <a href="/tags/Markdown/" title="Markdown: 1">
+                <a href="/tags/Markdown/" title="Markdown: 2">
                     <span class="chip center-align waves-effect waves-light
                              chip-default "
                             data-tagname="Markdown" style="background-color: #F9EBEA;">Markdown
-                        <span class="tag-length">1</span>
+                        <span class="tag-length">2</span>
                     </span>
                 </a>
                 
@@ -327,7 +327,7 @@ $('.bg-cover').css('background-image', 'url(/medias/banner/' + new Date().getDay
 <script type="text/javascript">
     
 
-    $('#tag-wordcloud').jQCloud([{"text":"Markdown","weight":1,"link":"https://suljaxm.github.io/tags/Markdown/"}], {
+    $('#tag-wordcloud').jQCloud([{"text":"Markdown","weight":2,"link":"https://suljaxm.github.io/tags/Markdown/"}], {
         autoResize: true
     });
 </script>
@@ -341,7 +341,7 @@ $('.bg-cover').css('background-image', 'url(/medias/banner/' + new Date().getDay
            &copy;<a href="https://suljaxm.github.io/" target="_blank">2019 SULJAXM. All Rights Reserved.
             
                 &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
-                <span class="white-color">400</span>
+                <span class="white-color">394</span>
             
 
             <br>
@@ -410,7 +410,7 @@ $('.bg-cover').css('background-image', 'url(/medias/banner/' + new Date().getDay
         var todayMinute = today.getMinutes(); 
         var todaySecond = today.getSeconds();
         /* Date.UTC() -- 返回date对象距世界标准时间(UTC)1970年1月1日午夜之间的毫秒数(时间戳) year - 作为date对象的年份，为4位年份值 month - 0-11之间的整数，做为date对象的月份 day - 1-31之间的整数，做为date对象的天数 hours - 0(午夜24点)-23之间的整数，做为date对象的小时数 minutes - 0-59之间的整数，做为date对象的分钟数 seconds - 0-59之间的整数，做为date对象的秒数 microseconds - 0-999之间的整数，做为date对象的毫秒数 */
-        var t1 = Date.UTC(2017, 09, 11, 00, 00, 00); //北京时间2018-2-13 00:00:00 
+        var t1 = Date.UTC(2019, 08, 18, 00, 00, 00); //北京时间2018-2-13 00:00:00 
         var t2 = Date.UTC(todayYear, todayMonth, todayDate, todayHour, todayMinute, todaySecond); 
         var diff = t2 - t1; 
         var diffYears = Math.floor(diff / years); 
@@ -418,7 +418,8 @@ $('.bg-cover').css('background-image', 'url(/medias/banner/' + new Date().getDay
         var diffHours = Math.floor((diff - (diffYears * 365 + diffDays) * days) / hours); 
         var diffMinutes = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours) / minutes); 
         var diffSeconds = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours - diffMinutes * minutes) / seconds); 
-        document.getElementById("sitetime").innerHTML = "本站已运行 " +diffYears+" 年 "+diffDays + " 天 " + diffHours + " 小时 " + diffMinutes + " 分钟 " + diffSeconds + " 秒"; 
+        // document.getElementById("sitetime").innerHTML = "本站已运行 " +diffYears+" 年 "+diffDays + " 天 " + diffHours + " 小时 " + diffMinutes + " 分钟 " + diffSeconds + " 秒"; 
+        document.getElementById("sitetime").innerHTML = "本站已运行 " + diffDays + " 天 " + diffHours + " 小时 " + diffMinutes + " 分钟 " + diffSeconds + " 秒"; 
     }/*因为建站时间还没有一年，就将之注释掉了。需要的可以取消*/ 
     siteTime(); 
 </script>

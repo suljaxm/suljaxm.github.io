@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://suljaxm.github.io/"/>
-  <updated>2019-08-18T09:59:29.306Z</updated>
+  <updated>2019-08-18T13:12:13.511Z</updated>
   <id>https://suljaxm.github.io/</id>
   
   <author>
@@ -17,37 +17,11 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>博客搭建github.io</title>
-    <link href="https://suljaxm.github.io/2019/08/18/bo-ke-da-jian-githubio/"/>
-    <id>https://suljaxm.github.io/2019/08/18/bo-ke-da-jian-githubio/</id>
-    <published>2019-08-18T05:55:47.000Z</published>
-    <updated>2019-08-18T09:59:29.306Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;p&gt;博客的搭建参考 &lt;a href=&quot;https://github.com/blinkfox/hexo-theme-matery/blob/develop/README_CN.md。&quot; target=&quot;_blank&quot;
-        
-      
-    
-    </summary>
-    
-      <category term="Markdown" scheme="https://suljaxm.github.io/categories/Markdown/"/>
-    
-    
-      <category term="Markdown" scheme="https://suljaxm.github.io/tags/Markdown/"/>
-    
-  </entry>
-  
-  <entry>
     <title>Hello World</title>
     <link href="https://suljaxm.github.io/2019/08/18/hello-world/"/>
     <id>https://suljaxm.github.io/2019/08/18/hello-world/</id>
-    <published>2019-08-18T05:40:27.436Z</published>
-    <updated>2019-08-18T05:40:27.436Z</updated>
+    <published>2019-08-18T05:55:47.000Z</published>
+    <updated>2019-08-18T13:12:13.511Z</updated>
     
     <summary type="html">
     
@@ -61,6 +35,37 @@
     
     </summary>
     
+      <category term="Markdown" scheme="https://suljaxm.github.io/categories/Markdown/"/>
+    
+    
+      <category term="Markdown" scheme="https://suljaxm.github.io/tags/Markdown/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>博客搭建</title>
+    <link href="https://suljaxm.github.io/2019/08/18/bo-ke-da-jian/"/>
+    <id>https://suljaxm.github.io/2019/08/18/bo-ke-da-jian/</id>
+    <published>2019-08-18T05:55:47.000Z</published>
+    <updated>2019-08-18T13:15:12.823Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;感觉还不错。&lt;/p&gt;
+&lt;h2 id=&quot;目录结构&quot;&gt;&lt;a href=&quot;#目录结构&quot; class=&quot;headerlink&quot;
+        
+      
+    
+    </summary>
+    
+      <category term="Markdown" scheme="https://suljaxm.github.io/categories/Markdown/"/>
+    
+    
+      <category term="Markdown" scheme="https://suljaxm.github.io/tags/Markdown/"/>
     
   </entry>
   
