@@ -7,8 +7,11 @@
     <meta name="keywords" content="URDF建模, 木匠">
     <meta name="description" content="一、URDF介绍URDF(统一机器人描述格式) 是ROS中重要的机器人描述格式。URDF的主要语言是 XML，包含 link，joint，robot 等描述信息。
 二、四轮车建模
+四轮车
 
-2.1 汽车框架&amp;lt;robot name=&amp;quot;">
+
+
+2.1 汽车框架&amp;lt;robot name=">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -419,7 +422,7 @@
                     
                     <div class="info-break-policy">
                         <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
-                        512
+                        517
                     </div>
                     
 
@@ -443,7 +446,10 @@
         <div class="card-content article-card-content">
             <div id="articleContent">
                 <h2 id="一、URDF介绍"><a href="#一、URDF介绍" class="headerlink" title="一、URDF介绍"></a>一、URDF介绍</h2><p><a href="http://wiki.ros.org/action/fullsearch/urdf?action=fullsearch&context=180&value=linkto%3A%22urdf%22" title="Click to do a full-text search for this title" target="_blank" rel="noopener">URDF</a>(统一机器人描述格式) 是ROS中重要的机器人描述格式。<strong>URDF</strong>的主要语言是 <a href="http://wiki.ros.org/urdf/XML" target="_blank" rel="noopener">XML</a>，包含 <a href="http://wiki.ros.org/urdf/XML/link" target="_blank" rel="noopener">link</a>，<a href="http://wiki.ros.org/urdf/XML/joint" target="_blank" rel="noopener">joint</a>，<a href="http://wiki.ros.org/urdf/XML/robot" target="_blank" rel="noopener">robot</a> 等描述信息。</p>
-<h2 id="二、四轮车建模"><a href="#二、四轮车建模" class="headerlink" title="二、四轮车建模"></a>二、四轮车建模</h2><div align="center"><img width="400" height="300" src="https://upload-images.jianshu.io/upload_images/15704030-486e191920aa8471.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240"></div>
+<h2 id="二、四轮车建模"><a href="#二、四轮车建模" class="headerlink" title="二、四轮车建模"></a>二、四轮车建模</h2><center><img width="400" height="300" src="http://pwh3vw6xp.bkt.clouddn.com/3_car.png">
+四轮车
+</center>
+
 
 <h3 id="2-1-汽车框架"><a href="#2-1-汽车框架" class="headerlink" title="2.1 汽车框架"></a>2.1 汽车框架</h3><p><code>&lt;robot name=&quot;mbot&quot;&gt; ... &lt;/robot&gt;</code> 是整个机器人的框架，所有模块的信息都必须在此框架范围内, 及将 <code>...</code> 替换成汽车主体。</p>
 <pre class=" language-xml"><code class="language-xml"><span class="token prolog">&lt;?xml version="1.0" ?></span>
@@ -514,7 +520,9 @@
     <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>joint</span><span class="token punctuation">></span></span></code></pre>
 <h2 id="三、模型整体结构分析"><a href="#三、模型整体结构分析" class="headerlink" title="三、模型整体结构分析"></a>三、模型整体结构分析</h2><p>使用 <strong>urdf_to_graphiz</strong> 工具查看模型 <strong>xxx.urdf</strong> 的整体结构。</p>
 <pre class=" language-cpp"><code class="language-cpp">urdf_to_graphiz xxx<span class="token punctuation">.</span>urdf</code></pre>
-<div align="center"><img width="600" height="300" src="https://upload-images.jianshu.io/upload_images/15704030-9a606cc7c78dab3f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240"></div>
+<center><img width="600" height="300" src="http://pwh3vw6xp.bkt.clouddn.com/3_urdf.png">
+urdf图
+</center>
 
 
 
