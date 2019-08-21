@@ -392,8 +392,8 @@
                                 <span class="chip bg-color">Python</span>
                             </a>
                         
-                            <a href="/tags/无人驾驶/" target="_blank">
-                                <span class="chip bg-color">无人驾驶</span>
+                            <a href="/tags/无人车/" target="_blank">
+                                <span class="chip bg-color">无人车</span>
                             </a>
                         
                     </div>
@@ -504,7 +504,7 @@ dst <span class="token operator">=</span> cv2<span class="token punctuation">.</
 
     <span class="token keyword">return</span> s_channel<span class="token punctuation">,</span> s_binary<span class="token punctuation">,</span> sxbinary<span class="token punctuation">,</span> binary_output </code></pre>
 <p><img src="http://pwh3vw6xp.bkt.clouddn.com/5_Binary.png" alt="Figure 3 阈值化效果" title="Binary Example"></p>
-<h3 id="2-3-透视变换"><a href="#2-3-透视变换" class="headerlink" title="2.3. 透视变换"></a>2.3. 透视变换</h3><p>我的透视图转换代码包含一个名为<code>birds_eye_warp()</code>的函数。函数<code>birds_eye_warp()</code>接收图像(<code>img</code>)、Source(<code>src</code>)和 Destination(<code>dst</code>)作为输入。 其中Source(src)为图片上的像素坐标，而Destination(dst)是实际场景的比例关系估算获得。</p>
+<h3 id="2-3-透视变换"><a href="#2-3-透视变换" class="headerlink" title="2.3 透视变换"></a>2.3 透视变换</h3><p>我的透视图转换代码包含一个名为<code>birds_eye_warp()</code>的函数。函数<code>birds_eye_warp()</code>接收图像(<code>img</code>)、Source(<code>src</code>)和 Destination(<code>dst</code>)作为输入。 其中Source(src)为图片上的像素坐标，而Destination(dst)是实际场景的比例关系估算获得。</p>
 <table>
 <thead>
 <tr>
@@ -579,12 +579,12 @@ dst <span class="token operator">=</span> cv2<span class="token punctuation">.</
 
     <span class="token keyword">return</span> left_curverad<span class="token punctuation">,</span> right_curverad</code></pre>
 <ul>
-<li>$car_{position}$ 是汽车在图片中的位置，因为相机安装在汽车的中心，这就相当于取图像宽度的一半<code>car_position = img.shape[1]/2</code>。</li>
-<li>$xm_{perpix}$ 是图像像素与实际距离之间的关系，即代码中的<code>xm_per_pix = 3.7/1000</code>，其中3.7是车道线实际宽度3.7米，1000是图片像素的像素距离。</li>
-<li>$lanecenter_{position}$ 是车道线中心，通过检测图片中沿x轴的车道线来计算的，即<code>lane_center_position = (r_fit_x_int + l_fit_x_int) /2</code>。</li>
+<li>$car_{p}$ 是汽车在图片中的位置，因为相机安装在汽车的中心，这就相当于取图像宽度的一半<code>car_position = img.shape[1]/2</code>。</li>
+<li>$xm_{pp}$ 是图像像素与实际距离之间的关系，即代码中的<code>xm_per_pix = 3.7/1000</code>，其中3.7是车道线实际宽度3.7米，1000是图片像素的像素距离。</li>
+<li>$lanecenter_{p}$ 是车道线中心，通过检测图片中沿x轴的车道线来计算的，即<code>lane_center_position = (r_fit_x_int + l_fit_x_int) /2</code>。</li>
 </ul>
-<p>最后，车辆相对于车道中心的位置$center_{dist}$计算公式如下，<br>$center_{dist} = (car_{position} - lanecenter_{position}) * xm_{perpix}$</p>
-<h3 id="2-6-检测效果"><a href="#2-6-检测效果" class="headerlink" title="2.6. 检测效果"></a>2.6. 检测效果</h3><p><img src="http://pwh3vw6xp.bkt.clouddn.com/5_Output.png" alt="Figure 6 检测结果" title="Output"></p>
+<p>最后，车辆相对于车道中心的位置$center_{d}$计算公式如下，<br>$center_{d} = (car_{p} - lanecenter_{p}) * xm_{pp}$</p>
+<h3 id="2-6-检测效果"><a href="#2-6-检测效果" class="headerlink" title="2.6 检测效果"></a>2.6 检测效果</h3><p><img src="http://pwh3vw6xp.bkt.clouddn.com/5_Output.png" alt="Figure 6 检测结果" title="Output"></p>
 <hr>
 <h2 id="三、视频的Pipeline"><a href="#三、视频的Pipeline" class="headerlink" title="三、视频的Pipeline"></a>三、视频的Pipeline</h2><p>将图片的检测方法运用到车辆行驶的视频上，可以获得轻微抖动的检测效果，没有会导致汽车驶离道路的灾难性故障。</p>
 <p> <a href="https://github.com/suljaxm/CarND-Advanced-Lane-Lines/blob/master/project_video_output.mp4" target="_blank" rel="noopener">视频链接</a></p>
@@ -793,31 +793,31 @@ dst <span class="token operator">=</span> cv2<span class="token punctuation">.</
             <div class="article-badge left-badge text-color">
                 <i class="fa fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2019/07/24/ros/ros-chu-shi/">
+                <a href="/2019/06/05/wu-ren-jia-shi/behavioral-cloning/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/23.jpg" class="responsive-img" alt="ROS初识">
+                        <img src="/medias/featureimages/23.jpg" class="responsive-img" alt="车辆行为克隆">
                         
-                        <span class="card-title">ROS初识</span>
+                        <span class="card-title">车辆行为克隆</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            ROS海龟的基本操作
+                            使用传统图像检测方式进行车道线的检测
                         
                     </div>
                     <div class="publish-info">
                         <span class="publish-date">
-                            <i class="fa fa-clock-o fa-fw icon-date"></i>2019-07-24
+                            <i class="fa fa-clock-o fa-fw icon-date"></i>2019-06-05
                         </span>
                         <span class="publish-author">
                             
                             <i class="fa fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/ROS/" class="post-category" target="_blank">
-                                    ROS
+                            <a href="/categories/无人驾驶/" class="post-category" target="_blank">
+                                    无人驾驶
                                 </a>
                             
                             
@@ -827,12 +827,16 @@ dst <span class="token operator">=</span> cv2<span class="token punctuation">.</
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/C/" target="_blank">
-                        <span class="chip bg-color">C++</span>
+                    <a href="/tags/Python/" target="_blank">
+                        <span class="chip bg-color">Python</span>
                     </a>
                     
-                    <a href="/tags/机器人/" target="_blank">
-                        <span class="chip bg-color">机器人</span>
+                    <a href="/tags/无人车/" target="_blank">
+                        <span class="chip bg-color">无人车</span>
+                    </a>
+                    
+                    <a href="/tags/DL/" target="_blank">
+                        <span class="chip bg-color">DL</span>
                     </a>
                     
                 </div>
@@ -885,8 +889,8 @@ dst <span class="token operator">=</span> cv2<span class="token punctuation">.</
                         <span class="chip bg-color">Python</span>
                     </a>
                     
-                    <a href="/tags/无人驾驶/" target="_blank">
-                        <span class="chip bg-color">无人驾驶</span>
+                    <a href="/tags/无人车/" target="_blank">
+                        <span class="chip bg-color">无人车</span>
                     </a>
                     
                 </div>
@@ -1048,7 +1052,7 @@ dst <span class="token operator">=</span> cv2<span class="token punctuation">.</
            &copy;<a href="https://suljaxm.github.io/" target="_blank">2019 SULJAXM. All Rights Reserved.
             
                 &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
-                <span class="white-color">5.6k</span>
+                <span class="white-color">7.1k</span>
             
 
             <br>
