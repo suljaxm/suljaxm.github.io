@@ -186,4 +186,40 @@
     
   </entry>
   
+  <entry>
+    <title>车道线检测</title>
+    <link href="https://suljaxm.github.io/2019/05/16/wu-ren-jia-shi/advanced-lane-finding/"/>
+    <id>https://suljaxm.github.io/2019/05/16/wu-ren-jia-shi/advanced-lane-finding/</id>
+    <published>2019-05-15T18:41:47.000Z</published>
+    <updated>2019-08-21T06:17:44.065Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;检测步骤：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;相机标定。&lt;/li&gt;
+&lt;li&gt;图片失真校正。&lt;/li&gt;
+&lt;li&gt;图像阈值化。&lt;/li&gt;
+&lt;li&gt;透视变换&lt;/li&gt;
+&lt;li&gt;检测车道像素并拟合边界&lt;/li&gt;
+&lt;li&gt;计算车道的曲率和车辆相对位置&lt;/li&gt;
+&lt;li&gt;车道边界弯曲回原始图像
+        
+      
+    
+    </summary>
+    
+      <category term="无人驾驶" scheme="https://suljaxm.github.io/categories/%E6%97%A0%E4%BA%BA%E9%A9%BE%E9%A9%B6/"/>
+    
+    
+      <category term="Python" scheme="https://suljaxm.github.io/tags/Python/"/>
+    
+      <category term="无人驾驶" scheme="https://suljaxm.github.io/tags/%E6%97%A0%E4%BA%BA%E9%A9%BE%E9%A9%B6/"/>
+    
+  </entry>
+  
 </feed>
