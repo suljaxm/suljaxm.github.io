@@ -7,16 +7,16 @@
     <meta name="keywords" content="车道线检测, 木匠">
     <meta name="description" content="检测步骤：
 
-相机标定。
-图片失真校正。
-图像阈值化。
+相机标定
+图片失真校正
+图像阈值化
 透视变换
 检测车道像素并拟合边界
 计算车道的曲率和车辆相对位置
-车道边界弯曲回原始图像。
+车道边界弯曲回原始图像
 
 
-一、相机标定1.1 角点检测我从准备object points开始，它将是世界棋盘角落的(">
+一、相机标定1.1 角点检测我从准备object points开始，它将是世界棋盘角落的(x, y">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -448,13 +448,13 @@
             <div id="articleContent">
                 <p>检测步骤：</p>
 <ul>
-<li>相机标定。</li>
-<li>图片失真校正。</li>
-<li>图像阈值化。</li>
+<li>相机标定</li>
+<li>图片失真校正</li>
+<li>图像阈值化</li>
 <li>透视变换</li>
 <li>检测车道像素并拟合边界</li>
 <li>计算车道的曲率和车辆相对位置</li>
-<li>车道边界弯曲回原始图像。</li>
+<li>车道边界弯曲回原始图像</li>
 </ul>
 <hr>
 <h2 id="一、相机标定"><a href="#一、相机标定" class="headerlink" title="一、相机标定"></a>一、相机标定</h2><h3 id="1-1-角点检测"><a href="#1-1-角点检测" class="headerlink" title="1.1 角点检测"></a>1.1 角点检测</h3><p>我从准备<code>object points</code>开始，它将是世界棋盘角落的(x, y, z)坐标。这里我假设棋盘固定在z=0的(x, y)平面上，这样每个校准图像的目标点都是相同的。因此<code>objp</code>只是一个复制的坐标数组，每当我成功地检测到测试图像中的所有棋盘角时，<code>objpoints</code>将附加一个它的副本。<code>imgpoints</code>将与(x, y)像素位置的每一个角落在图像平面与每一个成功的棋盘检测。</p>
@@ -805,7 +805,7 @@ dst <span class="token operator">=</span> cv2<span class="token punctuation">.</
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            使用传统图像检测方式进行车道线的检测
+                            运用神经网络预测汽车运行时的转向角
                         
                     </div>
                     <div class="publish-info">
