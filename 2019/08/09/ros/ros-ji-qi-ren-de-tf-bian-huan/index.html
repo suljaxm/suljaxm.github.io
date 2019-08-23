@@ -12,7 +12,7 @@
 机器人中心坐标系相对于全局坐标系的位置。
 
 
-**Rob">
+Robot">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -419,7 +419,7 @@
                     
                     <div class="info-break-policy">
                         <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
-                        842
+                        841
                     </div>
                     
 
@@ -449,21 +449,21 @@
 <li>机器人中心坐标系相对于全局坐标系的位置。</li>
 </ul>
 <center><img width="400" height="300" src="http://pwh3vw6xp.bkt.clouddn.com/2_robot.jpg">
-**Robot** 坐标系
+Robot 坐标系
 </center>
 
 
 
 <h2 id="二、TF坐标变换"><a href="#二、TF坐标变换" class="headerlink" title="二、TF坐标变换"></a>二、TF坐标变换</h2><p>已知激光雷达和机器人底盘的坐标关系，广播并监听机器人的坐标变换，求解激光雷达数据在底盘坐标系下的坐标值。</p>
 <center><img width="550" height="200" src="http://pwh3vw6xp.bkt.clouddn.com/2_robot2.jpg">
-**Car**
+Car
 </center>
 
 
 <h3 id="2-1-TF广播器"><a href="#2-1-TF广播器" class="headerlink" title="2.1 TF广播器"></a>2.1 TF广播器</h3><p>首先定义TF 广播器(<a href="http://docs.ros.org/jade/api/tf/html/c++/classtf_1_1TransformBroadcaster.html" target="_blank" rel="noopener">TransformBroadcaster</a>),</p>
 <pre class=" language-cpp"><code class="language-cpp"><span class="token comment" spellcheck="true">// 创建tf的广播器</span>
 <span class="token keyword">static</span> tf<span class="token operator">::</span>TransformBroadcaster br<span class="token punctuation">;</span></code></pre>
-<p>接着创建坐标变换值(<strong>transform</strong>)，比如在这里的变换关系中，没有旋转变换，只有平移变换，所以四元数<strong>Quaternion</strong>可以为<em>(0,0,0,1)<em>，而位移向量则*</em>Vector3**是</em>(0.1, 0.0, 0.2)*，位移的单位是米。</p>
+<p>接着创建坐标变换值(<strong>transform</strong>)，比如在这里的变换关系中，没有旋转变换，只有平移变换，所以四元数<strong>Quaternion</strong>可以为<code>(0,0,0,1)</code>， 而位移向量<strong>Vector3</strong>是<code>(0.1, 0.0, 0.2)</code>，位移的单位是米。</p>
 <pre class=" language-cpp"><code class="language-cpp"><span class="token comment" spellcheck="true">// 初始化tf数据</span>
 tf<span class="token operator">::</span>Transform transform<span class="token punctuation">;</span>
 transform<span class="token punctuation">.</span><span class="token function">setOrigin</span><span class="token punctuation">(</span> tf<span class="token operator">::</span><span class="token function">Vector3</span><span class="token punctuation">(</span><span class="token number">0.1</span><span class="token punctuation">,</span> <span class="token number">0.0</span><span class="token punctuation">,</span> <span class="token number">0.2</span><span class="token punctuation">)</span> <span class="token punctuation">)</span><span class="token punctuation">;</span>
@@ -503,7 +503,7 @@ br<span class="token punctuation">.</span><span class="token function">sendTrans
 <h3 id="2-3-TF监听器"><a href="#2-3-TF监听器" class="headerlink" title="2.3 TF监听器"></a>2.3 TF监听器</h3><p>首先定义一个TF监听器(<strong>TransformListener</strong>)</p>
 <pre class=" language-cpp"><code class="language-cpp"><span class="token comment" spellcheck="true">// 创建tf的监听器</span>
 tf<span class="token operator">::</span>TransformListener listener<span class="token punctuation">;</span></code></pre>
-<p>获取TF变换后进行坐标系变化，此时我们可以设置检测到的<strong>base_laser</strong>(<strong>laser_point</strong>)为<em>(0.3, 0.0, 0.0)</em>，然后就该检测信息，通过<strong>transformPoint</strong>转换到<strong>base_link</strong>(<strong>base_point</strong>)上的点。</p>
+<p>获取TF变换后进行坐标系变化，此时我们可以设置检测到的<strong>base_laser</strong>(<strong>laser_point</strong>)为<code>(0.3, 0.0, 0.0)</code>，然后就该检测信息，通过<strong>transformPoint</strong>转换到<strong>base_link</strong>(<strong>base_point</strong>)上的点。</p>
 <pre class=" language-cpp"><code class="language-cpp">geometry_msgs<span class="token operator">::</span>PointStamped base_point<span class="token punctuation">;</span>
 listener<span class="token punctuation">.</span><span class="token function">transformPoint</span><span class="token punctuation">(</span><span class="token string">"base_link"</span><span class="token punctuation">,</span> laser_point<span class="token punctuation">,</span> base_point<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
 <h3 id="2-4-完成代码-TF监听器"><a href="#2-4-完成代码-TF监听器" class="headerlink" title="2.4 完成代码(TF监听器)"></a>2.4 完成代码(TF监听器)</h3><pre class=" language-cpp"><code class="language-cpp"><span class="token comment" spellcheck="true">/**
@@ -1017,7 +1017,7 @@ listener<span class="token punctuation">.</span><span class="token function">tra
            &copy;<a href="https://suljaxm.github.io/" target="_blank">2019 SULJAXM. All Rights Reserved.
             
                 &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
-                <span class="white-color">7.1k</span>
+                <span class="white-color">8k</span>
             
 
             <br>

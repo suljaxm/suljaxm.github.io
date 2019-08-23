@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://suljaxm.github.io/"/>
-  <updated>2019-08-21T06:21:16.983Z</updated>
+  <updated>2019-08-23T21:29:42.195Z</updated>
   <id>https://suljaxm.github.io/</id>
   
   <author>
@@ -17,11 +17,43 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>遥控四轮车（视觉处理）</title>
+    <link href="https://suljaxm.github.io/2019/08/24/ros/yao-kong-si-lun-che/"/>
+    <id>https://suljaxm.github.io/2019/08/24/ros/yao-kong-si-lun-che/</id>
+    <published>2019-08-23T21:29:47.000Z</published>
+    <updated>2019-08-23T21:29:42.195Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h2 id=&quot;一、摄像头（ROS）&quot;&gt;&lt;a href=&quot;#一、摄像头（ROS）&quot; class=&quot;headerlink&quot; title=&quot;一、摄像头（ROS）&quot;&gt;&lt;/a&gt;一、摄像头（ROS）&lt;/h2&gt;&lt;h3 id=&quot;1-1-ROS摄像头驱动&quot;&gt;&lt;a
+        
+      
+    
+    </summary>
+    
+      <category term="ROS" scheme="https://suljaxm.github.io/categories/ROS/"/>
+    
+    
+      <category term="机器人" scheme="https://suljaxm.github.io/tags/%E6%9C%BA%E5%99%A8%E4%BA%BA/"/>
+    
+      <category term="XML" scheme="https://suljaxm.github.io/tags/XML/"/>
+    
+      <category term="Python" scheme="https://suljaxm.github.io/tags/Python/"/>
+    
+      <category term="DL" scheme="https://suljaxm.github.io/tags/DL/"/>
+    
+  </entry>
+  
+  <entry>
     <title>四轮车仿真平台搭建</title>
     <link href="https://suljaxm.github.io/2019/08/20/ros/si-lun-che-fang-zhen-ping-tai-da-jian/"/>
     <id>https://suljaxm.github.io/2019/08/20/ros/si-lun-che-fang-zhen-ping-tai-da-jian/</id>
     <published>2019-08-20T13:24:47.000Z</published>
-    <updated>2019-08-21T06:21:16.983Z</updated>
+    <updated>2019-08-23T17:39:58.755Z</updated>
     
     <summary type="html">
     
@@ -49,7 +81,7 @@
     <link href="https://suljaxm.github.io/2019/08/20/ros/urdf-he-xacro-de-qu-bie/"/>
     <id>https://suljaxm.github.io/2019/08/20/ros/urdf-he-xacro-de-qu-bie/</id>
     <published>2019-08-20T12:03:47.000Z</published>
-    <updated>2019-08-20T14:17:31.769Z</updated>
+    <updated>2019-08-23T17:36:41.158Z</updated>
     
     <summary type="html">
     
@@ -107,7 +139,7 @@
     <link href="https://suljaxm.github.io/2019/08/09/ros/ros-ji-qi-ren-de-tf-bian-huan/"/>
     <id>https://suljaxm.github.io/2019/08/09/ros/ros-ji-qi-ren-de-tf-bian-huan/</id>
     <published>2019-08-09T08:31:47.000Z</published>
-    <updated>2019-08-21T06:27:07.129Z</updated>
+    <updated>2019-08-23T17:33:25.854Z</updated>
     
     <summary type="html">
     
@@ -218,9 +250,9 @@
     
       <category term="Python" scheme="https://suljaxm.github.io/tags/Python/"/>
     
-      <category term="无人车" scheme="https://suljaxm.github.io/tags/%E6%97%A0%E4%BA%BA%E8%BD%A6/"/>
-    
       <category term="DL" scheme="https://suljaxm.github.io/tags/DL/"/>
+    
+      <category term="无人车" scheme="https://suljaxm.github.io/tags/%E6%97%A0%E4%BA%BA%E8%BD%A6/"/>
     
   </entry>
   

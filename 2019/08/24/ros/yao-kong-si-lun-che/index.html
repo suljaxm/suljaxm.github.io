@@ -4,14 +4,8 @@
 
 <head><meta name="generator" content="Hexo 3.9.0">
     <meta charset="utf-8">
-    <meta name="keywords" content="ROS初识, 木匠">
-    <meta name="description" content="一、启动1.1核心服务点roscore       #核心服务点
-1.2仿真节点rosrun turtlesim turtlesim_node   #仿真节点
-
-Figure 1. node
-  
-
-二、创建新的海龟turtle3rosse">
+    <meta name="keywords" content="遥控四轮车（视觉处理）, 木匠">
+    <meta name="description" content="一、摄像头（ROS）1.1 ROS摄像头驱动在linux系统中，可以直接在终端中输入ls /dev/video*，查看是否有可用的摄像头设备。一般只有一个摄像头的系统会返回/dev/video0。在检测到摄像头设备后，用三条语句进行相机的测">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -19,7 +13,7 @@ Figure 1. node
     <meta name="format-detection" content="telephone=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>ROS初识 | 木匠</title>
+    <title>遥控四轮车（视觉处理） | 木匠</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/font-awesome.min.css">
@@ -266,13 +260,13 @@ Figure 1. node
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/23.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/13.jpg')">
     <div class="container">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
                     <div class="description center-align post-title">
-                        ROS初识
+                        遥控四轮车（视觉处理）
                     </div>
                 </div>
             </div>
@@ -383,12 +377,20 @@ Figure 1. node
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/C/" target="_blank">
-                                <span class="chip bg-color">C++</span>
-                            </a>
-                        
                             <a href="/tags/机器人/" target="_blank">
                                 <span class="chip bg-color">机器人</span>
+                            </a>
+                        
+                            <a href="/tags/XML/" target="_blank">
+                                <span class="chip bg-color">XML</span>
+                            </a>
+                        
+                            <a href="/tags/Python/" target="_blank">
+                                <span class="chip bg-color">Python</span>
+                            </a>
+                        
+                            <a href="/tags/DL/" target="_blank">
+                                <span class="chip bg-color">DL</span>
                             </a>
                         
                     </div>
@@ -411,21 +413,21 @@ Figure 1. node
             <div class="post-info">
                 <div class="post-date info-break-policy">
                     <i class="fa fa-calendar-minus-o fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2019-07-24
+                    2019-08-24
                 </div>
 
                 
                     
                     <div class="info-break-policy">
                         <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
-                        156
+                        897
                     </div>
                     
 
                     
                     <div class="info-break-policy">
                         <i class="fa fa-clock-o fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                        1 分
+                        3 分
                     </div>
                     
                 
@@ -441,40 +443,58 @@ Figure 1. node
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h2 id="一、启动"><a href="#一、启动" class="headerlink" title="一、启动"></a>一、启动</h2><h3 id="1-1核心服务点"><a href="#1-1核心服务点" class="headerlink" title="1.1核心服务点"></a>1.1核心服务点</h3><pre class=" language-cpp"><code class="language-cpp">roscore       #核心服务点</code></pre>
-<h3 id="1-2仿真节点"><a href="#1-2仿真节点" class="headerlink" title="1.2仿真节点"></a>1.2仿真节点</h3><pre class=" language-cpp"><code class="language-cpp">rosrun turtlesim turtlesim_node   #仿真节点</code></pre>
-<center><img width="350" height="250" src="http://pwh3vw6xp.bkt.clouddn.com/1_node.png">
-Figure 1. node
-</center>  
+                <h2 id="一、摄像头（ROS）"><a href="#一、摄像头（ROS）" class="headerlink" title="一、摄像头（ROS）"></a>一、摄像头（ROS）</h2><h3 id="1-1-ROS摄像头驱动"><a href="#1-1-ROS摄像头驱动" class="headerlink" title="1.1 ROS摄像头驱动"></a>1.1 ROS摄像头驱动</h3><p>在linux系统中，可以直接在终端中输入<code>ls /dev/video*</code>，查看是否有可用的摄像头设备。一般只有一个摄像头的系统会返回<code>/dev/video0</code>。<br>在检测到摄像头设备后，用三条语句进行相机的测试，</p>
+<pre class=" language-cpp"><code class="language-cpp">sudo apt<span class="token operator">-</span>get install ros<span class="token operator">-</span>kinetic<span class="token operator">-</span>usb<span class="token operator">-</span>cam    <span class="token comment" spellcheck="true">//开始安装ROS摄像头的驱动</span>
+roslaunch usb_cam usb_cam<span class="token operator">-</span>test<span class="token punctuation">.</span>launch  <span class="token comment" spellcheck="true">//启动摄像头</span>
+rqt_image_view   <span class="token comment" spellcheck="true">//显示摄像机画面</span></code></pre>
+<h3 id="1-2-相机标定"><a href="#1-2-相机标定" class="headerlink" title="1.2 相机标定"></a>1.2 相机标定</h3><p>只有经过标定后的摄像头才能进行后续的操作，摄像头参数的标定可以借助标定功能包，安装方式如下，</p>
+<pre><code>sudo apt-get install ros-kinetic-camera-calibration    //标定功能包安装</code></pre><p>标定的具体操作参考<a href="http://wiki.ros.org/camera_calibration" target="_blank" rel="noopener">官网</a>。<br>此外除了普通的RGB相机，其它类型的相机也有相对应的驱动和标定功能包，这视情况而定。</p>
+<h2 id="二、物体识别"><a href="#二、物体识别" class="headerlink" title="二、物体识别"></a>二、物体识别</h2><h3 id="2-1-人脸识别"><a href="#2-1-人脸识别" class="headerlink" title="2.1 人脸识别"></a>2.1 人脸识别</h3><p>本案例中，人脸识别借助OpenCV中的人脸识别接口，一种基于Haar特征的<a href="https://docs.opencv.org/2.4/modules/objdetect/doc/cascade_classification.html" target="_blank" rel="noopener">级联分类器</a>对象检测算法。OpenCV的安装如下，</p>
+<pre class=" language-cpp"><code class="language-cpp">sudo apt<span class="token operator">-</span>get install ros<span class="token operator">-</span>kinetic<span class="token operator">-</span>vision<span class="token operator">-</span>opencv libopencv<span class="token operator">-</span>dev python<span class="token operator">-</span>opencv</code></pre>
+<p>这里需要注意的是，OpenCV中的图片格式和ROS中的图片格式是不同的，需要通过<code>cv_bridge</code>库进行转换，即</p>
+<pre class=" language-python"><code class="language-python"><span class="token keyword">from</span> cv_bridge <span class="token keyword">import</span> CvBridge
+<span class="token comment" spellcheck="true">#ros_imag为ROS中的图像数据，cv_image为opencv可以处理的格式</span>
 
-<h2 id="二、创建"><a href="#二、创建" class="headerlink" title="二、创建"></a>二、创建</h2><h3 id="新的海龟turtle3"><a href="#新的海龟turtle3" class="headerlink" title="新的海龟turtle3"></a>新的海龟turtle3</h3><pre class=" language-cpp"><code class="language-cpp">rosservice call <span class="token operator">/</span>spawn "x<span class="token operator">:</span> <span class="token number">5.0</span>
-y<span class="token operator">:</span> <span class="token number">0.0</span>
-theta<span class="token operator">:</span> <span class="token number">0.5</span>
-name<span class="token operator">:</span> <span class="token string">'turtle3'</span>"</code></pre>
-<h2 id="三、控制"><a href="#三、控制" class="headerlink" title="三、控制"></a>三、控制</h2><h3 id="海龟turtle3原地做圆周运动"><a href="#海龟turtle3原地做圆周运动" class="headerlink" title="海龟turtle3原地做圆周运动"></a>海龟turtle3原地做圆周运动</h3><pre class=" language-cpp"><code class="language-cpp">rostopic pub <span class="token operator">-</span>r <span class="token number">10</span> <span class="token operator">/</span>turtle3<span class="token operator">/</span>cmd_vel geometry_msgs<span class="token operator">/</span>Twist "linear<span class="token operator">:</span>
-  x<span class="token operator">:</span> <span class="token number">0.5</span>
-  y<span class="token operator">:</span> <span class="token number">0.0</span>
-  z<span class="token operator">:</span> <span class="token number">0.0</span>
-angular<span class="token operator">:</span>
-  x<span class="token operator">:</span> <span class="token number">0.0</span>
-  y<span class="token operator">:</span> <span class="token number">0.0</span>
-  z<span class="token operator">:</span> <span class="token number">1.0</span>"</code></pre>
-<center><img width="350" height="250" src="http://pwh3vw6xp.bkt.clouddn.com/1_result.png">
-Figure 2. result
-</center>  
+cv_image <span class="token operator">=</span> CvBridge<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span>imgmsg_to_cv2<span class="token punctuation">(</span>ros_imag<span class="token punctuation">,</span> <span class="token string">"bgr8"</span><span class="token punctuation">)</span>  
+ros_image <span class="token operator">=</span> CvBridge<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span>cv2_to_imgmsg<span class="token punctuation">(</span>cv_image<span class="token punctuation">,</span> <span class="token string">"bgr8"</span><span class="token punctuation">)</span></code></pre>
+<h3 id="2-2-水杯识别"><a href="#2-2-水杯识别" class="headerlink" title="2.2 水杯识别"></a>2.2 水杯识别</h3><p>通过基于tensorflow框架的<a href="https://github.com/osrf/tensorflow_object_detector" target="_blank" rel="noopener">SSD_MobileNet</a>，来进行水杯的识别。tensorflow的环境，可以借助virtualenv工具配置完成。virtualenv的安装如下，</p>
+<pre class=" language-cpp"><code class="language-cpp">sudo apt<span class="token operator">-</span>get install python<span class="token operator">-</span>pip python<span class="token operator">-</span>dev python<span class="token operator">-</span>virtualenv</code></pre>
+<p>tensorflow环境配置，首先创建一个包含系统环境的空间<code>virtualenv --system-site-packages ~/tensorflow</code>，接着激活新创建的虚拟环境<code>source ~/tensorflow/bin/activate</code>,然后就是更新下pip版本<code>easy_install -U pip</code>，最后便是tensorflow环境的安装，而关于tensorflow的安装要注意和ROS环境相匹配，如果直接<code>pip install --upgrade tensorflow</code>，会出现依赖包因为版本不匹配的错误，因此需要事先限制依赖包的版本。<br>比如kinetic版本的ROS，各依赖包的版本如下，</p>
+<pre class=" language-cpp"><code class="language-cpp">Flask<span class="token operator">==</span><span class="token number">0.11</span><span class="token punctuation">.</span><span class="token number">1</span>
+attrdict<span class="token operator">==</span><span class="token number">2.0</span><span class="token punctuation">.</span><span class="token number">0</span>
+eventlet<span class="token operator">==</span><span class="token number">0.19</span><span class="token punctuation">.</span><span class="token number">0</span>
+python<span class="token operator">-</span>socketio<span class="token operator">==</span><span class="token number">1.6</span><span class="token punctuation">.</span><span class="token number">1</span>
+numpy<span class="token operator">==</span><span class="token number">1.13</span><span class="token punctuation">.</span><span class="token number">1</span>
+Pillow<span class="token operator">==</span><span class="token number">2.2</span><span class="token punctuation">.</span><span class="token number">1</span>
+scipy<span class="token operator">==</span><span class="token number">0.19</span><span class="token punctuation">.</span><span class="token number">1</span>
+keras<span class="token operator">==</span><span class="token number">2.0</span><span class="token punctuation">.</span><span class="token number">8</span>
+tensorflow<span class="token operator">==</span><span class="token number">1.3</span><span class="token punctuation">.</span><span class="token number">0</span>
+h5py<span class="token operator">==</span><span class="token number">2.6</span><span class="token punctuation">.</span><span class="token number">0</span></code></pre>
+<p>可以将这些依赖保存为一个txt文件，然后通过<code>pip install -r requirements.txt</code> 安装，这里如果网速不好的话，可以设置镜像源安装，比如添加ustc的镜像源，</p>
+<pre class=" language-cpp"><code class="language-cpp">pip install <span class="token operator">-</span>r requirements<span class="token punctuation">.</span>txt <span class="token operator">-</span>i https<span class="token operator">:</span><span class="token operator">/</span><span class="token operator">/</span>mirrors<span class="token punctuation">.</span>ustc<span class="token punctuation">.</span>edu<span class="token punctuation">.</span>cn<span class="token operator">/</span>pypi<span class="token operator">/</span>web<span class="token operator">/</span>simple</code></pre>
+<p>通过摄像头识别水杯可以参考<a href="https://github.com/osrf/tensorflow_object_detector" target="_blank" rel="noopener">SSD_MobileNet</a>中的usb_cam_detector.launch和detect_ros.py文件。</p>
+<h2 id="三、遥控四轮车"><a href="#三、遥控四轮车" class="headerlink" title="三、遥控四轮车"></a>三、遥控四轮车</h2><h3 id="3-1-思路"><a href="#3-1-思路" class="headerlink" title="3.1 思路"></a>3.1 思路</h3><p>物体的识别后会得到物体在图片中的中心点(x, y)和识别物体大小的矩形宽(w)和高(h)，我们可以借助(x, y)处于图片的什么区域对小车转向进行控制，而识别物体的矩形框的大小可以控制小车的前进后退。</p>
+<h3 id="3-2-实现方式"><a href="#3-2-实现方式" class="headerlink" title="3.2 实现方式"></a>3.2 实现方式</h3><p>假设摄像机采集的图片分辨率为$W \times H$，则有小车的控制规则如下，</p>
+<pre class=" language-python"><code class="language-python"><span class="token keyword">if</span> <span class="token punctuation">(</span> w <span class="token operator">></span> W<span class="token operator">/</span><span class="token number">2</span> <span class="token operator">and</span> h <span class="token operator">></span> H<span class="token operator">/</span><span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">:</span> 
+    小车前进
+<span class="token keyword">else</span><span class="token punctuation">:</span>
+    小车后退
 
-<h2 id="四、计算图"><a href="#四、计算图" class="headerlink" title="四、计算图"></a>四、计算图</h2><h3 id="查看海龟仿真系统对应的计算图"><a href="#查看海龟仿真系统对应的计算图" class="headerlink" title="查看海龟仿真系统对应的计算图"></a>查看海龟仿真系统对应的计算图</h3><pre class=" language-cpp"><code class="language-cpp">rqt_graph</code></pre>
-<center><img width="450" height="250" src="http://pwh3vw6xp.bkt.clouddn.com/1_topic%E5%8F%AF%E8%A7%86%E5%8C%96.png">
-Figure 3. topic可视化
-</center>  
+<span class="token keyword">if</span> <span class="token punctuation">(</span>x <span class="token operator">></span> W<span class="token operator">/</span><span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    小车右转
+<span class="token keyword">else</span><span class="token punctuation">:</span>
+    小车左转</code></pre>
+<p>这样就基本实现了通过识别物体的状态来遥控小车，控制小车的运行方式。</p>
+<center><img width="500" height="300" src="http://pwh3vw6xp.bkt.clouddn.com/7_cup_detector_control_car.png">
+基于检测水杯控制小车
+</center>
 
-<h2 id="五、信息可视化"><a href="#五、信息可视化" class="headerlink" title="五、信息可视化"></a>五、信息可视化</h2><h3 id="5-1查看-turtle2-pose的可视化信息"><a href="#5-1查看-turtle2-pose的可视化信息" class="headerlink" title="5.1查看 /turtle2/pose的可视化信息"></a>5.1查看 /turtle2/pose的可视化信息</h3><pre class=" language-cpp"><code class="language-cpp">rqt_plot</code></pre>
-<center><img width="450" height="250" src="http://pwh3vw6xp.bkt.clouddn.com/1_%E8%AE%A1%E7%AE%97%E5%9B%BE.png">
-Figure 4. 计算图
-</center>  
-
-
-<h3 id="5-2查看-turtle2-pose的实时信息"><a href="#5-2查看-turtle2-pose的实时信息" class="headerlink" title="5.2查看 /turtle2/pose的实时信息"></a>5.2查看 /turtle2/pose的实时信息</h3><pre class=" language-cpp"><code class="language-cpp">rostopic echo <span class="token operator">/</span>turtle2<span class="token operator">/</span>pose</code></pre>
+<h3 id="3-3-参考"><a href="#3-3-参考" class="headerlink" title="3.3 参考"></a>3.3 参考</h3><ul>
+<li><p><a href="https://github.com/suljaxm/Turtle-Communication_ROS/blob/master/src/robot_vision/scripts/face_detector.py" target="_blank" rel="noopener">基于人脸检测</a></p>
+</li>
+<li><p><a href="https://github.com/suljaxm/Turtle-Communication_ROS/blob/master/src/tensorflow_object_detector/scripts/detect_ros.py" target="_blank" rel="noopener">基于水杯检测</a></p>
+</li>
+</ul>
 
             </div>
             <hr/>
@@ -633,9 +653,9 @@ Figure 4. 计算图
             <br/>
             <span xmlns:dct="http://purl.org/dc/terms/" href="http://purl.org/dc/dcmitype/Text"
                   property="dct:title" rel="dct:type">
-                    《ROS初识》
+                    《遥控四轮车（视觉处理）》
                 </span> 由
-            <a xmlns:cc="http://creativecommons.org/ns#" href="/2019/07/24/ros/ros-chu-shi/" property="cc:attributionName"
+            <a xmlns:cc="http://creativecommons.org/ns#" href="/2019/08/24/ros/yao-kong-si-lun-che/" property="cc:attributionName"
                rel="cc:attributionURL">
                 kieranych
             </a> 采用
@@ -675,29 +695,92 @@ Figure 4. 计算图
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6 overflow-policy" data-aos="fade-up">
+        <div class="article col s12 m6 overflow-policy" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fa fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="fa fa-dot-circle-o"></i>&nbsp;本篇
+            </div>
             <div class="card">
-                <a href="/2019/07/29/ros/ros-tong-xin-hai-gui-mo-ni-qi/">
+                <a href="/2019/08/24/ros/yao-kong-si-lun-che/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/22.jpg" class="responsive-img" alt="ROS通信(海龟模拟器)">
+                        <img src="/medias/featureimages/13.jpg" class="responsive-img" alt="遥控四轮车（视觉处理）">
                         
-                        <span class="card-title">ROS通信(海龟模拟器)</span>
+                        <span class="card-title">遥控四轮车（视觉处理）</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            ROS中的通信编辑
+                            通过识别特定物体的状态遥控四路车的前进后退，左右转弯。
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="fa fa-clock-o fa-fw icon-date"></i>2019-07-29
+                            <span class="publish-date">
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2019-08-24
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fa fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/ROS/" class="post-category" target="_blank">
+                                    ROS
+                                </a>
+                            
+                            
                         </span>
+                    </div>
+                </div>
+
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/机器人/" target="_blank">
+                        <span class="chip bg-color">机器人</span>
+                    </a>
+                    
+                    <a href="/tags/XML/" target="_blank">
+                        <span class="chip bg-color">XML</span>
+                    </a>
+                    
+                    <a href="/tags/Python/" target="_blank">
+                        <span class="chip bg-color">Python</span>
+                    </a>
+                    
+                    <a href="/tags/DL/" target="_blank">
+                        <span class="chip bg-color">DL</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6 overflow-policy" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fa fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2019/08/20/ros/si-lun-che-fang-zhen-ping-tai-da-jian/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/13.jpg" class="responsive-img" alt="四轮车仿真平台搭建">
+                        
+                        <span class="card-title">四轮车仿真平台搭建</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            Gazebo上的仿真，赋予模型碰撞属性和惯性参数。
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2019-08-20
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fa fa-bookmark fa-fw icon-category"></i>
@@ -713,69 +796,12 @@ Figure 4. 计算图
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/C/" target="_blank">
-                        <span class="chip bg-color">C++</span>
-                    </a>
-                    
                     <a href="/tags/机器人/" target="_blank">
                         <span class="chip bg-color">机器人</span>
                     </a>
                     
-                </div>
-                
-            </div>
-        </div>
-        
-        
-        <div class="article col s12 m6 overflow-policy" data-aos="fade-up">
-            <div class="article-badge right-badge text-color">
-                下一篇&nbsp;<i class="fa fa-chevron-right"></i>
-            </div>
-            <div class="card">
-                <a href="/2019/06/05/wu-ren-jia-shi/behavioral-cloning/">
-                    <div class="card-image">
-                        
-                        
-                        <img src="/medias/featureimages/23.jpg" class="responsive-img" alt="车辆行为克隆">
-                        
-                        <span class="card-title">车辆行为克隆</span>
-                    </div>
-                </a>
-                <div class="card-content article-content">
-                    <div class="summary block-with-text">
-                        
-                            运用神经网络预测汽车运行时的转向角
-                        
-                    </div>
-                    <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="fa fa-clock-o fa-fw icon-date"></i>2019-06-05
-                            </span>
-                        <span class="publish-author">
-                            
-                            <i class="fa fa-bookmark fa-fw icon-category"></i>
-                            
-                            <a href="/categories/无人驾驶/" class="post-category" target="_blank">
-                                    无人驾驶
-                                </a>
-                            
-                            
-                        </span>
-                    </div>
-                </div>
-                
-                <div class="card-action article-tags">
-                    
-                    <a href="/tags/Python/" target="_blank">
-                        <span class="chip bg-color">Python</span>
-                    </a>
-                    
-                    <a href="/tags/DL/" target="_blank">
-                        <span class="chip bg-color">DL</span>
-                    </a>
-                    
-                    <a href="/tags/无人车/" target="_blank">
-                        <span class="chip bg-color">无人车</span>
+                    <a href="/tags/XML/" target="_blank">
+                        <span class="chip bg-color">XML</span>
                     </a>
                     
                 </div>
@@ -923,6 +949,13 @@ Figure 4. 计算图
 
 </main>
 
+
+<script src="https://cdn.bootcss.com/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script>
+    MathJax.Hub.Config({
+        tex2jax: {inlineMath: [['$', '$'], ['\(', '\)']]}
+    });
+</script>
 
 <footer class="page-footer bg-color">
     <div class="container row center-align">
