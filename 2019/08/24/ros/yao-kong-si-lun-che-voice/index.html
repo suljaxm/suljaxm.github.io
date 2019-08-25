@@ -420,7 +420,7 @@
                     
                     <div class="info-break-policy">
                         <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
-                        516
+                        544
                     </div>
                     
 
@@ -492,7 +492,7 @@ voiceWordsPub<span class="token punctuation">.</span><span class="token function
 ros<span class="token operator">::</span><span class="token function">spinOnce</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
 <p>之后就是<code>CMakeLists.txt</code>部分，添加对应的<code>add_executable</code>和<code>target_link_libraries</code>，<code>c++11</code>的特性也要开启。</p>
 <h2 id="三、遥控四轮车"><a href="#三、遥控四轮车" class="headerlink" title="三、遥控四轮车"></a>三、遥控四轮车</h2><h3 id="3-1-思路"><a href="#3-1-思路" class="headerlink" title="3.1 思路"></a>3.1 思路</h3><p>通过iat_online_record_sample识别语音，然后对翻译出的文字进行关键字词的识别，不同的关键词对应小车的不同运动状态。后期还可以加入tts_online_sample，添加语音对话功能。</p>
-<h3 id="3-2-实现方式"><a href="#3-2-实现方式" class="headerlink" title="3.2 实现方式"></a>3.2 实现方式</h3><p>通过麦克风获取语音信号<code>data</code>，之后小车的控制规则如下，</p>
+<h3 id="3-2-实现方式"><a href="#3-2-实现方式" class="headerlink" title="3.2 实现方式"></a>3.2 实现方式</h3><p>当语音识别被激活时，麦克风开始获取语音信号，之后将语音识别处理成字符串<code>data</code>，最后根据<code>data</code>控制小车。</p>
 <pre class=" language-python"><code class="language-python"><span class="token keyword">if</span> <span class="token punctuation">(</span>data 包含 ‘前’ <span class="token punctuation">)</span><span class="token punctuation">:</span> 
     小车前进
 <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span>data  包含 ‘后’<span class="token punctuation">)</span><span class="token punctuation">:</span> 
@@ -503,6 +503,10 @@ ros<span class="token operator">::</span><span class="token function">spinOnce</
     小车右转
 <span class="token keyword">else</span><span class="token punctuation">:</span><span class="token keyword">if</span> <span class="token punctuation">(</span>data 包含 ‘停’ <span class="token punctuation">)</span><span class="token punctuation">:</span> 
     小车停止</code></pre>
+<center><img width="600" height="300" src="http://pwh3vw6xp.bkt.clouddn.com/8_result.png">
+基于语音控制小车
+</center>
+
 <p><a href="https://github.com/suljaxm/Turtle-Communication_ROS/tree/voice_control" target="_blank" rel="noopener">代码参考</a></p>
 
             </div>
