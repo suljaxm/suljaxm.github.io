@@ -4,8 +4,8 @@
 
 <head><meta name="generator" content="Hexo 3.9.0">
     <meta charset="utf-8">
-    <meta name="keywords" content="ROS通信(海龟模拟器), 木匠">
-    <meta name="description" content="一、发布指令1.1 发布海龟速度指令，让海龟圆周运动创建一个Publisher，发布名为turtle1/cmd_vel的topic，其消息类型为geometry_msgs::Twist，通过控制cmd_vel中linear下的x和angul">
+    <meta name="keywords" content="遥控四轮车（语音控制）, 木匠">
+    <meta name="description" content="一、讯飞开放平台1.1 语音听写SDK讯飞开放平台 提供可供开发者的语音识别SDK，针对Linux系统下载对应版本的 语音听写（流式版）SDK，解压文件如下所示，其中主要测试的是文件夹samples中的iat_online_record_s">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -13,7 +13,7 @@
     <meta name="format-detection" content="telephone=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>ROS通信(海龟模拟器) | 木匠</title>
+    <title>遥控四轮车（语音控制） | 木匠</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/font-awesome.min.css">
@@ -260,13 +260,13 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/22.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/21.jpg')">
     <div class="container">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
                     <div class="description center-align post-title">
-                        ROS通信(海龟模拟器)
+                        遥控四轮车（语音控制）
                     </div>
                 </div>
             </div>
@@ -385,6 +385,14 @@
                                 <span class="chip bg-color">机器人</span>
                             </a>
                         
+                            <a href="/tags/XML/" target="_blank">
+                                <span class="chip bg-color">XML</span>
+                            </a>
+                        
+                            <a href="/tags/Python/" target="_blank">
+                                <span class="chip bg-color">Python</span>
+                            </a>
+                        
                     </div>
                     
                 </div>
@@ -405,21 +413,21 @@
             <div class="post-info">
                 <div class="post-date info-break-policy">
                     <i class="fa fa-calendar-minus-o fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2019-07-29
+                    2019-08-24
                 </div>
 
                 
                     
                     <div class="info-break-policy">
                         <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
-                        799
+                        516
                     </div>
                     
 
                     
                     <div class="info-break-policy">
                         <i class="fa fa-clock-o fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                        3 分
+                        2 分
                     </div>
                     
                 
@@ -435,144 +443,67 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h2 id="一、发布指令"><a href="#一、发布指令" class="headerlink" title="一、发布指令"></a>一、发布指令</h2><h3 id="1-1-发布海龟速度指令，让海龟圆周运动"><a href="#1-1-发布海龟速度指令，让海龟圆周运动" class="headerlink" title="1.1 发布海龟速度指令，让海龟圆周运动"></a>1.1 发布海龟速度指令，让海龟圆周运动</h3><p>创建一个<strong>Publisher</strong>，发布名为<strong>turtle1/cmd_vel</strong>的<strong>topic</strong>，其消息类型为<strong>geometry_msgs::Twist</strong>，通过控制<strong>cmd_vel</strong>中<strong>linear</strong>下的<strong>x</strong>和<strong>angular</strong>下的<strong>z</strong>。</p>
-<pre class=" language-cpp"><code class="language-cpp">geometry_msgs<span class="token operator">/</span>Vector3 linear
-  float64 x
-  float64 y
-  float64 z
-geometry_msgs<span class="token operator">/</span>Vector3 angular
-  float64 x
-  float64 y
-  float64 z</code></pre>
-<h3 id="1-2-参考代码"><a href="#1-2-参考代码" class="headerlink" title="1.2 参考代码"></a>1.2 参考代码</h3><pre class=" language-cpp"><code class="language-cpp"><span class="token macro property">#<span class="token directive keyword">include</span> <span class="token string">&lt;sstream></span></span>
-<span class="token macro property">#<span class="token directive keyword">include</span> <span class="token string">"ros/ros.h"</span></span>
+                <h2 id="一、讯飞开放平台"><a href="#一、讯飞开放平台" class="headerlink" title="一、讯飞开放平台"></a>一、讯飞开放平台</h2><h3 id="1-1-语音听写SDK"><a href="#1-1-语音听写SDK" class="headerlink" title="1.1 语音听写SDK"></a>1.1 语音听写SDK</h3><p><a href="https://www.xfyun.cn" target="_blank" rel="noopener">讯飞开放平台</a> 提供可供开发者的语音识别SDK，针对Linux系统下载对应版本的 <code>语音听写（流式版）SDK</code>，解压文件如下所示，其中主要测试的是文件夹<code>samples</code>中的iat_online_record_sample和tts_online_sample样例。</p>
+<center><img width="500" height="100" src="
+http://pwh3vw6xp.bkt.clouddn.com/8_sdk.png">
+Linux_iat1226_tts_online 解压文件
+</center>
+
+<h3 id="1-2-样例使用"><a href="#1-2-样例使用" class="headerlink" title="1.2 样例使用"></a>1.2 样例使用</h3><p>iat_online_record_sample是讯飞的的语音识别demo，使用方式如下</p>
+<pre class=" language-cpp"><code class="language-cpp">依赖配置<span class="token punctuation">,</span>将共享库放置在系统库文件中
+cd libs<span class="token operator">/</span>x64       <span class="token comment" spellcheck="true">//32位系统选x86</span>
+sudo cp libmsc<span class="token punctuation">.</span>so <span class="token operator">/</span>usr<span class="token operator">/</span>lib
+
+<span class="token comment" spellcheck="true">//编译</span>
+cd samples<span class="token operator">/</span>iat_online_record_sample<span class="token operator">/</span>
+source  64bit_make<span class="token punctuation">.</span>sh         <span class="token comment" spellcheck="true">// 32位系统选32bit_make.sh </span>
+
+<span class="token comment" spellcheck="true">//运行</span>
+cd bin<span class="token operator">/</span>
+<span class="token punctuation">.</span><span class="token operator">/</span>iat_online_record_sample</code></pre>
+<p>tts_online_sample 是文字转语音的demo，使用的方式类似。</p>
+<h2 id="二、SDK移植ROS系统"><a href="#二、SDK移植ROS系统" class="headerlink" title="二、SDK移植ROS系统"></a>二、SDK移植ROS系统</h2><p>首先在ROS工程中创建功能包，<code>catkin_create_pkg xxx roscpp std_msgs</code>，再将iat_online_record_sample和tts_online_sample的代码复制进xxx包中的src、include文件夹中，主要算法不进行更改，只需要在添加ROS的通信架构，例如ROS的头文件，发布订阅信息之类的。例如对iat_online_record_sample的部分修改，</p>
+<pre class=" language-cpp"><code class="language-cpp"><span class="token macro property">#<span class="token directive keyword">include</span> <span class="token string">"ros/ros.h"</span></span>
 <span class="token macro property">#<span class="token directive keyword">include</span> <span class="token string">"std_msgs/String.h"</span></span>
-<span class="token macro property">#<span class="token directive keyword">include</span> <span class="token string">"geometry_msgs/Twist.h"</span></span>
-<span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token keyword">int</span> argc<span class="token punctuation">,</span> <span class="token keyword">char</span> <span class="token operator">*</span><span class="token operator">*</span>argv<span class="token punctuation">)</span>
-<span class="token punctuation">{</span>
-    <span class="token comment" spellcheck="true">// ROS节点初始化</span>
-    ros<span class="token operator">::</span><span class="token function">init</span><span class="token punctuation">(</span>argc<span class="token punctuation">,</span> argv<span class="token punctuation">,</span> <span class="token string">"turtle_publisher"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 
-    <span class="token comment" spellcheck="true">// 创建节点句柄</span>
-    ros<span class="token operator">::</span>NodeHandle n<span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true">/**
+.......
+**/</span>
 
-    <span class="token comment" spellcheck="true">// 创建一个Publisher，发布名为turtle1/cmd_vel的topic，消息类型为geometry_msgs::Twist，传输空间大小1000</span>
-    ros<span class="token operator">::</span>Publisher chatter_pub <span class="token operator">=</span> n<span class="token punctuation">.</span>advertise<span class="token operator">&lt;</span>geometry_msgs<span class="token operator">::</span>Twist<span class="token operator">></span><span class="token punctuation">(</span><span class="token string">"turtle1/cmd_vel"</span><span class="token punctuation">,</span> <span class="token number">1000</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true">// 初始化ROS</span>
+ros<span class="token operator">::</span><span class="token function">init</span><span class="token punctuation">(</span>argc<span class="token punctuation">,</span> argv<span class="token punctuation">,</span> <span class="token string">"voiceRecognition"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+ros<span class="token operator">::</span>NodeHandle n<span class="token punctuation">;</span>
+ros<span class="token operator">::</span>Rate <span class="token function">loop_rate</span><span class="token punctuation">(</span><span class="token number">10</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 
-    <span class="token comment" spellcheck="true">// 设置循环的频率</span>
-    ros<span class="token operator">::</span>Rate <span class="token function">loop_rate</span><span class="token punctuation">(</span><span class="token number">10</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true">// 声明Publisher和Subscriber</span>
+<span class="token comment" spellcheck="true">// 订阅唤醒语音识别的信号</span>
+ros<span class="token operator">::</span>Subscriber wakeUpSub <span class="token operator">=</span> n<span class="token punctuation">.</span><span class="token function">subscribe</span><span class="token punctuation">(</span><span class="token string">"voiceWakeup"</span><span class="token punctuation">,</span> <span class="token number">1000</span><span class="token punctuation">,</span> WakeUp<span class="token punctuation">)</span><span class="token punctuation">;</span>   
+<span class="token comment" spellcheck="true">// 发布信息</span>
+ros<span class="token operator">::</span>Publisher voiceWordsPub <span class="token operator">=</span> n<span class="token punctuation">.</span>advertise<span class="token operator">&lt;</span>std_msgs<span class="token operator">::</span>String<span class="token operator">></span><span class="token punctuation">(</span><span class="token string">"voiceWords"</span><span class="token punctuation">,</span> <span class="token number">1000</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  
 
-    <span class="token keyword">int</span> count <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
-    <span class="token keyword">while</span> <span class="token punctuation">(</span>ros<span class="token operator">::</span><span class="token function">ok</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
-    <span class="token punctuation">{</span>
-        <span class="token comment" spellcheck="true">// 初始化geometry_msgs::Twist类型的消息</span>
-        geometry_msgs<span class="token operator">::</span>Twist Twist_msg<span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true">/**
+....  //iat_online_record_sample的算法
+**/</span>
 
-        <span class="token keyword">float</span> linear_x<span class="token punctuation">,</span> linear_y<span class="token punctuation">,</span> angular_z<span class="token punctuation">;</span>
-        linear_x <span class="token operator">=</span> <span class="token number">2</span><span class="token punctuation">;</span>
-        linear_y <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
-        angular_z <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span>
-        Twist_msg<span class="token punctuation">.</span>linear<span class="token punctuation">.</span>x <span class="token operator">=</span> linear_x<span class="token punctuation">;</span>
-        Twist_msg<span class="token punctuation">.</span>linear<span class="token punctuation">.</span>y <span class="token operator">=</span> linear_y<span class="token punctuation">;</span>
-        Twist_msg<span class="token punctuation">.</span>angular<span class="token punctuation">.</span>z <span class="token operator">=</span> angular_z<span class="token punctuation">;</span>
+std_msgs<span class="token operator">::</span>String msg<span class="token punctuation">;</span>
+msg<span class="token punctuation">.</span>data <span class="token operator">=</span> g_result<span class="token punctuation">;</span>  <span class="token comment" spellcheck="true">//g_result位语音识别的字符串</span>
+voiceWordsPub<span class="token punctuation">.</span><span class="token function">publish</span><span class="token punctuation">(</span>msg<span class="token punctuation">)</span><span class="token punctuation">;</span>
 
-        <span class="token comment" spellcheck="true">// 发布消息</span>
-        <span class="token function">ROS_INFO</span><span class="token punctuation">(</span><span class="token string">"I heard cmd_vel linear.x:[%f] linear.y:[%f] angular.z:[%f]"</span><span class="token punctuation">,</span>linear_x<span class="token punctuation">,</span> linear_y<span class="token punctuation">,</span> angular_z<span class="token punctuation">)</span><span class="token punctuation">;</span>
-        chatter_pub<span class="token punctuation">.</span><span class="token function">publish</span><span class="token punctuation">(</span>Twist_msg<span class="token punctuation">)</span><span class="token punctuation">;</span>
-
-        <span class="token comment" spellcheck="true">// 按照循环频率延时</span>
-        loop_rate<span class="token punctuation">.</span><span class="token function">sleep</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-        <span class="token operator">++</span>count<span class="token punctuation">;</span>
-    <span class="token punctuation">}</span>
-
-    <span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
-<span class="token punctuation">}</span></code></pre>
-<h2 id="二、定阅"><a href="#二、定阅" class="headerlink" title="二、定阅"></a>二、定阅</h2><h3 id="2-1-海龟的位置，并在终端中周期打印输出"><a href="#2-1-海龟的位置，并在终端中周期打印输出" class="headerlink" title="2.1 海龟的位置，并在终端中周期打印输出"></a>2.1 海龟的位置，并在终端中周期打印输出</h3><p>创建一个<strong>Subscriber</strong>，订阅名为<strong>turtle1/pose</strong>的<strong>topic</strong>，其消息类型为<strong>turtlesim::Pose</strong>，注册回调函数<strong>chatterCallback_pose</strong>，而输出<strong>turtle1/pose</strong>中<strong>x</strong>， <strong>y</strong>，<strong>theta</strong>就是海龟<strong>turtle1</strong>的位置。</p>
-<pre class=" language-cpp"><code class="language-cpp">float32 x
-float32 y
-float32 theta
-float32 linear_velocity
-float32 angular_velocity</code></pre>
-<h3 id="2-2-参考代码："><a href="#2-2-参考代码：" class="headerlink" title="2.2 参考代码："></a>2.2 参考代码：</h3><pre class=" language-cpp"><code class="language-cpp"><span class="token macro property">#<span class="token directive keyword">include</span> <span class="token string">"ros/ros.h"</span></span>
-<span class="token macro property">#<span class="token directive keyword">include</span> <span class="token string">"std_msgs/String.h"</span></span>
-<span class="token macro property">#<span class="token directive keyword">include</span> <span class="token string">"turtlesim/Pose.h"</span></span>
-<span class="token comment" spellcheck="true">// 接收到订阅的消息后，会进入消息回调函数</span>
-<span class="token keyword">void</span> <span class="token function">chatterCallback_pose</span><span class="token punctuation">(</span><span class="token keyword">const</span> turtlesim<span class="token operator">::</span>Pose<span class="token operator">::</span>ConstPtr<span class="token operator">&amp;</span> Pose_msg<span class="token punctuation">)</span>
-<span class="token punctuation">{</span>
-    <span class="token comment" spellcheck="true">// 将接收到的消息打印出来</span>
-    <span class="token keyword">float</span> x<span class="token punctuation">,</span> y<span class="token punctuation">,</span> theta<span class="token punctuation">;</span>
-    x<span class="token operator">=</span>Pose_msg<span class="token operator">-</span><span class="token operator">></span>x<span class="token punctuation">;</span>
-    y<span class="token operator">=</span>Pose_msg<span class="token operator">-</span><span class="token operator">></span>y<span class="token punctuation">;</span>
-    theta<span class="token operator">=</span>Pose_msg<span class="token operator">-</span><span class="token operator">></span>theta<span class="token punctuation">;</span>
-    <span class="token function">ROS_INFO</span><span class="token punctuation">(</span><span class="token string">"I heard pose x:[%f] y:[%f] z:[%f]"</span><span class="token punctuation">,</span>x<span class="token punctuation">,</span> y<span class="token punctuation">,</span> theta<span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token punctuation">}</span>
-
-<span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token keyword">int</span> argc<span class="token punctuation">,</span> <span class="token keyword">char</span> <span class="token operator">*</span><span class="token operator">*</span>argv<span class="token punctuation">)</span>
-<span class="token punctuation">{</span>
-    <span class="token comment" spellcheck="true">// 初始化ROS节点</span>
-    ros<span class="token operator">::</span><span class="token function">init</span><span class="token punctuation">(</span>argc<span class="token punctuation">,</span> argv<span class="token punctuation">,</span> <span class="token string">"turtle_subscriber"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-
-    <span class="token comment" spellcheck="true">// 创建节点句柄     </span>
-    ros<span class="token operator">::</span>NodeHandle n<span class="token punctuation">;</span>
-
-    <span class="token comment" spellcheck="true">// 创建一个Subscriber，订阅名为turtle1/pose的topic，注册回调函数chatterCallback_pose</span>
-    ros<span class="token operator">::</span>Subscriber sub <span class="token operator">=</span> n<span class="token punctuation">.</span><span class="token function">subscribe</span><span class="token punctuation">(</span><span class="token string">"turtle1/pose"</span><span class="token punctuation">,</span> <span class="token number">1000</span><span class="token punctuation">,</span> chatterCallback_pose<span class="token punctuation">)</span><span class="token punctuation">;</span>
-
-    <span class="token comment" spellcheck="true">// 循环等待回调函数</span>
-    ros<span class="token operator">::</span><span class="token function">spin</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-
-    <span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
-<span class="token punctuation">}</span></code></pre>
-<h2 id="三、-创建新服务"><a href="#三、-创建新服务" class="headerlink" title="三、 创建新服务"></a>三、 创建新服务</h2><h3 id="3-1-创建新海龟的服务，在仿真器中产生一只新海龟"><a href="#3-1-创建新海龟的服务，在仿真器中产生一只新海龟" class="headerlink" title="3.1 创建新海龟的服务，在仿真器中产生一只新海龟"></a>3.1 创建新海龟的服务，在仿真器中产生一只新海龟</h3><p>创建一个<strong>client</strong>，<strong>service</strong>消息类型是<strong>turtlesim::Spawn</strong>，向服务端传入设置好的海龟位置和名称(<strong>x y theta name</strong>)。</p>
-<pre class=" language-cpp"><code class="language-cpp">Node<span class="token operator">:</span> <span class="token operator">/</span>turtlesim
-URI<span class="token operator">:</span> rosrpc<span class="token operator">:</span><span class="token operator">/</span><span class="token operator">/</span><span class="token number">10.0</span><span class="token punctuation">.</span><span class="token number">2.15</span><span class="token operator">:</span><span class="token number">60487</span>
-Type<span class="token operator">:</span> turtlesim<span class="token operator">/</span>Spawn
-Args<span class="token operator">:</span> x y theta name</code></pre>
-<h3 id="3-2-参考代码："><a href="#3-2-参考代码：" class="headerlink" title="3.2 参考代码："></a>3.2 参考代码：</h3><pre class=" language-cpp"><code class="language-cpp"><span class="token macro property">#<span class="token directive keyword">include</span> <span class="token string">"ros/ros.h"</span></span>
-<span class="token macro property">#<span class="token directive keyword">include</span> <span class="token string">"std_srvs/SetBool.h"</span></span>
-<span class="token macro property">#<span class="token directive keyword">include</span> <span class="token string">"turtlesim/Spawn.h"</span></span>
-<span class="token macro property">#<span class="token directive keyword">include</span> <span class="token string">&lt;stdlib.h></span>             </span><span class="token comment" spellcheck="true">/* srand, rand */</span>
-<span class="token macro property">#<span class="token directive keyword">include</span> <span class="token string">&lt;time.h></span>               </span><span class="token comment" spellcheck="true">/* time */</span>
-<span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token keyword">int</span> argc<span class="token punctuation">,</span> <span class="token keyword">char</span> <span class="token operator">*</span><span class="token operator">*</span>argv<span class="token punctuation">)</span>
-<span class="token punctuation">{</span>
-    <span class="token comment" spellcheck="true">// ROS节点初始化</span>
-    ros<span class="token operator">::</span><span class="token function">init</span><span class="token punctuation">(</span>argc<span class="token punctuation">,</span> argv<span class="token punctuation">,</span> <span class="token string">"turtle_client"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-
-    <span class="token comment" spellcheck="true">// set argv[1] not null</span>
-    <span class="token keyword">if</span><span class="token punctuation">(</span>argv<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span> <span class="token operator">==</span> <span class="token constant">NULL</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
-        argv<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token string">""</span><span class="token punctuation">;</span>
-    <span class="token punctuation">}</span>
-    <span class="token function">ROS_INFO</span><span class="token punctuation">(</span><span class="token string">"argv: %s"</span><span class="token punctuation">,</span> argv<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token comment" spellcheck="true">// 创建节点句柄</span>
-    ros<span class="token operator">::</span>NodeHandle n<span class="token punctuation">;</span>
-
-    <span class="token comment" spellcheck="true">// 创建一个client，service消息类型是turtlesim::Spawn  turtlesim/Spawn</span>
-    ros<span class="token operator">::</span>service<span class="token operator">::</span><span class="token function">waitForService</span><span class="token punctuation">(</span><span class="token string">"/spawn"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    ros<span class="token operator">::</span>ServiceClient client <span class="token operator">=</span> n<span class="token punctuation">.</span>serviceClient<span class="token operator">&lt;</span>turtlesim<span class="token operator">::</span>Spawn<span class="token operator">></span><span class="token punctuation">(</span><span class="token string">"/spawn"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-
-    <span class="token comment" spellcheck="true">// 创建turtlesim::Spawn类型的service消息</span>
-    turtlesim<span class="token operator">::</span>Spawn srv<span class="token punctuation">;</span>
-    <span class="token function">srand</span> <span class="token punctuation">(</span><span class="token function">time</span><span class="token punctuation">(</span><span class="token constant">NULL</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    srv<span class="token punctuation">.</span>request<span class="token punctuation">.</span>x <span class="token operator">=</span> <span class="token function">rand</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">%</span><span class="token number">10</span><span class="token punctuation">;</span>
-    srv<span class="token punctuation">.</span>request<span class="token punctuation">.</span>y <span class="token operator">=</span> <span class="token function">rand</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">%</span><span class="token number">10</span><span class="token punctuation">;</span>
-    srv<span class="token punctuation">.</span>request<span class="token punctuation">.</span>theta <span class="token operator">=</span> <span class="token function">rand</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">%</span><span class="token number">10</span><span class="token operator">*</span><span class="token number">0.5</span><span class="token punctuation">;</span>
-    srv<span class="token punctuation">.</span>request<span class="token punctuation">.</span>name <span class="token operator">=</span> argv<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
-
-    <span class="token comment" spellcheck="true">// 发布service请求，等待应答结果</span>
-    <span class="token keyword">if</span> <span class="token punctuation">(</span>client<span class="token punctuation">.</span><span class="token function">call</span><span class="token punctuation">(</span>srv<span class="token punctuation">)</span><span class="token punctuation">)</span>
-    <span class="token punctuation">{</span>
-        <span class="token function">ROS_INFO</span><span class="token punctuation">(</span><span class="token string">"Response : ok"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token punctuation">}</span>
-    <span class="token keyword">else</span>
-    <span class="token punctuation">{</span>
-        <span class="token function">ROS_ERROR</span><span class="token punctuation">(</span><span class="token string">"Failed to call service spawn"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-        <span class="token keyword">return</span> <span class="token number">1</span><span class="token punctuation">;</span>
-    <span class="token punctuation">}</span>
-    <span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
-<span class="token punctuation">}</span></code></pre>
-<h2 id="四、控制"><a href="#四、控制" class="headerlink" title="四、控制"></a>四、控制</h2><h3 id="控制特定海龟的速度大小"><a href="#控制特定海龟的速度大小" class="headerlink" title="控制特定海龟的速度大小"></a>控制特定海龟的速度大小</h3><p>这里和1中的实现方式相似，可以在终端输入控制的参数<strong>argv</strong>，然后由这些参数控制海龟状态。</p>
-<p>ps:有时候在编译时会出现<strong>warning:  Clock skew detected.  Your build may be incomplete.</strong>这样的警告。这是时钟同步问题，可以</p>
-<pre class=" language-cpp"><code class="language-cpp">find <span class="token punctuation">.</span> <span class="token operator">-</span>type f <span class="token operator">|</span> xargs <span class="token operator">-</span>n <span class="token number">5</span> touch</code></pre>
+ros<span class="token operator">::</span><span class="token function">spinOnce</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<p>之后就是<code>CMakeLists.txt</code>部分，添加对应的<code>add_executable</code>和<code>target_link_libraries</code>，<code>c++11</code>的特性也要开启。</p>
+<h2 id="三、遥控四轮车"><a href="#三、遥控四轮车" class="headerlink" title="三、遥控四轮车"></a>三、遥控四轮车</h2><h3 id="3-1-思路"><a href="#3-1-思路" class="headerlink" title="3.1 思路"></a>3.1 思路</h3><p>通过iat_online_record_sample识别语音，然后对翻译出的文字进行关键字词的识别，不同的关键词对应小车的不同运动状态。后期还可以加入tts_online_sample，添加语音对话功能。</p>
+<h3 id="3-2-实现方式"><a href="#3-2-实现方式" class="headerlink" title="3.2 实现方式"></a>3.2 实现方式</h3><p>通过麦克风获取语音信号<code>data</code>，之后小车的控制规则如下，</p>
+<pre class=" language-python"><code class="language-python"><span class="token keyword">if</span> <span class="token punctuation">(</span>data 包含 ‘前’ <span class="token punctuation">)</span><span class="token punctuation">:</span> 
+    小车前进
+<span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span>data  包含 ‘后’<span class="token punctuation">)</span><span class="token punctuation">:</span> 
+    小车后退
+<span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span>data  包含 ‘左’<span class="token punctuation">)</span><span class="token punctuation">:</span> 
+    小车左转
+<span class="token keyword">else</span><span class="token punctuation">:</span><span class="token keyword">if</span> <span class="token punctuation">(</span>data  包含 ‘右’<span class="token punctuation">)</span><span class="token punctuation">:</span> 
+    小车右转
+<span class="token keyword">else</span><span class="token punctuation">:</span><span class="token keyword">if</span> <span class="token punctuation">(</span>data 包含 ‘停’ <span class="token punctuation">)</span><span class="token punctuation">:</span> 
+    小车停止</code></pre>
+<p><a href="https://github.com/suljaxm/Turtle-Communication_ROS/tree/voice_control" target="_blank" rel="noopener">代码参考</a></p>
 
             </div>
             <hr/>
@@ -731,9 +662,9 @@ Args<span class="token operator">:</span> x y theta name</code></pre>
             <br/>
             <span xmlns:dct="http://purl.org/dc/terms/" href="http://purl.org/dc/dcmitype/Text"
                   property="dct:title" rel="dct:type">
-                    《ROS通信(海龟模拟器)》
+                    《遥控四轮车（语音控制）》
                 </span> 由
-            <a xmlns:cc="http://creativecommons.org/ns#" href="/2019/07/29/ros/ros-tong-xin-hai-gui-mo-ni-qi/" property="cc:attributionName"
+            <a xmlns:cc="http://creativecommons.org/ns#" href="/2019/08/24/ros/yao-kong-si-lun-che-voice/" property="cc:attributionName"
                rel="cc:attributionURL">
                 kieranych
             </a> 采用
@@ -773,29 +704,30 @@ Args<span class="token operator">:</span> x y theta name</code></pre>
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6 overflow-policy" data-aos="fade-up">
+        <div class="article col s12 m6 overflow-policy" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fa fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="fa fa-dot-circle-o"></i>&nbsp;本篇
+            </div>
             <div class="card">
-                <a href="/2019/08/09/ros/ros-ji-qi-ren-de-tf-bian-huan/">
+                <a href="/2019/08/24/ros/yao-kong-si-lun-che-voice/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/22.jpg" class="responsive-img" alt="ROS机器人的tf变换">
+                        <img src="/medias/featureimages/21.jpg" class="responsive-img" alt="遥控四轮车（语音控制）">
                         
-                        <span class="card-title">ROS机器人的tf变换</span>
+                        <span class="card-title">遥控四轮车（语音控制）</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            ROS中机器人各个部件间的坐标系转换关系
+                            通过语音遥控四路车的前进后退，左右转弯。
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="fa fa-clock-o fa-fw icon-date"></i>2019-08-09
-                        </span>
+                            <span class="publish-date">
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2019-08-24
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fa fa-bookmark fa-fw icon-category"></i>
@@ -808,6 +740,7 @@ Args<span class="token operator">:</span> x y theta name</code></pre>
                         </span>
                     </div>
                 </div>
+
                 
                 <div class="card-action article-tags">
                     
@@ -817,6 +750,14 @@ Args<span class="token operator">:</span> x y theta name</code></pre>
                     
                     <a href="/tags/机器人/" target="_blank">
                         <span class="chip bg-color">机器人</span>
+                    </a>
+                    
+                    <a href="/tags/XML/" target="_blank">
+                        <span class="chip bg-color">XML</span>
+                    </a>
+                    
+                    <a href="/tags/Python/" target="_blank">
+                        <span class="chip bg-color">Python</span>
                     </a>
                     
                 </div>
@@ -830,24 +771,24 @@ Args<span class="token operator">:</span> x y theta name</code></pre>
                 下一篇&nbsp;<i class="fa fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2019/07/24/ros/ros-chu-shi/">
+                <a href="/2019/08/24/ros/yao-kong-si-lun-che/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/23.jpg" class="responsive-img" alt="ROS初识">
+                        <img src="/medias/featureimages/13.jpg" class="responsive-img" alt="遥控四轮车（视觉处理）">
                         
-                        <span class="card-title">ROS初识</span>
+                        <span class="card-title">遥控四轮车（视觉处理）</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            ROS海龟的基本操作
+                            通过识别特定物体的状态遥控四路车的前进后退，左右转弯。
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="fa fa-clock-o fa-fw icon-date"></i>2019-07-24
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2019-08-24
                             </span>
                         <span class="publish-author">
                             
@@ -864,12 +805,20 @@ Args<span class="token operator">:</span> x y theta name</code></pre>
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/C/" target="_blank">
-                        <span class="chip bg-color">C++</span>
-                    </a>
-                    
                     <a href="/tags/机器人/" target="_blank">
                         <span class="chip bg-color">机器人</span>
+                    </a>
+                    
+                    <a href="/tags/XML/" target="_blank">
+                        <span class="chip bg-color">XML</span>
+                    </a>
+                    
+                    <a href="/tags/Python/" target="_blank">
+                        <span class="chip bg-color">Python</span>
+                    </a>
+                    
+                    <a href="/tags/DL/" target="_blank">
+                        <span class="chip bg-color">DL</span>
                     </a>
                     
                 </div>
@@ -1017,6 +966,13 @@ Args<span class="token operator">:</span> x y theta name</code></pre>
 
 </main>
 
+
+<script src="https://cdn.bootcss.com/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script>
+    MathJax.Hub.Config({
+        tex2jax: {inlineMath: [['$', '$'], ['\(', '\)']]}
+    });
+</script>
 
 <footer class="page-footer bg-color">
     <div class="container row center-align">

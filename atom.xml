@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://suljaxm.github.io/"/>
-  <updated>2019-08-23T21:29:42.195Z</updated>
+  <updated>2019-08-25T09:09:58.931Z</updated>
   <id>https://suljaxm.github.io/</id>
   
   <author>
@@ -15,6 +15,38 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>遥控四轮车（语音控制）</title>
+    <link href="https://suljaxm.github.io/2019/08/24/ros/yao-kong-si-lun-che-voice/"/>
+    <id>https://suljaxm.github.io/2019/08/24/ros/yao-kong-si-lun-che-voice/</id>
+    <published>2019-08-24T14:56:47.000Z</published>
+    <updated>2019-08-25T09:09:58.931Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h2 id=&quot;一、讯飞开放平台&quot;&gt;&lt;a href=&quot;#一、讯飞开放平台&quot; class=&quot;headerlink&quot; title=&quot;一、讯飞开放平台&quot;&gt;&lt;/a&gt;一、讯飞开放平台&lt;/h2&gt;&lt;h3 id=&quot;1-1-语音听写SDK&quot;&gt;&lt;a href=&quot;#1-1-语音听写SDK&quot;
+        
+      
+    
+    </summary>
+    
+      <category term="ROS" scheme="https://suljaxm.github.io/categories/ROS/"/>
+    
+    
+      <category term="C++" scheme="https://suljaxm.github.io/tags/C/"/>
+    
+      <category term="机器人" scheme="https://suljaxm.github.io/tags/%E6%9C%BA%E5%99%A8%E4%BA%BA/"/>
+    
+      <category term="XML" scheme="https://suljaxm.github.io/tags/XML/"/>
+    
+      <category term="Python" scheme="https://suljaxm.github.io/tags/Python/"/>
+    
+  </entry>
   
   <entry>
     <title>遥控四轮车（视觉处理）</title>
