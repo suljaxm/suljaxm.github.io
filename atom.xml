@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://suljaxm.github.io/"/>
-  <updated>2019-08-25T18:06:33.797Z</updated>
+  <updated>2019-08-29T14:17:07.993Z</updated>
   <id>https://suljaxm.github.io/</id>
   
   <author>
@@ -15,6 +15,36 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>卡尔曼滤波器</title>
+    <link href="https://suljaxm.github.io/2019/08/28/wu-ren-jia-shi/kalman-filter/"/>
+    <id>https://suljaxm.github.io/2019/08/28/wu-ren-jia-shi/kalman-filter/</id>
+    <published>2019-08-28T06:33:47.000Z</published>
+    <updated>2019-08-29T14:17:07.993Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h2 id=&quot;一、高斯函数&quot;&gt;&lt;a href=&quot;#一、高斯函数&quot; class=&quot;headerlink&quot; title=&quot;一、高斯函数&quot;&gt;&lt;/a&gt;一、高斯函数&lt;/h2&gt;&lt;h3 id=&quot;1-1-介绍&quot;&gt;&lt;a href=&quot;#1-1-介绍&quot; class=&quot;headerlink&quot;
+        
+      
+    
+    </summary>
+    
+      <category term="无人驾驶" scheme="https://suljaxm.github.io/categories/%E6%97%A0%E4%BA%BA%E9%A9%BE%E9%A9%B6/"/>
+    
+    
+      <category term="C++" scheme="https://suljaxm.github.io/tags/C/"/>
+    
+      <category term="Python" scheme="https://suljaxm.github.io/tags/Python/"/>
+    
+      <category term="无人车" scheme="https://suljaxm.github.io/tags/%E6%97%A0%E4%BA%BA%E8%BD%A6/"/>
+    
+  </entry>
   
   <entry>
     <title>遥控四轮车（语音控制）</title>

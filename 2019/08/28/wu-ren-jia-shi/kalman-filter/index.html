@@ -4,8 +4,8 @@
 
 <head><meta name="generator" content="Hexo 3.9.0">
     <meta charset="utf-8">
-    <meta name="keywords" content="遥控四轮车（视觉处理）, 木匠">
-    <meta name="description" content="一、摄像头（ROS）1.1 ROS摄像头驱动在linux系统中，可以直接在终端中输入ls /dev/video*，查看是否有可用的摄像头设备。一般只有一个摄像头的系统会返回/dev/video0。在检测到摄像头设备后，用三条语句进行相机的测">
+    <meta name="keywords" content="卡尔曼滤波器, 木匠">
+    <meta name="description" content="一、高斯函数1.1 介绍一维高斯函数的表达式为$f\left ( x \right )=\frac{1}{\sqrt{2\pi \delta ^{2}}}exp^{-\frac{1}{2}\frac{\left ( x - \mu \rig">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -13,7 +13,7 @@
     <meta name="format-detection" content="telephone=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>遥控四轮车（视觉处理） | 木匠</title>
+    <title>卡尔曼滤波器 | 木匠</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/font-awesome.min.css">
@@ -260,13 +260,13 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/13.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/23.jpg')">
     <div class="container">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
                     <div class="description center-align post-title">
-                        遥控四轮车（视觉处理）
+                        卡尔曼滤波器
                     </div>
                 </div>
             </div>
@@ -377,20 +377,16 @@
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/机器人/" target="_blank">
-                                <span class="chip bg-color">机器人</span>
-                            </a>
-                        
-                            <a href="/tags/XML/" target="_blank">
-                                <span class="chip bg-color">XML</span>
+                            <a href="/tags/C/" target="_blank">
+                                <span class="chip bg-color">C++</span>
                             </a>
                         
                             <a href="/tags/Python/" target="_blank">
                                 <span class="chip bg-color">Python</span>
                             </a>
                         
-                            <a href="/tags/DL/" target="_blank">
-                                <span class="chip bg-color">DL</span>
+                            <a href="/tags/无人车/" target="_blank">
+                                <span class="chip bg-color">无人车</span>
                             </a>
                         
                     </div>
@@ -401,8 +397,8 @@
                     <div class="post-cate">
                         <i class="fa fa-bookmark fa-fw icon-category"></i>
                         
-                            <a href="/categories/ROS/" class="post-category" target="_blank">
-                                ROS
+                            <a href="/categories/无人驾驶/" class="post-category" target="_blank">
+                                无人驾驶
                             </a>
                         
                     </div>
@@ -413,21 +409,21 @@
             <div class="post-info">
                 <div class="post-date info-break-policy">
                     <i class="fa fa-calendar-minus-o fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2019-08-24
+                    2019-08-28
                 </div>
 
                 
                     
                     <div class="info-break-policy">
                         <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
-                        897
+                        1.8k
                     </div>
                     
 
                     
                     <div class="info-break-policy">
                         <i class="fa fa-clock-o fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                        3 分
+                        7 分
                     </div>
                     
                 
@@ -443,58 +439,82 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h2 id="一、摄像头（ROS）"><a href="#一、摄像头（ROS）" class="headerlink" title="一、摄像头（ROS）"></a>一、摄像头（ROS）</h2><h3 id="1-1-ROS摄像头驱动"><a href="#1-1-ROS摄像头驱动" class="headerlink" title="1.1 ROS摄像头驱动"></a>1.1 ROS摄像头驱动</h3><p>在linux系统中，可以直接在终端中输入<code>ls /dev/video*</code>，查看是否有可用的摄像头设备。一般只有一个摄像头的系统会返回<code>/dev/video0</code>。<br>在检测到摄像头设备后，用三条语句进行相机的测试，</p>
-<pre class=" language-cpp"><code class="language-cpp">sudo apt<span class="token operator">-</span>get install ros<span class="token operator">-</span>kinetic<span class="token operator">-</span>usb<span class="token operator">-</span>cam    <span class="token comment" spellcheck="true">//开始安装ROS摄像头的驱动</span>
-roslaunch usb_cam usb_cam<span class="token operator">-</span>test<span class="token punctuation">.</span>launch  <span class="token comment" spellcheck="true">//启动摄像头</span>
-rqt_image_view   <span class="token comment" spellcheck="true">//显示摄像机画面</span></code></pre>
-<h3 id="1-2-相机标定"><a href="#1-2-相机标定" class="headerlink" title="1.2 相机标定"></a>1.2 相机标定</h3><p>只有经过标定后的摄像头才能进行后续的操作，摄像头参数的标定可以借助标定功能包，安装方式如下，</p>
-<pre><code>sudo apt-get install ros-kinetic-camera-calibration    //标定功能包安装</code></pre><p>标定的具体操作参考<a href="http://wiki.ros.org/camera_calibration" target="_blank" rel="noopener">官网</a>。<br>此外除了普通的RGB相机，其它类型的相机也有相对应的驱动和标定功能包，这视情况而定。</p>
-<h2 id="二、物体识别"><a href="#二、物体识别" class="headerlink" title="二、物体识别"></a>二、物体识别</h2><h3 id="2-1-人脸识别"><a href="#2-1-人脸识别" class="headerlink" title="2.1 人脸识别"></a>2.1 人脸识别</h3><p>本案例中，人脸识别借助OpenCV中的人脸识别接口，一种基于Haar特征的<a href="https://docs.opencv.org/2.4/modules/objdetect/doc/cascade_classification.html" target="_blank" rel="noopener">级联分类器</a>对象检测算法。OpenCV的安装如下，</p>
-<pre class=" language-cpp"><code class="language-cpp">sudo apt<span class="token operator">-</span>get install ros<span class="token operator">-</span>kinetic<span class="token operator">-</span>vision<span class="token operator">-</span>opencv libopencv<span class="token operator">-</span>dev python<span class="token operator">-</span>opencv</code></pre>
-<p>这里需要注意的是，OpenCV中的图片格式和ROS中的图片格式是不同的，需要通过<code>cv_bridge</code>库进行转换，即</p>
-<pre class=" language-python"><code class="language-python"><span class="token keyword">from</span> cv_bridge <span class="token keyword">import</span> CvBridge
-<span class="token comment" spellcheck="true">#ros_imag为ROS中的图像数据，cv_image为opencv可以处理的格式</span>
-
-cv_image <span class="token operator">=</span> CvBridge<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span>imgmsg_to_cv2<span class="token punctuation">(</span>ros_imag<span class="token punctuation">,</span> <span class="token string">"bgr8"</span><span class="token punctuation">)</span>  
-ros_image <span class="token operator">=</span> CvBridge<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span>cv2_to_imgmsg<span class="token punctuation">(</span>cv_image<span class="token punctuation">,</span> <span class="token string">"bgr8"</span><span class="token punctuation">)</span></code></pre>
-<h3 id="2-2-水杯识别"><a href="#2-2-水杯识别" class="headerlink" title="2.2 水杯识别"></a>2.2 水杯识别</h3><p>通过基于tensorflow框架的<a href="https://github.com/osrf/tensorflow_object_detector" target="_blank" rel="noopener">SSD_MobileNet</a>，来进行水杯的识别。tensorflow的环境，可以借助virtualenv工具配置完成。virtualenv的安装如下，</p>
-<pre class=" language-cpp"><code class="language-cpp">sudo apt<span class="token operator">-</span>get install python<span class="token operator">-</span>pip python<span class="token operator">-</span>dev python<span class="token operator">-</span>virtualenv</code></pre>
-<p>tensorflow环境配置，首先创建一个包含系统环境的空间<code>virtualenv --system-site-packages ~/tensorflow</code>，接着激活新创建的虚拟环境<code>source ~/tensorflow/bin/activate</code>,然后就是更新下pip版本<code>easy_install -U pip</code>，最后便是tensorflow环境的安装，而关于tensorflow的安装要注意和ROS环境相匹配，如果直接<code>pip install --upgrade tensorflow</code>，会出现依赖包因为版本不匹配的错误，因此需要事先限制依赖包的版本。<br>比如kinetic版本的ROS，各依赖包的版本如下，</p>
-<pre class=" language-cpp"><code class="language-cpp">Flask<span class="token operator">==</span><span class="token number">0.11</span><span class="token punctuation">.</span><span class="token number">1</span>
-attrdict<span class="token operator">==</span><span class="token number">2.0</span><span class="token punctuation">.</span><span class="token number">0</span>
-eventlet<span class="token operator">==</span><span class="token number">0.19</span><span class="token punctuation">.</span><span class="token number">0</span>
-python<span class="token operator">-</span>socketio<span class="token operator">==</span><span class="token number">1.6</span><span class="token punctuation">.</span><span class="token number">1</span>
-numpy<span class="token operator">==</span><span class="token number">1.13</span><span class="token punctuation">.</span><span class="token number">1</span>
-Pillow<span class="token operator">==</span><span class="token number">2.2</span><span class="token punctuation">.</span><span class="token number">1</span>
-scipy<span class="token operator">==</span><span class="token number">0.19</span><span class="token punctuation">.</span><span class="token number">1</span>
-keras<span class="token operator">==</span><span class="token number">2.0</span><span class="token punctuation">.</span><span class="token number">8</span>
-tensorflow<span class="token operator">==</span><span class="token number">1.3</span><span class="token punctuation">.</span><span class="token number">0</span>
-h5py<span class="token operator">==</span><span class="token number">2.6</span><span class="token punctuation">.</span><span class="token number">0</span></code></pre>
-<p>可以将这些依赖保存为一个txt文件，然后通过<code>pip install -r requirements.txt</code> 安装，这里如果网速不好的话，可以设置镜像源安装，比如添加ustc的镜像源，</p>
-<pre class=" language-cpp"><code class="language-cpp">pip install <span class="token operator">-</span>r requirements<span class="token punctuation">.</span>txt <span class="token operator">-</span>i https<span class="token operator">:</span><span class="token operator">/</span><span class="token operator">/</span>mirrors<span class="token punctuation">.</span>ustc<span class="token punctuation">.</span>edu<span class="token punctuation">.</span>cn<span class="token operator">/</span>pypi<span class="token operator">/</span>web<span class="token operator">/</span>simple</code></pre>
-<p>通过摄像头识别水杯可以参考<a href="https://github.com/osrf/tensorflow_object_detector" target="_blank" rel="noopener">SSD_MobileNet</a>中的usb_cam_detector.launch和detect_ros.py文件。</p>
-<h2 id="三、遥控四轮车"><a href="#三、遥控四轮车" class="headerlink" title="三、遥控四轮车"></a>三、遥控四轮车</h2><h3 id="3-1-思路"><a href="#3-1-思路" class="headerlink" title="3.1 思路"></a>3.1 思路</h3><p>物体的识别后会得到物体在图片中的中心点(x, y)和识别物体大小的矩形宽(w)和高(h)，我们可以借助(x, y)处于图片的什么区域对小车转向进行控制，而识别物体的矩形框的大小可以控制小车的前进后退。</p>
-<h3 id="3-2-实现方式"><a href="#3-2-实现方式" class="headerlink" title="3.2 实现方式"></a>3.2 实现方式</h3><p>假设摄像机采集的图片分辨率为$W \times H$，则有小车的控制规则如下，</p>
-<pre class=" language-python"><code class="language-python"><span class="token keyword">if</span> <span class="token punctuation">(</span> w <span class="token operator">></span> W<span class="token operator">/</span><span class="token number">2</span> <span class="token operator">and</span> h <span class="token operator">></span> H<span class="token operator">/</span><span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">:</span> 
-    小车前进
-<span class="token keyword">else</span><span class="token punctuation">:</span>
-    小车后退
-
-<span class="token keyword">if</span> <span class="token punctuation">(</span>x <span class="token operator">></span> W<span class="token operator">/</span><span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
-    小车右转
-<span class="token keyword">else</span><span class="token punctuation">:</span>
-    小车左转</code></pre>
-<p>这样就基本实现了通过识别物体的状态来遥控小车，控制小车的运行方式。</p>
-<center><img width="500" height="300" src="http://pwh3vw6xp.bkt.clouddn.com/7_cup_detector_control_car.png">
-基于检测水杯控制小车
+                <h2 id="一、高斯函数"><a href="#一、高斯函数" class="headerlink" title="一、高斯函数"></a>一、高斯函数</h2><h3 id="1-1-介绍"><a href="#1-1-介绍" class="headerlink" title="1.1 介绍"></a>1.1 介绍</h3><p>一维高斯函数的表达式为$f\left ( x \right )=\frac{1}{\sqrt{2\pi \delta ^{2}}}exp^{-\frac{1}{2}\frac{\left ( x - \mu \right )^{2}}{\delta ^2}}$，其中$\mu$为函数尖峰值，$\delta$为标准方差。</p>
+<pre class=" language-python"><code class="language-python"><span class="token keyword">def</span> <span class="token function">f</span><span class="token punctuation">(</span>mu<span class="token punctuation">,</span> sigma2<span class="token punctuation">,</span> x<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">return</span> <span class="token number">1</span><span class="token operator">/</span>sqrt<span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">.</span><span class="token operator">*</span>pi<span class="token operator">*</span>sigma2<span class="token punctuation">)</span> <span class="token operator">*</span> exp<span class="token punctuation">(</span><span class="token operator">-</span><span class="token punctuation">.</span><span class="token number">5</span><span class="token operator">*</span><span class="token punctuation">(</span>x<span class="token operator">-</span>mu<span class="token punctuation">)</span><span class="token operator">**</span><span class="token number">2</span> <span class="token operator">/</span> sigma2<span class="token punctuation">)</span></code></pre>
+<h3 id="1-2-状态更新"><a href="#1-2-状态更新" class="headerlink" title="1.2 状态更新"></a>1.2 状态更新</h3><p>假设像贝叶斯定理一样，两个高斯函数相乘，$f_1\left ( x \right )=\frac{1}{\sqrt{2\pi \delta ^{2}}}exp^{-\frac{1}{2}\frac{\left ( x - \mu \right )^{2}}{\delta ^2}}$ 和$ f_2\left ( x \right )=\frac{1}{\sqrt{2\pi \gamma ^{2}}}exp^{-\frac{1}{2}\frac{\left ( x - \nu  \right )^2}{\gamma ^2}}$，相乘后获得新的高斯函数$f_3\left ( x \right )=\frac{1}{\sqrt{2\pi \delta ^{2’}}}exp^{-\frac{1}{2}\frac{\left ( x - {\mu}’ \right )^{2}}{\delta ^{2’}}}$，其中$f_3\left ( x \right )$ 的波峰处于$f_1\left ( x \right )$，$f_2\left ( x \right )$两个尖峰之间，且更细高，一个相对确定的分布，计算公式为${\mu}’= \frac{1}{\delta ^2+\gamma ^2}[\gamma ^2\mu + \delta ^2\nu ]$，$\delta^{2’}= \frac{1}{\frac{1}{\delta ^2}+\frac{1}{\gamma ^2}}$。</p>
+<center><img width="300" height="100" src="http://pwh3vw6xp.bkt.clouddn.com/9_gaussian.png">
 </center>
 
-<h3 id="3-3-参考"><a href="#3-3-参考" class="headerlink" title="3.3 参考"></a>3.3 参考</h3><ul>
-<li><p><a href="https://github.com/suljaxm/Turtle-Communication_ROS/blob/master/src/robot_vision/scripts/face_detector.py" target="_blank" rel="noopener">基于人脸检测</a></p>
-</li>
-<li><p><a href="https://github.com/suljaxm/Turtle-Communication_ROS/blob/master/src/tensorflow_object_detector/scripts/detect_ros.py" target="_blank" rel="noopener">基于水杯检测</a></p>
-</li>
-</ul>
+<pre class=" language-python"><code class="language-python"><span class="token keyword">def</span> <span class="token function">update</span><span class="token punctuation">(</span>mean1<span class="token punctuation">,</span> var1<span class="token punctuation">,</span> mean2<span class="token punctuation">,</span> var2<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    new_mean <span class="token operator">=</span> <span class="token number">1</span><span class="token operator">/</span><span class="token punctuation">(</span>var1<span class="token operator">+</span>var2<span class="token punctuation">)</span><span class="token operator">*</span><span class="token punctuation">(</span>var1<span class="token operator">*</span>mean2<span class="token operator">+</span>var2<span class="token operator">*</span>mean1<span class="token punctuation">)</span>
+    new_var <span class="token operator">=</span> <span class="token number">1</span><span class="token operator">/</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token operator">/</span>var1 <span class="token operator">+</span> <span class="token number">1</span><span class="token operator">/</span>var2<span class="token punctuation">)</span>
+    <span class="token keyword">return</span> <span class="token punctuation">[</span>new_mean<span class="token punctuation">,</span> new_var<span class="token punctuation">]</span></code></pre>
+<h3 id="1-3-高斯运动预测"><a href="#1-3-高斯运动预测" class="headerlink" title="1.3 高斯运动预测"></a>1.3 高斯运动预测</h3><p>预测函数是两个函数的相加，${\mu}’= \mu + \nu $，$\delta^{2’}= \delta ^2+\gamma ^2$。</p>
+<pre class=" language-python"><code class="language-python"><span class="token keyword">def</span> <span class="token function">predict</span><span class="token punctuation">(</span>mean1<span class="token punctuation">,</span> var1<span class="token punctuation">,</span> mean2<span class="token punctuation">,</span> var2<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    new_mean <span class="token operator">=</span> mean1 <span class="token operator">+</span> mean2
+    new_var <span class="token operator">=</span> var1 <span class="token operator">+</span> var2
+    <span class="token keyword">return</span> <span class="token punctuation">[</span>new_mean<span class="token punctuation">,</span> new_var<span class="token punctuation">]</span></code></pre>
+<h2 id="二、卡尔曼滤波"><a href="#二、卡尔曼滤波" class="headerlink" title="二、卡尔曼滤波"></a>二、卡尔曼滤波</h2><h3 id="2-1-介绍"><a href="#2-1-介绍" class="headerlink" title="2.1 介绍"></a>2.1 介绍</h3><p>卡尔曼滤波器本质上是一个预测和更新的估算问题，之前一维高斯函数的根据观测状态$f_2$分布，与预测状态$f_1$分布，获得当前状态$f_3$分布，这种可以由两种相对不确定分布推导相对确定分布，是卡尔曼滤波的核心思想。</p>
+<h3 id="2-2-理论"><a href="#2-2-理论" class="headerlink" title="2.2 理论"></a>2.2 理论</h3><p>下面是卡尔曼滤波器抽象出的7个步骤，</p>
+<center><img width="250" height="250" src="http://pwh3vw6xp.bkt.clouddn.com/9_KF.png">
+</center>
+$x$表示滤波器的状态向量，$F$是状态转移矩阵，${x}' = Fx+u$，表示了状态 $x\to x^{'}$ 的过程，是前一个状态对当前状态的预测。$P$是状态协方差矩阵，$Q$是过程噪声，$P^{'}=FPF^{T}+Q$ 表示了 $P\to P^{'}$ 的过程，是前一个不确定程度对当前状态的不确定程度的预测。
+
+<p>$z$表示观测状态量，$H$是测量矩阵，$y=z-H{x}’$表示了观测值和与预测值的差值。$R$是测量噪声矩阵，$K$为卡尔曼增益，是状态更新中的权重，在$x={x}’+Ky$中是y的权值，而在$P=(I-KH){P}’$中是${P}’$的权值。<br>卡尔曼滤波器的最后两个步骤是滤波器的闭环。$x={x}’+Ky$表示当前状态向量$x$的更新，$P=(I-KH){P}’$表示系统的不确定度$P$的更新，这些都被用于下一个周期的运算。</p>
+<h3 id="2-3-实例（一维追踪）"><a href="#2-3-实例（一维追踪）" class="headerlink" title="2.3 实例（一维追踪）"></a>2.3 实例（一维追踪）</h3><p>假设在恒定速度$v$的前提下，预测物体的位置$s$，这是一维卡尔曼滤波器的追踪问题，其中状态向量x为 $[s,v]^{T}$，因为v保持不变，则当$\Delta t = 1s$时，$F$表示为$[[1., 1.], [0, 1.]]$，当前预测的状态${x}’$为</p>
+<center><img width="240" height="40" src="http://pwh3vw6xp.bkt.clouddn.com/9_get_x%27.gif"></center>
+$P$的初始值可以设置为$[[1000., 0.], [0., 1000.]]$，意味着速度和位置是两个不相关的变量，因为观测值只有$s$，则$H$为$[[1., 0.]]$。因为实例是简化的模型，所以$Q$和$R$都设置为0，一般情况下，$Q$是那些$P$无法表示的噪声，而$R$由传感器厂家提供。
+
+<pre class=" language-python"><code class="language-python"><span class="token comment" spellcheck="true"># 卡尔曼滤波，对当前位置的估计</span>
+<span class="token keyword">def</span> <span class="token function">kalman_filter</span><span class="token punctuation">(</span>x<span class="token punctuation">,</span> P<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">for</span> n <span class="token keyword">in</span> range<span class="token punctuation">(</span>len<span class="token punctuation">(</span>measurements<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+
+        <span class="token comment" spellcheck="true"># measurement update</span>
+        z <span class="token operator">=</span> matrix<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token punctuation">[</span>measurements<span class="token punctuation">[</span>n<span class="token punctuation">]</span><span class="token punctuation">]</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+        y <span class="token operator">=</span> z <span class="token operator">-</span> H<span class="token operator">*</span>x
+        S <span class="token operator">=</span> H<span class="token operator">*</span>P<span class="token operator">*</span>H<span class="token punctuation">.</span>transpose<span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">+</span> R
+        K <span class="token operator">=</span> P<span class="token operator">*</span>H<span class="token punctuation">.</span>transpose<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">*</span>S<span class="token punctuation">.</span>inverse<span class="token punctuation">(</span><span class="token punctuation">)</span>
+        x <span class="token operator">=</span> x <span class="token operator">+</span> <span class="token punctuation">(</span>K<span class="token operator">*</span>y<span class="token punctuation">)</span>
+        P <span class="token operator">=</span> <span class="token punctuation">(</span>I <span class="token operator">-</span> <span class="token punctuation">(</span>K<span class="token operator">*</span>H<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token operator">*</span>P
+
+        <span class="token comment" spellcheck="true"># prediction</span>
+        x <span class="token operator">=</span> <span class="token punctuation">(</span>F<span class="token operator">*</span>x<span class="token punctuation">)</span> <span class="token operator">+</span> u
+        P <span class="token operator">=</span> F<span class="token operator">*</span>P<span class="token operator">*</span>F<span class="token punctuation">.</span>transpose<span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+    <span class="token keyword">return</span> x<span class="token punctuation">,</span>P
+
+measurements <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">]</span>
+
+x <span class="token operator">=</span> matrix<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">.</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">.</span><span class="token punctuation">]</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token comment" spellcheck="true"># initial state (location and velocity)</span>
+P <span class="token operator">=</span> matrix<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token punctuation">[</span><span class="token number">1000</span><span class="token punctuation">.</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">.</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">.</span><span class="token punctuation">,</span> <span class="token number">1000</span><span class="token punctuation">.</span><span class="token punctuation">]</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token comment" spellcheck="true"># initial uncertainty</span>
+u <span class="token operator">=</span> matrix<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">.</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">.</span><span class="token punctuation">]</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token comment" spellcheck="true"># external motion</span>
+F <span class="token operator">=</span> matrix<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">.</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">.</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">.</span><span class="token punctuation">]</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token comment" spellcheck="true"># next state function</span>
+H <span class="token operator">=</span> matrix<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">.</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">.</span><span class="token punctuation">]</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token comment" spellcheck="true"># measurement function</span>
+R <span class="token operator">=</span> matrix<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">.</span><span class="token punctuation">]</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token comment" spellcheck="true"># measurement uncertainty</span>
+I <span class="token operator">=</span> matrix<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">.</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">.</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">.</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">.</span><span class="token punctuation">]</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token comment" spellcheck="true"># identity matrix</span>
+
+<span class="token keyword">print</span><span class="token punctuation">(</span>kalman_filter<span class="token punctuation">(</span>x<span class="token punctuation">,</span> P<span class="token punctuation">)</span><span class="token punctuation">)</span>
+<span class="token comment" spellcheck="true"># output should be:</span>
+<span class="token comment" spellcheck="true"># x: [[3.9996664447958645], [0.9999998335552873]]</span>
+<span class="token comment" spellcheck="true"># P: [[2.3318904241194827, 0.9991676099921091], [0.9991676099921067, 0.49950058263974184]]</span></code></pre>
+<h3 id="2-4-实例（二维追踪）"><a href="#2-4-实例（二维追踪）" class="headerlink" title="2.4 实例（二维追踪）"></a>2.4 实例（二维追踪）</h3><p>假设传感器为激光雷达，可以提供二维测量数据，首先要定义状态转移矩阵$F$，来估算二维位置$(s_x, s_y)$和二维速度$(v_x,v_y)$，则当$\Delta t = 1s$时，$F$表示为$[[1, 0,1,0], [0, 1,0,0,1],[0,0,1,0],[0,0,0,1]]$，当前预测的状态$x^{‘}$为</p>
+<center><img width="400" height="80" src="http://pwh3vw6xp.bkt.clouddn.com/9_get_x2%27.gif"></center>
+又因为激光雷达只能测量距离，则对应的测量矩阵$H=[[1,0,0,0],[0,1,0,0]]$，而只能测量距离不能测量速度的性质，体现在协方差矩阵上就是位置测量的不确定度较低，速度测量的不确定度较高，则$P = [[1,0,0,0],[0,1,0,0],[0,0,1000,0],[0,0,0,1000]]$。该处理方式和一维追踪中的相同。
+
+<h2 id="三、扩展卡尔曼滤波"><a href="#三、扩展卡尔曼滤波" class="headerlink" title="三、扩展卡尔曼滤波"></a>三、扩展卡尔曼滤波</h2><h3 id="3-1-介绍"><a href="#3-1-介绍" class="headerlink" title="3.1 介绍"></a>3.1 介绍</h3><p>扩展卡尔曼滤波是为了解决不同传感器融合时采集数据不统一的问题，比如激光雷达的观测值是在笛卡尔坐标系的，而毫米波雷达的观测值是在极坐标系的，在进行传感器融合时，需要统一坐标系，但是当坐标系转换时会引入非线性变化，于是这种非线性的卡尔曼滤波就称为扩展卡尔曼滤波。</p>
+<h3 id="3-2-毫米波雷达"><a href="#3-2-毫米波雷达" class="headerlink" title="3.2 毫米波雷达"></a>3.2 毫米波雷达</h3><p>毫米波雷达的原理是多普勒效应，其测量的数据都是在极坐标系下的，状态向量x为$[\rho ,\phi, \dot{\rho } ]^T$。$\rho$为目标在极坐标下离雷达的距离，$\phi$为方向角，$\dot{\rho }$为距离的变化率。<br>因为预测的状态向量${x}’$为$ [{s_x}’, {s_y}’, {v_x}’,{v_y}’]^T$，则观测值和与预测值的差值</p>
+<center><img width="300" height="100" src="http://pwh3vw6xp.bkt.clouddn.com/9_h%28x%29.gif"></center>
+
+<p>这种非线性的模型时，习惯于将计算差值$y=z-H{x}’$中的$H{x}’$用$h({x}’)$表示。此时$H{x}’$不在是常数矩阵，高斯分布在经过非线性函数的变换后，其结果将不再符合高斯分布，这直接导致卡尔曼滤波器失效。因此我们需要将$h({x}’)$先转化为近似的线性函数。$y=h(x)$可通过泰勒公式在点$(x_0,y_0)$处展开为泰勒级数，并忽略二次以上的高阶项，于是可以如下的式子，<br>$h(x)\approx h(x_0)+\dot{h}(x_0)(x-x_0)$<br>其中，$\dot{h}(x_0)$ 表示$h(x)$在$x_0$处对$x$的偏导，即$\dot{h}(x_0) =\frac{\partial h(x_0)}{\partial x}$，这一项被称为雅可比（Jacobian）式。<br>求得非线性函数$h(x’)$对${s_x}’$，${s_y}’$，${v_x}’$，${v_y}’$的一阶偏导数，并排列成的矩阵，最终得到雅克比（Jacobian）矩阵$H_{3\times 4 }$，</p>
+<center><img width="250" height="100" src="http://pwh3vw6xp.bkt.clouddn.com/9_h34.gif"></center>
+
+<p>将$\rho ,\phi, \dot{\rho }$带入上述公式可得实际的测量矩阵$H_{3\times 4 }$，</p>
+<center><img width="450" height="200" src="http://pwh3vw6xp.bkt.clouddn.com/9_h34_0.png"></center>
+
+<p>其余是卡尔曼滤波的标准步骤。</p>
+<h2 id="四、总结"><a href="#四、总结" class="headerlink" title="四、总结"></a>四、总结</h2><p>扩展卡尔曼滤波，只是增加了对非线性观察矩阵H的线性化处理，依此来满足高斯分布的性质，即高斯分布在经过预测和测量值更新后，还是符合高斯分布。<br>卡尔曼滤波器的这些性质适合融合多个传感器，以此减少单个传感器的误差，降低了单个传感器的精度成本。</p>
+<p>参考<br><a href="https://mp.weixin.qq.com/s/hZQFtHYt0S924JPUCCd7MA" target="_blank" rel="noopener"> 手把手教你写卡尔曼滤波器</a><br><a href="https://mp.weixin.qq.com/s/YO7FVJ1-7L9H2VwVO4NJ2A" target="_blank" rel="noopener">手把手教你写扩展卡尔曼滤波器</a></p>
 
             </div>
             <hr/>
@@ -653,9 +673,9 @@ h5py<span class="token operator">==</span><span class="token number">2.6</span><
             <br/>
             <span xmlns:dct="http://purl.org/dc/terms/" href="http://purl.org/dc/dcmitype/Text"
                   property="dct:title" rel="dct:type">
-                    《遥控四轮车（视觉处理）》
+                    《卡尔曼滤波器》
                 </span> 由
-            <a xmlns:cc="http://creativecommons.org/ns#" href="/2019/08/24/ros/yao-kong-si-lun-che/" property="cc:attributionName"
+            <a xmlns:cc="http://creativecommons.org/ns#" href="/2019/08/28/wu-ren-jia-shi/kalman-filter/" property="cc:attributionName"
                rel="cc:attributionURL">
                 kieranych
             </a> 采用
@@ -695,9 +715,68 @@ h5py<span class="token operator">==</span><span class="token number">2.6</span><
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6 overflow-policy" data-aos="fade-up">
+        <div class="article col s12 m6 overflow-policy" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fa fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="fa fa-dot-circle-o"></i>&nbsp;本篇
+            </div>
+            <div class="card">
+                <a href="/2019/08/28/wu-ren-jia-shi/kalman-filter/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/23.jpg" class="responsive-img" alt="卡尔曼滤波器">
+                        
+                        <span class="card-title">卡尔曼滤波器</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            多传感器融合的方式
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2019-08-28
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fa fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/无人驾驶/" class="post-category" target="_blank">
+                                    无人驾驶
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/C/" target="_blank">
+                        <span class="chip bg-color">C++</span>
+                    </a>
+                    
+                    <a href="/tags/Python/" target="_blank">
+                        <span class="chip bg-color">Python</span>
+                    </a>
+                    
+                    <a href="/tags/无人车/" target="_blank">
+                        <span class="chip bg-color">无人车</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6 overflow-policy" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fa fa-chevron-right"></i>
+            </div>
             <div class="card">
                 <a href="/2019/08/24/ros/yao-kong-si-lun-che-voice/">
                     <div class="card-image">
@@ -715,9 +794,9 @@ h5py<span class="token operator">==</span><span class="token number">2.6</span><
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="fa fa-clock-o fa-fw icon-date"></i>2019-08-24
-                        </span>
+                            <span class="publish-date">
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2019-08-24
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fa fa-bookmark fa-fw icon-category"></i>
@@ -747,59 +826,6 @@ h5py<span class="token operator">==</span><span class="token number">2.6</span><
                     
                     <a href="/tags/Python/" target="_blank">
                         <span class="chip bg-color">Python</span>
-                    </a>
-                    
-                </div>
-                
-            </div>
-        </div>
-        
-        
-        <div class="article col s12 m6 overflow-policy" data-aos="fade-up">
-            <div class="article-badge right-badge text-color">
-                下一篇&nbsp;<i class="fa fa-chevron-right"></i>
-            </div>
-            <div class="card">
-                <a href="/2019/08/20/ros/si-lun-che-fang-zhen-ping-tai-da-jian/">
-                    <div class="card-image">
-                        
-                        
-                        <img src="/medias/featureimages/13.jpg" class="responsive-img" alt="四轮车仿真平台搭建">
-                        
-                        <span class="card-title">四轮车仿真平台搭建</span>
-                    </div>
-                </a>
-                <div class="card-content article-content">
-                    <div class="summary block-with-text">
-                        
-                            Gazebo上的仿真，赋予模型碰撞属性和惯性参数。
-                        
-                    </div>
-                    <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="fa fa-clock-o fa-fw icon-date"></i>2019-08-20
-                            </span>
-                        <span class="publish-author">
-                            
-                            <i class="fa fa-bookmark fa-fw icon-category"></i>
-                            
-                            <a href="/categories/ROS/" class="post-category" target="_blank">
-                                    ROS
-                                </a>
-                            
-                            
-                        </span>
-                    </div>
-                </div>
-                
-                <div class="card-action article-tags">
-                    
-                    <a href="/tags/机器人/" target="_blank">
-                        <span class="chip bg-color">机器人</span>
-                    </a>
-                    
-                    <a href="/tags/XML/" target="_blank">
-                        <span class="chip bg-color">XML</span>
                     </a>
                     
                 </div>
