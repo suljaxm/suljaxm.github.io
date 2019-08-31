@@ -28,7 +28,8 @@
     </style>
 
     <script src="/libs/jquery/jquery-2.2.0.min.js"></script>
-<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
 
 
 <body>
@@ -377,10 +378,6 @@
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/C/" target="_blank">
-                                <span class="chip bg-color">C++</span>
-                            </a>
-                        
                             <a href="/tags/Python/" target="_blank">
                                 <span class="chip bg-color">Python</span>
                             </a>
@@ -440,33 +437,33 @@
         <div class="card-content article-card-content">
             <div id="articleContent">
                 <h2 id="一、高斯函数"><a href="#一、高斯函数" class="headerlink" title="一、高斯函数"></a>一、高斯函数</h2><h3 id="1-1-介绍"><a href="#1-1-介绍" class="headerlink" title="1.1 介绍"></a>1.1 介绍</h3><p>一维高斯函数的表达式为$f\left ( x \right )=\frac{1}{\sqrt{2\pi \delta ^{2}}}exp^{-\frac{1}{2}\frac{\left ( x - \mu \right )^{2}}{\delta ^2}}$，其中$\mu$为函数尖峰值，$\delta$为标准方差。</p>
-<pre class=" language-python"><code class="language-python"><span class="token keyword">def</span> <span class="token function">f</span><span class="token punctuation">(</span>mu<span class="token punctuation">,</span> sigma2<span class="token punctuation">,</span> x<span class="token punctuation">)</span><span class="token punctuation">:</span>
-    <span class="token keyword">return</span> <span class="token number">1</span><span class="token operator">/</span>sqrt<span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">.</span><span class="token operator">*</span>pi<span class="token operator">*</span>sigma2<span class="token punctuation">)</span> <span class="token operator">*</span> exp<span class="token punctuation">(</span><span class="token operator">-</span><span class="token punctuation">.</span><span class="token number">5</span><span class="token operator">*</span><span class="token punctuation">(</span>x<span class="token operator">-</span>mu<span class="token punctuation">)</span><span class="token operator">**</span><span class="token number">2</span> <span class="token operator">/</span> sigma2<span class="token punctuation">)</span></code></pre>
+<pre class="line-numbers language-python"><code class="language-python"><span class="token keyword">def</span> <span class="token function">f</span><span class="token punctuation">(</span>mu<span class="token punctuation">,</span> sigma2<span class="token punctuation">,</span> x<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">return</span> <span class="token number">1</span><span class="token operator">/</span>sqrt<span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">.</span><span class="token operator">*</span>pi<span class="token operator">*</span>sigma2<span class="token punctuation">)</span> <span class="token operator">*</span> exp<span class="token punctuation">(</span><span class="token operator">-</span><span class="token punctuation">.</span><span class="token number">5</span><span class="token operator">*</span><span class="token punctuation">(</span>x<span class="token operator">-</span>mu<span class="token punctuation">)</span><span class="token operator">**</span><span class="token number">2</span> <span class="token operator">/</span> sigma2<span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
 <h3 id="1-2-状态更新"><a href="#1-2-状态更新" class="headerlink" title="1.2 状态更新"></a>1.2 状态更新</h3><p>假设像贝叶斯定理一样，两个高斯函数相乘，$f_1\left ( x \right )=\frac{1}{\sqrt{2\pi \delta ^{2}}}exp^{-\frac{1}{2}\frac{\left ( x - \mu \right )^{2}}{\delta ^2}}$ 和$ f_2\left ( x \right )=\frac{1}{\sqrt{2\pi \gamma ^{2}}}exp^{-\frac{1}{2}\frac{\left ( x - \nu  \right )^2}{\gamma ^2}}$，相乘后获得新的高斯函数$f_3\left ( x \right )=\frac{1}{\sqrt{2\pi \delta ^{2’}}}exp^{-\frac{1}{2}\frac{\left ( x - {\mu}’ \right )^{2}}{\delta ^{2’}}}$，其中$f_3\left ( x \right )$ 的波峰处于$f_1\left ( x \right )$，$f_2\left ( x \right )$两个尖峰之间，且更细高，一个相对确定的分布，计算公式为${\mu}’= \frac{1}{\delta ^2+\gamma ^2}[\gamma ^2\mu + \delta ^2\nu ]$，$\delta^{2’}= \frac{1}{\frac{1}{\delta ^2}+\frac{1}{\gamma ^2}}$。</p>
-<center><img width="300" height="100" src="http://pwh3vw6xp.bkt.clouddn.com/9_gaussian.png">
+<center><img width="300" height="100" src="http://suljaxm.com/9_gaussian.png">
 </center>
 
-<pre class=" language-python"><code class="language-python"><span class="token keyword">def</span> <span class="token function">update</span><span class="token punctuation">(</span>mean1<span class="token punctuation">,</span> var1<span class="token punctuation">,</span> mean2<span class="token punctuation">,</span> var2<span class="token punctuation">)</span><span class="token punctuation">:</span>
+<pre class="line-numbers language-python"><code class="language-python"><span class="token keyword">def</span> <span class="token function">update</span><span class="token punctuation">(</span>mean1<span class="token punctuation">,</span> var1<span class="token punctuation">,</span> mean2<span class="token punctuation">,</span> var2<span class="token punctuation">)</span><span class="token punctuation">:</span>
     new_mean <span class="token operator">=</span> <span class="token number">1</span><span class="token operator">/</span><span class="token punctuation">(</span>var1<span class="token operator">+</span>var2<span class="token punctuation">)</span><span class="token operator">*</span><span class="token punctuation">(</span>var1<span class="token operator">*</span>mean2<span class="token operator">+</span>var2<span class="token operator">*</span>mean1<span class="token punctuation">)</span>
     new_var <span class="token operator">=</span> <span class="token number">1</span><span class="token operator">/</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token operator">/</span>var1 <span class="token operator">+</span> <span class="token number">1</span><span class="token operator">/</span>var2<span class="token punctuation">)</span>
-    <span class="token keyword">return</span> <span class="token punctuation">[</span>new_mean<span class="token punctuation">,</span> new_var<span class="token punctuation">]</span></code></pre>
+    <span class="token keyword">return</span> <span class="token punctuation">[</span>new_mean<span class="token punctuation">,</span> new_var<span class="token punctuation">]</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
 <h3 id="1-3-高斯运动预测"><a href="#1-3-高斯运动预测" class="headerlink" title="1.3 高斯运动预测"></a>1.3 高斯运动预测</h3><p>预测函数是两个函数的相加，${\mu}’= \mu + \nu $，$\delta^{2’}= \delta ^2+\gamma ^2$。</p>
-<pre class=" language-python"><code class="language-python"><span class="token keyword">def</span> <span class="token function">predict</span><span class="token punctuation">(</span>mean1<span class="token punctuation">,</span> var1<span class="token punctuation">,</span> mean2<span class="token punctuation">,</span> var2<span class="token punctuation">)</span><span class="token punctuation">:</span>
+<pre class="line-numbers language-python"><code class="language-python"><span class="token keyword">def</span> <span class="token function">predict</span><span class="token punctuation">(</span>mean1<span class="token punctuation">,</span> var1<span class="token punctuation">,</span> mean2<span class="token punctuation">,</span> var2<span class="token punctuation">)</span><span class="token punctuation">:</span>
     new_mean <span class="token operator">=</span> mean1 <span class="token operator">+</span> mean2
     new_var <span class="token operator">=</span> var1 <span class="token operator">+</span> var2
-    <span class="token keyword">return</span> <span class="token punctuation">[</span>new_mean<span class="token punctuation">,</span> new_var<span class="token punctuation">]</span></code></pre>
+    <span class="token keyword">return</span> <span class="token punctuation">[</span>new_mean<span class="token punctuation">,</span> new_var<span class="token punctuation">]</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
 <h2 id="二、卡尔曼滤波"><a href="#二、卡尔曼滤波" class="headerlink" title="二、卡尔曼滤波"></a>二、卡尔曼滤波</h2><h3 id="2-1-介绍"><a href="#2-1-介绍" class="headerlink" title="2.1 介绍"></a>2.1 介绍</h3><p>卡尔曼滤波器本质上是一个预测和更新的估算问题，之前一维高斯函数的根据观测状态$f_2$分布，与预测状态$f_1$分布，获得当前状态$f_3$分布，这种可以由两种相对不确定分布推导相对确定分布，是卡尔曼滤波的核心思想。</p>
 <h3 id="2-2-理论"><a href="#2-2-理论" class="headerlink" title="2.2 理论"></a>2.2 理论</h3><p>下面是卡尔曼滤波器抽象出的7个步骤，</p>
-<center><img width="250" height="250" src="http://pwh3vw6xp.bkt.clouddn.com/9_KF.png">
+<center><img width="250" height="250" src="http://suljaxm.com/9_KF.png">
 </center>
 $x$表示滤波器的状态向量，$F$是状态转移矩阵，${x}' = Fx+u$，表示了状态 $x\to x^{'}$ 的过程，是前一个状态对当前状态的预测。$P$是状态协方差矩阵，$Q$是过程噪声，$P^{'}=FPF^{T}+Q$ 表示了 $P\to P^{'}$ 的过程，是前一个不确定程度对当前状态的不确定程度的预测。
 
 <p>$z$表示观测状态量，$H$是测量矩阵，$y=z-H{x}’$表示了观测值和与预测值的差值。$R$是测量噪声矩阵，$K$为卡尔曼增益，是状态更新中的权重，在$x={x}’+Ky$中是y的权值，而在$P=(I-KH){P}’$中是${P}’$的权值。<br>卡尔曼滤波器的最后两个步骤是滤波器的闭环。$x={x}’+Ky$表示当前状态向量$x$的更新，$P=(I-KH){P}’$表示系统的不确定度$P$的更新，这些都被用于下一个周期的运算。</p>
 <h3 id="2-3-实例（一维追踪）"><a href="#2-3-实例（一维追踪）" class="headerlink" title="2.3 实例（一维追踪）"></a>2.3 实例（一维追踪）</h3><p>假设在恒定速度$v$的前提下，预测物体的位置$s$，这是一维卡尔曼滤波器的追踪问题，其中状态向量x为 $[s,v]^{T}$，因为v保持不变，则当$\Delta t = 1s$时，$F$表示为$[[1., 1.], [0, 1.]]$，当前预测的状态${x}’$为</p>
-<center><img width="240" height="40" src="http://pwh3vw6xp.bkt.clouddn.com/9_get_x%27.gif"></center>
+<center><img width="240" height="40" src="http://suljaxm.com/9_get_x%27.gif"></center>
 $P$的初始值可以设置为$[[1000., 0.], [0., 1000.]]$，意味着速度和位置是两个不相关的变量，因为观测值只有$s$，则$H$为$[[1., 0.]]$。因为实例是简化的模型，所以$Q$和$R$都设置为0，一般情况下，$Q$是那些$P$无法表示的噪声，而$R$由传感器厂家提供。
 
-<pre class=" language-python"><code class="language-python"><span class="token comment" spellcheck="true"># 卡尔曼滤波，对当前位置的估计</span>
+<pre class="line-numbers language-python"><code class="language-python"><span class="token comment" spellcheck="true"># 卡尔曼滤波，对当前位置的估计</span>
 <span class="token keyword">def</span> <span class="token function">kalman_filter</span><span class="token punctuation">(</span>x<span class="token punctuation">,</span> P<span class="token punctuation">)</span><span class="token punctuation">:</span>
     <span class="token keyword">for</span> n <span class="token keyword">in</span> range<span class="token punctuation">(</span>len<span class="token punctuation">(</span>measurements<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
 
@@ -497,20 +494,20 @@ I <span class="token operator">=</span> matrix<span class="token punctuation">(<
 <span class="token keyword">print</span><span class="token punctuation">(</span>kalman_filter<span class="token punctuation">(</span>x<span class="token punctuation">,</span> P<span class="token punctuation">)</span><span class="token punctuation">)</span>
 <span class="token comment" spellcheck="true"># output should be:</span>
 <span class="token comment" spellcheck="true"># x: [[3.9996664447958645], [0.9999998335552873]]</span>
-<span class="token comment" spellcheck="true"># P: [[2.3318904241194827, 0.9991676099921091], [0.9991676099921067, 0.49950058263974184]]</span></code></pre>
+<span class="token comment" spellcheck="true"># P: [[2.3318904241194827, 0.9991676099921091], [0.9991676099921067, 0.49950058263974184]]</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <h3 id="2-4-实例（二维追踪）"><a href="#2-4-实例（二维追踪）" class="headerlink" title="2.4 实例（二维追踪）"></a>2.4 实例（二维追踪）</h3><p>假设传感器为激光雷达，可以提供二维测量数据，首先要定义状态转移矩阵$F$，来估算二维位置$(s_x, s_y)$和二维速度$(v_x,v_y)$，则当$\Delta t = 1s$时，$F$表示为$[[1, 0,1,0], [0, 1,0,0,1],[0,0,1,0],[0,0,0,1]]$，当前预测的状态$x^{‘}$为</p>
-<center><img width="400" height="80" src="http://pwh3vw6xp.bkt.clouddn.com/9_get_x2%27.gif"></center>
+<center><img width="400" height="80" src="http://suljaxm.com/9_get_x2%27.gif"></center>
 又因为激光雷达只能测量距离，则对应的测量矩阵$H=[[1,0,0,0],[0,1,0,0]]$，而只能测量距离不能测量速度的性质，体现在协方差矩阵上就是位置测量的不确定度较低，速度测量的不确定度较高，则$P = [[1,0,0,0],[0,1,0,0],[0,0,1000,0],[0,0,0,1000]]$。该处理方式和一维追踪中的相同。
 
 <h2 id="三、扩展卡尔曼滤波"><a href="#三、扩展卡尔曼滤波" class="headerlink" title="三、扩展卡尔曼滤波"></a>三、扩展卡尔曼滤波</h2><h3 id="3-1-介绍"><a href="#3-1-介绍" class="headerlink" title="3.1 介绍"></a>3.1 介绍</h3><p>扩展卡尔曼滤波是为了解决不同传感器融合时采集数据不统一的问题，比如激光雷达的观测值是在笛卡尔坐标系的，而毫米波雷达的观测值是在极坐标系的，在进行传感器融合时，需要统一坐标系，但是当坐标系转换时会引入非线性变化，于是这种非线性的卡尔曼滤波就称为扩展卡尔曼滤波。</p>
 <h3 id="3-2-毫米波雷达"><a href="#3-2-毫米波雷达" class="headerlink" title="3.2 毫米波雷达"></a>3.2 毫米波雷达</h3><p>毫米波雷达的原理是多普勒效应，其测量的数据都是在极坐标系下的，状态向量x为$[\rho ,\phi, \dot{\rho } ]^T$。$\rho$为目标在极坐标下离雷达的距离，$\phi$为方向角，$\dot{\rho }$为距离的变化率。<br>因为预测的状态向量${x}’$为$ [{s_x}’, {s_y}’, {v_x}’,{v_y}’]^T$，则观测值和与预测值的差值</p>
-<center><img width="300" height="100" src="http://pwh3vw6xp.bkt.clouddn.com/9_h%28x%29.gif"></center>
+<center><img width="300" height="100" src="http://suljaxm.com/9_h%28x%29.gif"></center>
 
 <p>这种非线性的模型时，习惯于将计算差值$y=z-H{x}’$中的$H{x}’$用$h({x}’)$表示。此时$H{x}’$不在是常数矩阵，高斯分布在经过非线性函数的变换后，其结果将不再符合高斯分布，这直接导致卡尔曼滤波器失效。因此我们需要将$h({x}’)$先转化为近似的线性函数。$y=h(x)$可通过泰勒公式在点$(x_0,y_0)$处展开为泰勒级数，并忽略二次以上的高阶项，于是可以如下的式子，<br>$h(x)\approx h(x_0)+\dot{h}(x_0)(x-x_0)$<br>其中，$\dot{h}(x_0)$ 表示$h(x)$在$x_0$处对$x$的偏导，即$\dot{h}(x_0) =\frac{\partial h(x_0)}{\partial x}$，这一项被称为雅可比（Jacobian）式。<br>求得非线性函数$h(x’)$对${s_x}’$，${s_y}’$，${v_x}’$，${v_y}’$的一阶偏导数，并排列成的矩阵，最终得到雅克比（Jacobian）矩阵$H_{3\times 4 }$，</p>
-<center><img width="250" height="100" src="http://pwh3vw6xp.bkt.clouddn.com/9_h34.gif"></center>
+<center><img width="250" height="100" src="http://suljaxm.com/9_h34.gif"></center>
 
 <p>将$\rho ,\phi, \dot{\rho }$带入上述公式可得实际的测量矩阵$H_{3\times 4 }$，</p>
-<center><img width="450" height="200" src="http://pwh3vw6xp.bkt.clouddn.com/9_h34_0.png"></center>
+<center><img width="450" height="200" src="http://suljaxm.com/9_h34_0.png"></center>
 
 <p>其余是卡尔曼滤波的标准步骤。</p>
 <h2 id="四、总结"><a href="#四、总结" class="headerlink" title="四、总结"></a>四、总结</h2><p>扩展卡尔曼滤波，只是增加了对非线性观察矩阵H的线性化处理，依此来满足高斯分布的性质，即高斯分布在经过预测和测量值更新后，还是符合高斯分布。<br>卡尔曼滤波器的这些性质适合融合多个传感器，以此减少单个传感器的误差，降低了单个传感器的精度成本。</p>
@@ -715,56 +712,50 @@ I <span class="token operator">=</span> matrix<span class="token punctuation">(<
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6 overflow-policy" data-aos="fade-up" data-aos="fade-up">
+        <div class="article col s12 m6 overflow-policy" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fa fa-dot-circle-o"></i>&nbsp;本篇
-            </div>
+                <i class="fa fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2019/08/28/wu-ren-jia-shi/kalman-filter/">
+                <a href="/2019/08/31/ros/slam/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/23.jpg" class="responsive-img" alt="卡尔曼滤波器">
+                        <img src="/medias/featureimages/15.jpg" class="responsive-img" alt="SLAM建图">
                         
-                        <span class="card-title">卡尔曼滤波器</span>
+                        <span class="card-title">SLAM建图</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            多传感器融合的方式
+                            借助SLAM功能包进行小车对周围环境的建图和自身的定位
                         
                     </div>
                     <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="fa fa-clock-o fa-fw icon-date"></i>2019-08-28
-                            </span>
+                        <span class="publish-date">
+                            <i class="fa fa-clock-o fa-fw icon-date"></i>2019-08-31
+                        </span>
                         <span class="publish-author">
                             
                             <i class="fa fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/无人驾驶/" class="post-category" target="_blank">
-                                    无人驾驶
+                            <a href="/categories/ROS/" class="post-category" target="_blank">
+                                    ROS
                                 </a>
                             
                             
                         </span>
                     </div>
                 </div>
-
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/C/" target="_blank">
-                        <span class="chip bg-color">C++</span>
+                    <a href="/tags/XML/" target="_blank">
+                        <span class="chip bg-color">XML</span>
                     </a>
                     
-                    <a href="/tags/Python/" target="_blank">
-                        <span class="chip bg-color">Python</span>
-                    </a>
-                    
-                    <a href="/tags/无人车/" target="_blank">
-                        <span class="chip bg-color">无人车</span>
+                    <a href="/tags/机器人/" target="_blank">
+                        <span class="chip bg-color">机器人</span>
                     </a>
                     
                 </div>
@@ -812,16 +803,16 @@ I <span class="token operator">=</span> matrix<span class="token punctuation">(<
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/C/" target="_blank">
-                        <span class="chip bg-color">C++</span>
+                    <a href="/tags/XML/" target="_blank">
+                        <span class="chip bg-color">XML</span>
                     </a>
                     
                     <a href="/tags/机器人/" target="_blank">
                         <span class="chip bg-color">机器人</span>
                     </a>
                     
-                    <a href="/tags/XML/" target="_blank">
-                        <span class="chip bg-color">XML</span>
+                    <a href="/tags/C/" target="_blank">
+                        <span class="chip bg-color">C++</span>
                     </a>
                     
                     <a href="/tags/Python/" target="_blank">
@@ -987,7 +978,7 @@ I <span class="token operator">=</span> matrix<span class="token punctuation">(<
            &copy;<a href="https://suljaxm.github.io/" target="_blank">2019 SULJAXM. All Rights Reserved.
             
                 &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
-                <span class="white-color">10.4k</span>
+                <span class="white-color">11.1k</span>
             
 
             <br>

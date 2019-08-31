@@ -4,14 +4,13 @@
 
 <head><meta name="generator" content="Hexo 3.9.0">
     <meta charset="utf-8">
-    <meta name="keywords" content="ROS初识, 木匠">
-    <meta name="description" content="一、启动1.1核心服务点roscore       #核心服务点
-1.2仿真节点rosrun turtlesim turtlesim_node   #仿真节点
+    <meta name="keywords" content="SLAM建图, 木匠">
+    <meta name="description" content="一、SLAM1.1 介绍SLAM是机器人自身位置不确定的情况下，在完全未知的环境中创建地图，同时利用地图进行自主定位。
 
-Figure 1. node
-  
+定位：机器人根据周围环境估计自身在地图上的位置坐标。
+地图构建：机器人根据传感器的结果来构建一张地图。
 
-二、创建新的海龟turtle3rosse">
+1.2 原理">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -19,7 +18,7 @@ Figure 1. node
     <meta name="format-detection" content="telephone=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>ROS初识 | 木匠</title>
+    <title>SLAM建图 | 木匠</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/font-awesome.min.css">
@@ -267,13 +266,13 @@ Figure 1. node
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/23.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/15.jpg')">
     <div class="container">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
                     <div class="description center-align post-title">
-                        ROS初识
+                        SLAM建图
                     </div>
                 </div>
             </div>
@@ -384,12 +383,12 @@ Figure 1. node
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/机器人/" target="_blank">
-                                <span class="chip bg-color">机器人</span>
+                            <a href="/tags/XML/" target="_blank">
+                                <span class="chip bg-color">XML</span>
                             </a>
                         
-                            <a href="/tags/C/" target="_blank">
-                                <span class="chip bg-color">C++</span>
+                            <a href="/tags/机器人/" target="_blank">
+                                <span class="chip bg-color">机器人</span>
                             </a>
                         
                     </div>
@@ -412,21 +411,21 @@ Figure 1. node
             <div class="post-info">
                 <div class="post-date info-break-policy">
                     <i class="fa fa-calendar-minus-o fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2019-07-24
+                    2019-08-31
                 </div>
 
                 
                     
                     <div class="info-break-policy">
                         <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
-                        156
+                        769
                     </div>
                     
 
                     
                     <div class="info-break-policy">
                         <i class="fa fa-clock-o fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                        1 分
+                        2 分
                     </div>
                     
                 
@@ -442,40 +441,75 @@ Figure 1. node
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h2 id="一、启动"><a href="#一、启动" class="headerlink" title="一、启动"></a>一、启动</h2><h3 id="1-1核心服务点"><a href="#1-1核心服务点" class="headerlink" title="1.1核心服务点"></a>1.1核心服务点</h3><pre class="line-numbers language-cpp"><code class="language-cpp">roscore       #核心服务点<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-<h3 id="1-2仿真节点"><a href="#1-2仿真节点" class="headerlink" title="1.2仿真节点"></a>1.2仿真节点</h3><pre class="line-numbers language-cpp"><code class="language-cpp">rosrun turtlesim turtlesim_node   #仿真节点<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-<center><img width="350" height="250" src="http://suljaxm.com/1_node.png">
-Figure 1. node
-</center>  
+                <h2 id="一、SLAM"><a href="#一、SLAM" class="headerlink" title="一、SLAM"></a>一、SLAM</h2><h3 id="1-1-介绍"><a href="#1-1-介绍" class="headerlink" title="1.1 介绍"></a>1.1 介绍</h3><p>SLAM是机器人自身位置不确定的情况下，在完全未知的环境中创建地图，同时利用地图进行自主定位。</p>
+<ul>
+<li>定位：机器人根据周围环境估计自身在地图上的位置坐标。</li>
+<li>地图构建：机器人根据传感器的结果来构建一张地图。</li>
+</ul>
+<h3 id="1-2-原理"><a href="#1-2-原理" class="headerlink" title="1.2 原理"></a>1.2 原理</h3><center><img width="400" height="350" src="http://suljaxm.com/10_slam_%E5%8E%9F%E7%90%86.png">
+</center>
 
-<h2 id="二、创建"><a href="#二、创建" class="headerlink" title="二、创建"></a>二、创建</h2><h3 id="新的海龟turtle3"><a href="#新的海龟turtle3" class="headerlink" title="新的海龟turtle3"></a>新的海龟turtle3</h3><pre class="line-numbers language-cpp"><code class="language-cpp">rosservice call <span class="token operator">/</span>spawn "x<span class="token operator">:</span> <span class="token number">5.0</span>
-y<span class="token operator">:</span> <span class="token number">0.0</span>
-theta<span class="token operator">:</span> <span class="token number">0.5</span>
-name<span class="token operator">:</span> <span class="token string">'turtle3'</span>"<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
-<h2 id="三、控制"><a href="#三、控制" class="headerlink" title="三、控制"></a>三、控制</h2><h3 id="海龟turtle3原地做圆周运动"><a href="#海龟turtle3原地做圆周运动" class="headerlink" title="海龟turtle3原地做圆周运动"></a>海龟turtle3原地做圆周运动</h3><pre class="line-numbers language-cpp"><code class="language-cpp">rostopic pub <span class="token operator">-</span>r <span class="token number">10</span> <span class="token operator">/</span>turtle3<span class="token operator">/</span>cmd_vel geometry_msgs<span class="token operator">/</span>Twist "linear<span class="token operator">:</span>
-  x<span class="token operator">:</span> <span class="token number">0.5</span>
-  y<span class="token operator">:</span> <span class="token number">0.0</span>
-  z<span class="token operator">:</span> <span class="token number">0.0</span>
-angular<span class="token operator">:</span>
-  x<span class="token operator">:</span> <span class="token number">0.0</span>
-  y<span class="token operator">:</span> <span class="token number">0.0</span>
-  z<span class="token operator">:</span> <span class="token number">1.0</span>"<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<center><img width="350" height="250" src="http://suljaxm.com/1_result.png">
-Figure 2. result
-</center>  
+<h2 id="二、数据结构"><a href="#二、数据结构" class="headerlink" title="二、数据结构"></a>二、数据结构</h2><h3 id="2-1-激光雷达"><a href="#2-1-激光雷达" class="headerlink" title="2.1 激光雷达"></a>2.1 激光雷达</h3><p>一般在slam中使用可以直接获得深度信息的传感器。以激光雷达为例，在终端上输入<code>rosmsg show sensor_msgs/LaserScan</code>可以获得其数据结构</p>
+<pre class="line-numbers language-cpp"><code class="language-cpp">std_msgs<span class="token operator">/</span>Header header
+  uint32 seq
+  time stamp
+  string frame_id
+float32 angle_min <span class="token comment" spellcheck="true">//可检测范围的起始角度</span>
+float32 angle_max <span class="token comment" spellcheck="true">//可检测范围的终止角度，与angle_min组成激光雷达的可检测范围</span>
+float32 angle_increment <span class="token comment" spellcheck="true">//相邻数据帧之间的角度步长</span>
+float32 time_increment <span class="token comment" spellcheck="true">//采集到相邻数据帧之间的时间步长，当传感器处于相对运动状态时进行补偿使用</span>
+float32 scan_time <span class="token comment" spellcheck="true">//采集一帧数据所需要的时间</span>
+float32 range_min <span class="token comment" spellcheck="true">//最近可检测深度的阈值</span>
+float32 range_max <span class="token comment" spellcheck="true">//最远可检测深度的阈值</span>
+float32<span class="token punctuation">[</span><span class="token punctuation">]</span> ranges <span class="token comment" spellcheck="true">//一帧深度数据的存储数组</span>
+float32<span class="token punctuation">[</span><span class="token punctuation">]</span> intensities<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>而RGB-D摄像头，也可以通过红外摄像头获取周围环境的深度信息，可以通过<code>depthimage_to_laserscan</code>功能包转化为激光雷达的数据。</p>
+<h3 id="2-2-里程计"><a href="#2-2-里程计" class="headerlink" title="2.2 里程计"></a>2.2 里程计</h3><p>机器人在定位时要用到其里程计，在终端上输入<code>rosmsg show nav_msgs/Odometry</code>可以获得其数据结构</p>
+<pre class="line-numbers language-cpp"><code class="language-cpp">std_msgs<span class="token operator">/</span>Header header
+  uint32 seq
+  time stamp
+  string frame_id
+string child_frame_id
+geometry_msgs<span class="token operator">/</span>PoseWithCovariance pose <span class="token comment" spellcheck="true">//机器人当前位置坐标，包括机器人的XYZ三轴位置和方向参数，以及用于校正误差的协方差矩阵</span>
+  geometry_msgs<span class="token operator">/</span>Pose pose 
+    geometry_msgs<span class="token operator">/</span>Point position
+      float64 x
+      float64 y
+      float64 z
+    geometry_msgs<span class="token operator">/</span>Quaternion orientation
+      float64 x
+      float64 y
+      float64 z
+      float64 w
+  float64<span class="token punctuation">[</span><span class="token number">36</span><span class="token punctuation">]</span> covariance
+geometry_msgs<span class="token operator">/</span>TwistWithCovariance twist <span class="token comment" spellcheck="true">//机器人当前的运动状态，包括XYZ三轴的线速度与角速度，以及用于校正误差的协方差矩阵</span>
+  geometry_msgs<span class="token operator">/</span>Twist twist
+    geometry_msgs<span class="token operator">/</span>Vector3 linear
+      float64 x
+      float64 y
+      float64 z
+    geometry_msgs<span class="token operator">/</span>Vector3 angular
+      float64 x
+      float64 y
+      float64 z
+  float64<span class="token punctuation">[</span><span class="token number">36</span><span class="token punctuation">]</span> covariance<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="三、SLAM功能包"><a href="#三、SLAM功能包" class="headerlink" title="三、SLAM功能包"></a>三、SLAM功能包</h2><h3 id="3-1-介绍"><a href="#3-1-介绍" class="headerlink" title="3.1 介绍"></a>3.1 介绍</h3><p>借助SLAM功能包，我们只需要输入特定格式的传感器信息，就可以自动建图和定位。在ROS中这种功能的包有很多，比如用于平面地图的gmapping，hector，cartographer等功能包，也有用于三维地图的rtabmap功能包。</p>
+<h3 id="3-2-gmapping"><a href="#3-2-gmapping" class="headerlink" title="3.2 gmapping"></a>3.2 gmapping</h3><p>以<a href="http://wiki.ros.org/gmapping" target="_blank" rel="noopener">gmapping功能包</a>为例，gmapping是基于二维激光雷达的slam建图定位的功能包，采用的是Rao-Blackwellized粒子滤波算法，最后输出的是二维栅格地图。gmapping的总体框架如下</p>
+<center><img width="350" height="200" src="http://suljaxm.com/10_gmapping.png">
+gmapping功能包的总体框架
+</center>
+深度信息，里程计信息，IMU信息是输入信息，其中前两个信息必须输入。
+### 3.3 应用
+我们借助gazebo，创建一个迷宫来测试gmapping功能包，
+<center><img width="450" height="300" src="http://suljaxm.com/10_maze.png">
+虚拟迷宫
+</center>
+gmapping的应用效果如下，我们可以看到随着小车的运动，未知环境开始构建地图
+<center><img width="450" height="200" src="http://suljaxm.com/10_gmapping.gif"></center>
 
-<h2 id="四、计算图"><a href="#四、计算图" class="headerlink" title="四、计算图"></a>四、计算图</h2><h3 id="查看海龟仿真系统对应的计算图"><a href="#查看海龟仿真系统对应的计算图" class="headerlink" title="查看海龟仿真系统对应的计算图"></a>查看海龟仿真系统对应的计算图</h3><pre class="line-numbers language-cpp"><code class="language-cpp">rqt_graph<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-<center><img width="450" height="250" src="http://suljaxm.com/1_topic%E5%8F%AF%E8%A7%86%E5%8C%96.png">
-Figure 3. topic可视化
-</center>  
-
-<h2 id="五、信息可视化"><a href="#五、信息可视化" class="headerlink" title="五、信息可视化"></a>五、信息可视化</h2><h3 id="5-1查看-turtle2-pose的可视化信息"><a href="#5-1查看-turtle2-pose的可视化信息" class="headerlink" title="5.1查看 /turtle2/pose的可视化信息"></a>5.1查看 /turtle2/pose的可视化信息</h3><pre class="line-numbers language-cpp"><code class="language-cpp">rqt_plot<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-<center><img width="450" height="250" src="http://suljaxm.com/1_%E8%AE%A1%E7%AE%97%E5%9B%BE.png">
-Figure 4. 计算图
-</center>  
 
 
-<h3 id="5-2查看-turtle2-pose的实时信息"><a href="#5-2查看-turtle2-pose的实时信息" class="headerlink" title="5.2查看 /turtle2/pose的实时信息"></a>5.2查看 /turtle2/pose的实时信息</h3><pre class="line-numbers language-cpp"><code class="language-cpp">rostopic echo <span class="token operator">/</span>turtle2<span class="token operator">/</span>pose<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>参考<br><a href="https://openslam-org.github.io/gmapping.html" target="_blank" rel="noopener">openslam</a></p>
 
             </div>
             <hr/>
@@ -634,9 +668,9 @@ Figure 4. 计算图
             <br/>
             <span xmlns:dct="http://purl.org/dc/terms/" href="http://purl.org/dc/dcmitype/Text"
                   property="dct:title" rel="dct:type">
-                    《ROS初识》
+                    《SLAM建图》
                 </span> 由
-            <a xmlns:cc="http://creativecommons.org/ns#" href="/2019/07/24/ros/ros-chu-shi/" property="cc:attributionName"
+            <a xmlns:cc="http://creativecommons.org/ns#" href="/2019/08/31/ros/slam/" property="cc:attributionName"
                rel="cc:attributionURL">
                 kieranych
             </a> 采用
@@ -676,29 +710,30 @@ Figure 4. 计算图
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6 overflow-policy" data-aos="fade-up">
+        <div class="article col s12 m6 overflow-policy" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fa fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="fa fa-dot-circle-o"></i>&nbsp;本篇
+            </div>
             <div class="card">
-                <a href="/2019/07/29/ros/ros-tong-xin-hai-gui-mo-ni-qi/">
+                <a href="/2019/08/31/ros/slam/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/22.jpg" class="responsive-img" alt="ROS通信(海龟模拟器)">
+                        <img src="/medias/featureimages/15.jpg" class="responsive-img" alt="SLAM建图">
                         
-                        <span class="card-title">ROS通信(海龟模拟器)</span>
+                        <span class="card-title">SLAM建图</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            ROS中的通信编辑
+                            借助SLAM功能包进行小车对周围环境的建图和自身的定位
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="fa fa-clock-o fa-fw icon-date"></i>2019-07-29
-                        </span>
+                            <span class="publish-date">
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2019-08-31
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fa fa-bookmark fa-fw icon-category"></i>
@@ -711,15 +746,16 @@ Figure 4. 计算图
                         </span>
                     </div>
                 </div>
+
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/机器人/" target="_blank">
-                        <span class="chip bg-color">机器人</span>
+                    <a href="/tags/XML/" target="_blank">
+                        <span class="chip bg-color">XML</span>
                     </a>
                     
-                    <a href="/tags/C/" target="_blank">
-                        <span class="chip bg-color">C++</span>
+                    <a href="/tags/机器人/" target="_blank">
+                        <span class="chip bg-color">机器人</span>
                     </a>
                     
                 </div>
@@ -733,24 +769,24 @@ Figure 4. 计算图
                 下一篇&nbsp;<i class="fa fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2019/06/05/wu-ren-jia-shi/behavioral-cloning/">
+                <a href="/2019/08/28/wu-ren-jia-shi/kalman-filter/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/23.jpg" class="responsive-img" alt="车辆行为克隆">
+                        <img src="/medias/featureimages/23.jpg" class="responsive-img" alt="卡尔曼滤波器">
                         
-                        <span class="card-title">车辆行为克隆</span>
+                        <span class="card-title">卡尔曼滤波器</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            运用神经网络预测汽车运行时的转向角
+                            多传感器融合的方式
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="fa fa-clock-o fa-fw icon-date"></i>2019-06-05
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2019-08-28
                             </span>
                         <span class="publish-author">
                             
@@ -773,10 +809,6 @@ Figure 4. 计算图
                     
                     <a href="/tags/无人车/" target="_blank">
                         <span class="chip bg-color">无人车</span>
-                    </a>
-                    
-                    <a href="/tags/DL/" target="_blank">
-                        <span class="chip bg-color">DL</span>
                     </a>
                     
                 </div>

@@ -28,7 +28,8 @@
     </style>
 
     <script src="/libs/jquery/jquery-2.2.0.min.js"></script>
-<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
 
 
 <body>
@@ -377,12 +378,12 @@
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/C/" target="_blank">
-                                <span class="chip bg-color">C++</span>
-                            </a>
-                        
                             <a href="/tags/机器人/" target="_blank">
                                 <span class="chip bg-color">机器人</span>
+                            </a>
+                        
+                            <a href="/tags/C/" target="_blank">
+                                <span class="chip bg-color">C++</span>
                             </a>
                         
                     </div>
@@ -436,15 +437,15 @@
         <div class="card-content article-card-content">
             <div id="articleContent">
                 <h2 id="一、发布指令"><a href="#一、发布指令" class="headerlink" title="一、发布指令"></a>一、发布指令</h2><h3 id="1-1-发布海龟速度指令，让海龟圆周运动"><a href="#1-1-发布海龟速度指令，让海龟圆周运动" class="headerlink" title="1.1 发布海龟速度指令，让海龟圆周运动"></a>1.1 发布海龟速度指令，让海龟圆周运动</h3><p>创建一个<strong>Publisher</strong>，发布名为<strong>turtle1/cmd_vel</strong>的<strong>topic</strong>，其消息类型为<strong>geometry_msgs::Twist</strong>，通过控制<strong>cmd_vel</strong>中<strong>linear</strong>下的<strong>x</strong>和<strong>angular</strong>下的<strong>z</strong>。</p>
-<pre class=" language-cpp"><code class="language-cpp">geometry_msgs<span class="token operator">/</span>Vector3 linear
+<pre class="line-numbers language-cpp"><code class="language-cpp">geometry_msgs<span class="token operator">/</span>Vector3 linear
   float64 x
   float64 y
   float64 z
 geometry_msgs<span class="token operator">/</span>Vector3 angular
   float64 x
   float64 y
-  float64 z</code></pre>
-<h3 id="1-2-参考代码"><a href="#1-2-参考代码" class="headerlink" title="1.2 参考代码"></a>1.2 参考代码</h3><pre class=" language-cpp"><code class="language-cpp"><span class="token macro property">#<span class="token directive keyword">include</span> <span class="token string">&lt;sstream></span></span>
+  float64 z<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="1-2-参考代码"><a href="#1-2-参考代码" class="headerlink" title="1.2 参考代码"></a>1.2 参考代码</h3><pre class="line-numbers language-cpp"><code class="language-cpp"><span class="token macro property">#<span class="token directive keyword">include</span> <span class="token string">&lt;sstream></span></span>
 <span class="token macro property">#<span class="token directive keyword">include</span> <span class="token string">"ros/ros.h"</span></span>
 <span class="token macro property">#<span class="token directive keyword">include</span> <span class="token string">"std_msgs/String.h"</span></span>
 <span class="token macro property">#<span class="token directive keyword">include</span> <span class="token string">"geometry_msgs/Twist.h"</span></span>
@@ -486,14 +487,14 @@ geometry_msgs<span class="token operator">/</span>Vector3 angular
     <span class="token punctuation">}</span>
 
     <span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
-<span class="token punctuation">}</span></code></pre>
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <h2 id="二、定阅"><a href="#二、定阅" class="headerlink" title="二、定阅"></a>二、定阅</h2><h3 id="2-1-海龟的位置，并在终端中周期打印输出"><a href="#2-1-海龟的位置，并在终端中周期打印输出" class="headerlink" title="2.1 海龟的位置，并在终端中周期打印输出"></a>2.1 海龟的位置，并在终端中周期打印输出</h3><p>创建一个<strong>Subscriber</strong>，订阅名为<strong>turtle1/pose</strong>的<strong>topic</strong>，其消息类型为<strong>turtlesim::Pose</strong>，注册回调函数<strong>chatterCallback_pose</strong>，而输出<strong>turtle1/pose</strong>中<strong>x</strong>， <strong>y</strong>，<strong>theta</strong>就是海龟<strong>turtle1</strong>的位置。</p>
-<pre class=" language-cpp"><code class="language-cpp">float32 x
+<pre class="line-numbers language-cpp"><code class="language-cpp">float32 x
 float32 y
 float32 theta
 float32 linear_velocity
-float32 angular_velocity</code></pre>
-<h3 id="2-2-参考代码："><a href="#2-2-参考代码：" class="headerlink" title="2.2 参考代码："></a>2.2 参考代码：</h3><pre class=" language-cpp"><code class="language-cpp"><span class="token macro property">#<span class="token directive keyword">include</span> <span class="token string">"ros/ros.h"</span></span>
+float32 angular_velocity<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="2-2-参考代码："><a href="#2-2-参考代码：" class="headerlink" title="2.2 参考代码："></a>2.2 参考代码：</h3><pre class="line-numbers language-cpp"><code class="language-cpp"><span class="token macro property">#<span class="token directive keyword">include</span> <span class="token string">"ros/ros.h"</span></span>
 <span class="token macro property">#<span class="token directive keyword">include</span> <span class="token string">"std_msgs/String.h"</span></span>
 <span class="token macro property">#<span class="token directive keyword">include</span> <span class="token string">"turtlesim/Pose.h"</span></span>
 <span class="token comment" spellcheck="true">// 接收到订阅的消息后，会进入消息回调函数</span>
@@ -522,13 +523,13 @@ float32 angular_velocity</code></pre>
     ros<span class="token operator">::</span><span class="token function">spin</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 
     <span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
-<span class="token punctuation">}</span></code></pre>
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <h2 id="三、-创建新服务"><a href="#三、-创建新服务" class="headerlink" title="三、 创建新服务"></a>三、 创建新服务</h2><h3 id="3-1-创建新海龟的服务，在仿真器中产生一只新海龟"><a href="#3-1-创建新海龟的服务，在仿真器中产生一只新海龟" class="headerlink" title="3.1 创建新海龟的服务，在仿真器中产生一只新海龟"></a>3.1 创建新海龟的服务，在仿真器中产生一只新海龟</h3><p>创建一个<strong>client</strong>，<strong>service</strong>消息类型是<strong>turtlesim::Spawn</strong>，向服务端传入设置好的海龟位置和名称(<strong>x y theta name</strong>)。</p>
-<pre class=" language-cpp"><code class="language-cpp">Node<span class="token operator">:</span> <span class="token operator">/</span>turtlesim
+<pre class="line-numbers language-cpp"><code class="language-cpp">Node<span class="token operator">:</span> <span class="token operator">/</span>turtlesim
 URI<span class="token operator">:</span> rosrpc<span class="token operator">:</span><span class="token operator">/</span><span class="token operator">/</span><span class="token number">10.0</span><span class="token punctuation">.</span><span class="token number">2.15</span><span class="token operator">:</span><span class="token number">60487</span>
 Type<span class="token operator">:</span> turtlesim<span class="token operator">/</span>Spawn
-Args<span class="token operator">:</span> x y theta name</code></pre>
-<h3 id="3-2-参考代码："><a href="#3-2-参考代码：" class="headerlink" title="3.2 参考代码："></a>3.2 参考代码：</h3><pre class=" language-cpp"><code class="language-cpp"><span class="token macro property">#<span class="token directive keyword">include</span> <span class="token string">"ros/ros.h"</span></span>
+Args<span class="token operator">:</span> x y theta name<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="3-2-参考代码："><a href="#3-2-参考代码：" class="headerlink" title="3.2 参考代码："></a>3.2 参考代码：</h3><pre class="line-numbers language-cpp"><code class="language-cpp"><span class="token macro property">#<span class="token directive keyword">include</span> <span class="token string">"ros/ros.h"</span></span>
 <span class="token macro property">#<span class="token directive keyword">include</span> <span class="token string">"std_srvs/SetBool.h"</span></span>
 <span class="token macro property">#<span class="token directive keyword">include</span> <span class="token string">"turtlesim/Spawn.h"</span></span>
 <span class="token macro property">#<span class="token directive keyword">include</span> <span class="token string">&lt;stdlib.h></span>             </span><span class="token comment" spellcheck="true">/* srand, rand */</span>
@@ -569,10 +570,10 @@ Args<span class="token operator">:</span> x y theta name</code></pre>
         <span class="token keyword">return</span> <span class="token number">1</span><span class="token punctuation">;</span>
     <span class="token punctuation">}</span>
     <span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
-<span class="token punctuation">}</span></code></pre>
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <h2 id="四、控制"><a href="#四、控制" class="headerlink" title="四、控制"></a>四、控制</h2><h3 id="控制特定海龟的速度大小"><a href="#控制特定海龟的速度大小" class="headerlink" title="控制特定海龟的速度大小"></a>控制特定海龟的速度大小</h3><p>这里和1中的实现方式相似，可以在终端输入控制的参数<strong>argv</strong>，然后由这些参数控制海龟状态。</p>
 <p>ps:有时候在编译时会出现<strong>warning:  Clock skew detected.  Your build may be incomplete.</strong>这样的警告。这是时钟同步问题，可以</p>
-<pre class=" language-cpp"><code class="language-cpp">find <span class="token punctuation">.</span> <span class="token operator">-</span>type f <span class="token operator">|</span> xargs <span class="token operator">-</span>n <span class="token number">5</span> touch</code></pre>
+<pre class="line-numbers language-cpp"><code class="language-cpp">find <span class="token punctuation">.</span> <span class="token operator">-</span>type f <span class="token operator">|</span> xargs <span class="token operator">-</span>n <span class="token number">5</span> touch<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 
             </div>
             <hr/>
@@ -811,12 +812,12 @@ Args<span class="token operator">:</span> x y theta name</code></pre>
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/C/" target="_blank">
-                        <span class="chip bg-color">C++</span>
-                    </a>
-                    
                     <a href="/tags/机器人/" target="_blank">
                         <span class="chip bg-color">机器人</span>
+                    </a>
+                    
+                    <a href="/tags/C/" target="_blank">
+                        <span class="chip bg-color">C++</span>
                     </a>
                     
                 </div>
@@ -864,12 +865,12 @@ Args<span class="token operator">:</span> x y theta name</code></pre>
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/C/" target="_blank">
-                        <span class="chip bg-color">C++</span>
-                    </a>
-                    
                     <a href="/tags/机器人/" target="_blank">
                         <span class="chip bg-color">机器人</span>
+                    </a>
+                    
+                    <a href="/tags/C/" target="_blank">
+                        <span class="chip bg-color">C++</span>
                     </a>
                     
                 </div>
@@ -1024,7 +1025,7 @@ Args<span class="token operator">:</span> x y theta name</code></pre>
            &copy;<a href="https://suljaxm.github.io/" target="_blank">2019 SULJAXM. All Rights Reserved.
             
                 &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
-                <span class="white-color">10.4k</span>
+                <span class="white-color">11.1k</span>
             
 
             <br>

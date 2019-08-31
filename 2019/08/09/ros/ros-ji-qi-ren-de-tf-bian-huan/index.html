@@ -35,7 +35,8 @@ Robot">
     </style>
 
     <script src="/libs/jquery/jquery-2.2.0.min.js"></script>
-<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
 
 
 <body>
@@ -384,12 +385,12 @@ Robot">
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/C/" target="_blank">
-                                <span class="chip bg-color">C++</span>
-                            </a>
-                        
                             <a href="/tags/机器人/" target="_blank">
                                 <span class="chip bg-color">机器人</span>
+                            </a>
+                        
+                            <a href="/tags/C/" target="_blank">
+                                <span class="chip bg-color">C++</span>
                             </a>
                         
                     </div>
@@ -448,30 +449,30 @@ Robot">
 <li>机器人夹取的物体相对于机器人中心坐标系的位置.</li>
 <li>机器人中心坐标系相对于全局坐标系的位置。</li>
 </ul>
-<center><img width="400" height="300" src="http://pwh3vw6xp.bkt.clouddn.com/2_robot.jpg">
+<center><img width="400" height="300" src="http://suljaxm.com/2_robot.jpg">
 Robot 坐标系
 </center>
 
 
 
 <h2 id="二、TF坐标变换"><a href="#二、TF坐标变换" class="headerlink" title="二、TF坐标变换"></a>二、TF坐标变换</h2><p>已知激光雷达和机器人底盘的坐标关系，广播并监听机器人的坐标变换，求解激光雷达数据在底盘坐标系下的坐标值。</p>
-<center><img width="550" height="200" src="http://pwh3vw6xp.bkt.clouddn.com/2_robot2.jpg">
+<center><img width="550" height="200" src="http://suljaxm.com/2_robot2.jpg">
 Car
 </center>
 
 
 <h3 id="2-1-TF广播器"><a href="#2-1-TF广播器" class="headerlink" title="2.1 TF广播器"></a>2.1 TF广播器</h3><p>首先定义TF 广播器(<a href="http://docs.ros.org/jade/api/tf/html/c++/classtf_1_1TransformBroadcaster.html" target="_blank" rel="noopener">TransformBroadcaster</a>),</p>
-<pre class=" language-cpp"><code class="language-cpp"><span class="token comment" spellcheck="true">// 创建tf的广播器</span>
-<span class="token keyword">static</span> tf<span class="token operator">::</span>TransformBroadcaster br<span class="token punctuation">;</span></code></pre>
+<pre class="line-numbers language-cpp"><code class="language-cpp"><span class="token comment" spellcheck="true">// 创建tf的广播器</span>
+<span class="token keyword">static</span> tf<span class="token operator">::</span>TransformBroadcaster br<span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
 <p>接着创建坐标变换值(<strong>transform</strong>)，比如在这里的变换关系中，没有旋转变换，只有平移变换，所以四元数<strong>Quaternion</strong>可以为<code>(0,0,0,1)</code>， 而位移向量<strong>Vector3</strong>是<code>(0.1, 0.0, 0.2)</code>，位移的单位是米。</p>
-<pre class=" language-cpp"><code class="language-cpp"><span class="token comment" spellcheck="true">// 初始化tf数据</span>
+<pre class="line-numbers language-cpp"><code class="language-cpp"><span class="token comment" spellcheck="true">// 初始化tf数据</span>
 tf<span class="token operator">::</span>Transform transform<span class="token punctuation">;</span>
 transform<span class="token punctuation">.</span><span class="token function">setOrigin</span><span class="token punctuation">(</span> tf<span class="token operator">::</span><span class="token function">Vector3</span><span class="token punctuation">(</span><span class="token number">0.1</span><span class="token punctuation">,</span> <span class="token number">0.0</span><span class="token punctuation">,</span> <span class="token number">0.2</span><span class="token punctuation">)</span> <span class="token punctuation">)</span><span class="token punctuation">;</span>
-transform<span class="token punctuation">.</span><span class="token function">setRotation</span><span class="token punctuation">(</span> tf<span class="token operator">::</span><span class="token function">Quaternion</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span><span class="token number">0</span><span class="token punctuation">,</span><span class="token number">0</span><span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">)</span> <span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+transform<span class="token punctuation">.</span><span class="token function">setRotation</span><span class="token punctuation">(</span> tf<span class="token operator">::</span><span class="token function">Quaternion</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span><span class="token number">0</span><span class="token punctuation">,</span><span class="token number">0</span><span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">)</span> <span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
 <p>最后发布坐标变换(<strong>sendTransform</strong>)</p>
-<pre class=" language-cpp"><code class="language-cpp"><span class="token comment" spellcheck="true">// 广播base_link与base_laser坐标系之间的tf数据</span>
-br<span class="token punctuation">.</span><span class="token function">sendTransform</span><span class="token punctuation">(</span>tf<span class="token operator">::</span><span class="token function">StampedTransform</span><span class="token punctuation">(</span>transform<span class="token punctuation">,</span> ros<span class="token operator">::</span>Time<span class="token operator">::</span><span class="token function">now</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token string">"base_link"</span><span class="token punctuation">,</span> <span class="token string">"base_laser"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
-<h3 id="2-2-完整代码-TF广播器"><a href="#2-2-完整代码-TF广播器" class="headerlink" title="2.2 完整代码(TF广播器)"></a>2.2 完整代码(TF广播器)</h3><pre class=" language-cpp"><code class="language-cpp"><span class="token comment" spellcheck="true">/**
+<pre class="line-numbers language-cpp"><code class="language-cpp"><span class="token comment" spellcheck="true">// 广播base_link与base_laser坐标系之间的tf数据</span>
+br<span class="token punctuation">.</span><span class="token function">sendTransform</span><span class="token punctuation">(</span>tf<span class="token operator">::</span><span class="token function">StampedTransform</span><span class="token punctuation">(</span>transform<span class="token punctuation">,</span> ros<span class="token operator">::</span>Time<span class="token operator">::</span><span class="token function">now</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token string">"base_link"</span><span class="token punctuation">,</span> <span class="token string">"base_laser"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<h3 id="2-2-完整代码-TF广播器"><a href="#2-2-完整代码-TF广播器" class="headerlink" title="2.2 完整代码(TF广播器)"></a>2.2 完整代码(TF广播器)</h3><pre class="line-numbers language-cpp"><code class="language-cpp"><span class="token comment" spellcheck="true">/**
  * 该例程产生tf数据，并计算、发布base_laser的位置指令
  */</span>
 
@@ -499,14 +500,14 @@ br<span class="token punctuation">.</span><span class="token function">sendTrans
         br<span class="token punctuation">.</span><span class="token function">sendTransform</span><span class="token punctuation">(</span>tf<span class="token operator">::</span><span class="token function">StampedTransform</span><span class="token punctuation">(</span>transform<span class="token punctuation">,</span> ros<span class="token operator">::</span>Time<span class="token operator">::</span><span class="token function">now</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token string">"base_link"</span><span class="token punctuation">,</span> <span class="token string">"base_laser"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
     <span class="token punctuation">}</span>
     <span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
-<span class="token punctuation">}</span><span class="token punctuation">;</span></code></pre>
+<span class="token punctuation">}</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <h3 id="2-3-TF监听器"><a href="#2-3-TF监听器" class="headerlink" title="2.3 TF监听器"></a>2.3 TF监听器</h3><p>首先定义一个TF监听器(<strong>TransformListener</strong>)</p>
-<pre class=" language-cpp"><code class="language-cpp"><span class="token comment" spellcheck="true">// 创建tf的监听器</span>
-tf<span class="token operator">::</span>TransformListener listener<span class="token punctuation">;</span></code></pre>
+<pre class="line-numbers language-cpp"><code class="language-cpp"><span class="token comment" spellcheck="true">// 创建tf的监听器</span>
+tf<span class="token operator">::</span>TransformListener listener<span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
 <p>获取TF变换后进行坐标系变化，此时我们可以设置检测到的<strong>base_laser</strong>(<strong>laser_point</strong>)为<code>(0.3, 0.0, 0.0)</code>，然后就该检测信息，通过<strong>transformPoint</strong>转换到<strong>base_link</strong>(<strong>base_point</strong>)上的点。</p>
-<pre class=" language-cpp"><code class="language-cpp">geometry_msgs<span class="token operator">::</span>PointStamped base_point<span class="token punctuation">;</span>
-listener<span class="token punctuation">.</span><span class="token function">transformPoint</span><span class="token punctuation">(</span><span class="token string">"base_link"</span><span class="token punctuation">,</span> laser_point<span class="token punctuation">,</span> base_point<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
-<h3 id="2-4-完成代码-TF监听器"><a href="#2-4-完成代码-TF监听器" class="headerlink" title="2.4 完成代码(TF监听器)"></a>2.4 完成代码(TF监听器)</h3><pre class=" language-cpp"><code class="language-cpp"><span class="token comment" spellcheck="true">/**
+<pre class="line-numbers language-cpp"><code class="language-cpp">geometry_msgs<span class="token operator">::</span>PointStamped base_point<span class="token punctuation">;</span>
+listener<span class="token punctuation">.</span><span class="token function">transformPoint</span><span class="token punctuation">(</span><span class="token string">"base_link"</span><span class="token punctuation">,</span> laser_point<span class="token punctuation">,</span> base_point<span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<h3 id="2-4-完成代码-TF监听器"><a href="#2-4-完成代码-TF监听器" class="headerlink" title="2.4 完成代码(TF监听器)"></a>2.4 完成代码(TF监听器)</h3><pre class="line-numbers language-cpp"><code class="language-cpp"><span class="token comment" spellcheck="true">/**
  * 该例程监听tf数据，并计算、发布base_laser的位置指令
  */</span>
 
@@ -559,9 +560,9 @@ listener<span class="token punctuation">.</span><span class="token function">tra
     <span class="token punctuation">}</span>
 
     <span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
-<span class="token punctuation">}</span><span class="token punctuation">;</span></code></pre>
+<span class="token punctuation">}</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <h2 id="三、运行结果"><a href="#三、运行结果" class="headerlink" title="三、运行结果"></a>三、运行结果</h2><p>启动两个节点时，就可以在监听处获得base_laser和base_link的坐标关系了。<br>说明的是检测物体为世界坐标系，base_laser和base_link是局部坐标系。</p>
-<pre class=" language-cpp"><code class="language-cpp"><span class="token punctuation">[</span> INFO<span class="token punctuation">]</span> <span class="token punctuation">[</span><span class="token number">1565335443.030506273</span><span class="token punctuation">]</span><span class="token operator">:</span> base_laser<span class="token operator">:</span> <span class="token punctuation">(</span><span class="token number">0.30</span><span class="token punctuation">,</span> <span class="token number">0.00</span><span class="token punctuation">.</span> <span class="token number">0.00</span><span class="token punctuation">)</span> <span class="token operator">--</span><span class="token operator">--</span><span class="token operator">-</span><span class="token operator">></span> base_link<span class="token operator">:</span> <span class="token punctuation">(</span><span class="token number">0.40</span><span class="token punctuation">,</span> <span class="token number">0.00</span><span class="token punctuation">,</span> <span class="token number">0.20</span><span class="token punctuation">)</span> at time <span class="token number">1565335443.00</span></code></pre>
+<pre class="line-numbers language-cpp"><code class="language-cpp"><span class="token punctuation">[</span> INFO<span class="token punctuation">]</span> <span class="token punctuation">[</span><span class="token number">1565335443.030506273</span><span class="token punctuation">]</span><span class="token operator">:</span> base_laser<span class="token operator">:</span> <span class="token punctuation">(</span><span class="token number">0.30</span><span class="token punctuation">,</span> <span class="token number">0.00</span><span class="token punctuation">.</span> <span class="token number">0.00</span><span class="token punctuation">)</span> <span class="token operator">--</span><span class="token operator">--</span><span class="token operator">-</span><span class="token operator">></span> base_link<span class="token operator">:</span> <span class="token punctuation">(</span><span class="token number">0.40</span><span class="token punctuation">,</span> <span class="token number">0.00</span><span class="token punctuation">,</span> <span class="token number">0.20</span><span class="token punctuation">)</span> at time <span class="token number">1565335443.00</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 
             </div>
             <hr/>
@@ -800,16 +801,16 @@ listener<span class="token punctuation">.</span><span class="token function">tra
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/C/" target="_blank">
-                        <span class="chip bg-color">C++</span>
+                    <a href="/tags/XML/" target="_blank">
+                        <span class="chip bg-color">XML</span>
                     </a>
                     
                     <a href="/tags/机器人/" target="_blank">
                         <span class="chip bg-color">机器人</span>
                     </a>
                     
-                    <a href="/tags/XML/" target="_blank">
-                        <span class="chip bg-color">XML</span>
+                    <a href="/tags/C/" target="_blank">
+                        <span class="chip bg-color">C++</span>
                     </a>
                     
                 </div>
@@ -857,12 +858,12 @@ listener<span class="token punctuation">.</span><span class="token function">tra
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/C/" target="_blank">
-                        <span class="chip bg-color">C++</span>
-                    </a>
-                    
                     <a href="/tags/机器人/" target="_blank">
                         <span class="chip bg-color">机器人</span>
+                    </a>
+                    
+                    <a href="/tags/C/" target="_blank">
+                        <span class="chip bg-color">C++</span>
                     </a>
                     
                 </div>
@@ -1017,7 +1018,7 @@ listener<span class="token punctuation">.</span><span class="token function">tra
            &copy;<a href="https://suljaxm.github.io/" target="_blank">2019 SULJAXM. All Rights Reserved.
             
                 &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
-                <span class="white-color">10.4k</span>
+                <span class="white-color">11.1k</span>
             
 
             <br>

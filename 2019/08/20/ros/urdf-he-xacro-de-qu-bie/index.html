@@ -34,7 +34,8 @@
     </style>
 
     <script src="/libs/jquery/jquery-2.2.0.min.js"></script>
-<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
 
 
 <body>
@@ -383,12 +384,12 @@
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/机器人/" target="_blank">
-                                <span class="chip bg-color">机器人</span>
-                            </a>
-                        
                             <a href="/tags/XML/" target="_blank">
                                 <span class="chip bg-color">XML</span>
+                            </a>
+                        
+                            <a href="/tags/机器人/" target="_blank">
+                                <span class="chip bg-color">机器人</span>
                             </a>
                         
                     </div>
@@ -447,7 +448,7 @@
 <li>没有参数计算的功能</li>
 </ul>
 <p>例如一辆四轮汽车，在用URDF建模时，要重复创建4份车轮的代码，这里面只有轮子的位置参数是不同的，这种重复性增加了URDF开发的难度。</p>
-<h3 id="1-2-URDF的缺陷展示"><a href="#1-2-URDF的缺陷展示" class="headerlink" title="1.2 URDF的缺陷展示"></a>1.2 URDF的缺陷展示</h3><pre class=" language-xml"><code class="language-xml"><span class="token comment" spellcheck="true">&lt;!--back wheel x=-0.1 y_l=-0.1 y_r=+0.1 --></span>
+<h3 id="1-2-URDF的缺陷展示"><a href="#1-2-URDF的缺陷展示" class="headerlink" title="1.2 URDF的缺陷展示"></a>1.2 URDF的缺陷展示</h3><pre class="line-numbers language-xml"><code class="language-xml"><span class="token comment" spellcheck="true">&lt;!--back wheel x=-0.1 y_l=-0.1 y_r=+0.1 --></span>
 
 <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>link</span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>left_back_wheel_link<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
     <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>visual</span><span class="token punctuation">></span></span>
@@ -484,10 +485,10 @@
     <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>parent</span> <span class="token attr-name">link</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>base_link<span class="token punctuation">"</span></span><span class="token punctuation">/></span></span>
     <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>child</span> <span class="token attr-name">link</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>right_back_wheel_link<span class="token punctuation">"</span></span><span class="token punctuation">/></span></span>
     <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>axis</span> <span class="token attr-name">xyz</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>0 1 0<span class="token punctuation">"</span></span><span class="token punctuation">/></span></span>
-<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>joint</span><span class="token punctuation">></span></span></code></pre>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>joint</span><span class="token punctuation">></span></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <p>每个车轮都用于两个标签参数<code>&lt;link&gt; ...  &lt;/link&gt;</code>和<code>&lt;joint&gt; ... &lt;/joint&gt;</code>，而不同车轮间的区别仅仅是名字和位置参数，所以当一个机器人有100个轮子时，代码的冗余程度是无法接受的。</p>
 <h2 id="二、XACRO"><a href="#二、XACRO" class="headerlink" title="二、XACRO"></a>二、XACRO</h2><h3 id="2-1-优点"><a href="#2-1-优点" class="headerlink" title="2.1 优点"></a>2.1 优点</h3><p>针对URDF的缺点，XACRO借鉴了函数的思想，在精简模型代码方面提供了<strong>创建宏定义</strong>和<strong>文件包含</strong>，同时也提供了可编程接口，例如引入了<strong>常量</strong>，<strong>变量</strong>，<strong>数字计算</strong>，<strong>条件语句</strong>等功能。这些特性降低了模型的开发难度。</p>
-<h3 id="2-2-模型精简效果"><a href="#2-2-模型精简效果" class="headerlink" title="2.2 模型精简效果"></a>2.2 模型精简效果</h3><pre class=" language-xml"><code class="language-xml">    <span class="token comment" spellcheck="true">&lt;!-- 常量定义 --></span>
+<h3 id="2-2-模型精简效果"><a href="#2-2-模型精简效果" class="headerlink" title="2.2 模型精简效果"></a>2.2 模型精简效果</h3><pre class="line-numbers language-xml"><code class="language-xml">    <span class="token comment" spellcheck="true">&lt;!-- 常量定义 --></span>
     <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span><span class="token namespace">xacro:</span>property</span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>M_PI<span class="token punctuation">"</span></span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>3.1415926<span class="token punctuation">"</span></span><span class="token punctuation">/></span></span>   
 
     <span class="token comment" spellcheck="true">&lt;!-- 车轮定义 --></span>
@@ -512,7 +513,7 @@
 
 
     <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>wheel</span> <span class="token attr-name">prefix</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>back_left<span class="token punctuation">"</span></span>  <span class="token attr-name">reflect</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>-1<span class="token punctuation">"</span></span> <span class="token attr-name">orientation</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>-1<span class="token punctuation">"</span></span><span class="token punctuation">/></span></span>     <span class="token comment" spellcheck="true">&lt;!-- 后左轮--></span>
-    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>wheel</span> <span class="token attr-name">prefix</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>back_right<span class="token punctuation">"</span></span> <span class="token attr-name">reflect</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>1<span class="token punctuation">"</span></span>  <span class="token attr-name">orientation</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>-1<span class="token punctuation">"</span></span><span class="token punctuation">/></span></span>     <span class="token comment" spellcheck="true">&lt;!-- 后右论--></span></code></pre>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>wheel</span> <span class="token attr-name">prefix</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>back_right<span class="token punctuation">"</span></span> <span class="token attr-name">reflect</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>1<span class="token punctuation">"</span></span>  <span class="token attr-name">orientation</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>-1<span class="token punctuation">"</span></span><span class="token punctuation">/></span></span>     <span class="token comment" spellcheck="true">&lt;!-- 后右论--></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <p>使用了<strong>XACRO</strong>属性后，可以定义常量·M_PI·，也可以定义变量·prefix·，·reflect·，·orientation·，以及对数字的计算<code>${M_PI/2}</code>，这些极大的降低了代码的重复性，最后两个车轮的定义也只需两行。这不仅仅简化了模型的开发，也提高了模块的可扩展性。</p>
 
             </div>
@@ -752,12 +753,12 @@
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/机器人/" target="_blank">
-                        <span class="chip bg-color">机器人</span>
-                    </a>
-                    
                     <a href="/tags/XML/" target="_blank">
                         <span class="chip bg-color">XML</span>
+                    </a>
+                    
+                    <a href="/tags/机器人/" target="_blank">
+                        <span class="chip bg-color">机器人</span>
                     </a>
                     
                 </div>
@@ -805,16 +806,16 @@
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/C/" target="_blank">
-                        <span class="chip bg-color">C++</span>
+                    <a href="/tags/XML/" target="_blank">
+                        <span class="chip bg-color">XML</span>
                     </a>
                     
                     <a href="/tags/机器人/" target="_blank">
                         <span class="chip bg-color">机器人</span>
                     </a>
                     
-                    <a href="/tags/XML/" target="_blank">
-                        <span class="chip bg-color">XML</span>
+                    <a href="/tags/C/" target="_blank">
+                        <span class="chip bg-color">C++</span>
                     </a>
                     
                 </div>
@@ -969,7 +970,7 @@
            &copy;<a href="https://suljaxm.github.io/" target="_blank">2019 SULJAXM. All Rights Reserved.
             
                 &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
-                <span class="white-color">10.4k</span>
+                <span class="white-color">11.1k</span>
             
 
             <br>

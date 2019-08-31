@@ -28,7 +28,8 @@
     </style>
 
     <script src="/libs/jquery/jquery-2.2.0.min.js"></script>
-<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
 
 
 <body>
@@ -377,12 +378,12 @@
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/机器人/" target="_blank">
-                                <span class="chip bg-color">机器人</span>
-                            </a>
-                        
                             <a href="/tags/XML/" target="_blank">
                                 <span class="chip bg-color">XML</span>
+                            </a>
+                        
+                            <a href="/tags/机器人/" target="_blank">
+                                <span class="chip bg-color">机器人</span>
                             </a>
                         
                     </div>
@@ -436,7 +437,7 @@
         <div class="card-content article-card-content">
             <div id="articleContent">
                 <h2 id="一、仿真模型创建"><a href="#一、仿真模型创建" class="headerlink" title="一、仿真模型创建"></a>一、仿真模型创建</h2><h3 id="1-1-link创建"><a href="#1-1-link创建" class="headerlink" title="1.1 link创建"></a>1.1 link创建</h3><p>link包含三大主要部分，分别是可视化的<code>&lt;visual&gt; .. &lt;/visual&gt;</code>，碰撞属性<code>&lt;collision&gt; ... &lt;/collision&gt;</code>  以及惯性参数<code>&lt;inertial&gt; ... &lt;inertial&gt;</code>。<br>以小车的车身为例，</p>
-<pre class=" language-xml"><code class="language-xml">    <span class="token comment" spellcheck="true">&lt;!-- 可视化 --></span>
+<pre class="line-numbers language-xml"><code class="language-xml">    <span class="token comment" spellcheck="true">&lt;!-- 可视化 --></span>
     <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>visual</span><span class="token punctuation">></span></span>
         <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>origin</span> <span class="token attr-name">xyz</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span> 0 0 0<span class="token punctuation">"</span></span> <span class="token attr-name">rpy</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>0 0 0<span class="token punctuation">"</span></span> <span class="token punctuation">/></span></span>
         <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>geometry</span><span class="token punctuation">></span></span>
@@ -462,13 +463,13 @@
         &lt;inertia ixx="${2*(3*r*r+h*h)/12}" ixy = "0" ixz = "0"
             iyy="${m*(3*r*r+h*h)/12}" iyz = "0"
             izz="${m*r*r/2}" /> 
-    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>inertial</span><span class="token punctuation">></span></span></code></pre>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>inertial</span><span class="token punctuation">></span></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <h3 id="1-2-gazebo标签"><a href="#1-2-gazebo标签" class="headerlink" title="1.2 gazebo标签"></a>1.2 gazebo标签</h3><p>gazebo工具用于小车的仿真，所以需要在link里面添加其标签。注意的是gazebo中的颜色要重新定义。</p>
-<pre class=" language-xml"><code class="language-xml">    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>gazebo</span> <span class="token attr-name">reference</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>base_link<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+<pre class="line-numbers language-xml"><code class="language-xml">    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>gazebo</span> <span class="token attr-name">reference</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>base_link<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
         <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>material</span><span class="token punctuation">></span></span>Gazebo/Blue<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>material</span><span class="token punctuation">></span></span>
-    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>gazebo</span><span class="token punctuation">></span></span></code></pre>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>gazebo</span><span class="token punctuation">></span></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
 <h3 id="1-3-传动装置"><a href="#1-3-传动装置" class="headerlink" title="1.3 传动装置"></a>1.3 传动装置</h3><p>为模型的joint处添加传动转置，主要是车轮和车身的连接处。</p>
-<pre class=" language-xml"><code class="language-xml">    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>transmission</span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>${prefix}_wheel_joint_trans<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+<pre class="line-numbers language-xml"><code class="language-xml">    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>transmission</span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>${prefix}_wheel_joint_trans<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
         <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>type</span><span class="token punctuation">></span></span>transmission_interface/SimpleTransmission<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>type</span><span class="token punctuation">></span></span>
         <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>joint</span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>${prefix}_wheel_joint<span class="token punctuation">"</span></span> <span class="token punctuation">></span></span>
             <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>hardwareInterface</span><span class="token punctuation">></span></span>hardware_interface/VelocityJointInterface<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>hardwareInterface</span><span class="token punctuation">></span></span>
@@ -477,9 +478,9 @@
             <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>hardwareInterface</span><span class="token punctuation">></span></span>hardware_interface/VelocityJointInterface<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>hardwareInterface</span><span class="token punctuation">></span></span>
             <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>mechanicalReduction</span><span class="token punctuation">></span></span>1<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>mechanicalReduction</span><span class="token punctuation">></span></span>
         <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>actuator</span><span class="token punctuation">></span></span>
-    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>transmission</span><span class="token punctuation">></span></span></code></pre>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>transmission</span><span class="token punctuation">></span></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <h3 id="1-4-控制器插件"><a href="#1-4-控制器插件" class="headerlink" title="1.4 控制器插件"></a>1.4 控制器插件</h3><p>因为是四轮驱动，所以选择<a href="http://gazebosim.org/tutorials?tut=ros_gzplugins&cat=connect_ros" target="_blank" rel="noopener">Skid Steering Drive</a>的模式。</p>
-<pre class=" language-xml"><code class="language-xml"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>gazebo</span><span class="token punctuation">></span></span>
+<pre class="line-numbers language-xml"><code class="language-xml"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>gazebo</span><span class="token punctuation">></span></span>
     <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>plugin</span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>skid_steer_drive_controller<span class="token punctuation">"</span></span> <span class="token attr-name">filename</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>libgazebo_ros_skid_steer_drive.so<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
         <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>updateRate</span><span class="token punctuation">></span></span>100.0<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>updateRate</span><span class="token punctuation">></span></span>
         <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>robotNamespace</span><span class="token punctuation">></span></span>/<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>robotNamespace</span><span class="token punctuation">></span></span>
@@ -494,14 +495,14 @@
         <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>topicName</span><span class="token punctuation">></span></span>cmd_vel<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>topicName</span><span class="token punctuation">></span></span>
         <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>broadcastTF</span><span class="token punctuation">></span></span>false<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>broadcastTF</span><span class="token punctuation">></span></span>
     <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>plugin</span><span class="token punctuation">></span></span>
-<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>gazebo</span><span class="token punctuation">></span></span></code></pre>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>gazebo</span><span class="token punctuation">></span></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <h3 id="1-5-模型测试"><a href="#1-5-模型测试" class="headerlink" title="1.5 模型测试"></a>1.5 模型测试</h3><p>最后将模型加载进gazebo空间，测试。</p>
-<center><img width="800" height="450" src="http://pwh3vw6xp.bkt.clouddn.com/4_4-wheel_vehicle.png">
+<center><img width="800" height="450" src="http://suljaxm.com/4_4-wheel_vehicle.png">
 Figure 1 仿真四轮车
 </center>
 
 <h2 id="二、传感器仿真"><a href="#二、传感器仿真" class="headerlink" title="二、传感器仿真"></a>二、传感器仿真</h2><p>通过仿真传感器，我们可以降低实验成本，并且高效地测试不同环境下的算法性能。以搭载相机和激光雷达的四轮车为例。</p>
-<h3 id="2-1-相机"><a href="#2-1-相机" class="headerlink" title="2.1 相机"></a>2.1 相机</h3><pre class=" language-xml"><code class="language-xml"><span class="token comment" spellcheck="true">&lt;!-- camera --></span>
+<h3 id="2-1-相机"><a href="#2-1-相机" class="headerlink" title="2.1 相机"></a>2.1 相机</h3><pre class="line-numbers language-xml"><code class="language-xml"><span class="token comment" spellcheck="true">&lt;!-- camera --></span>
 <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>gazebo</span> <span class="token attr-name">reference</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>camera_link<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
     <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>sensor</span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>camera<span class="token punctuation">"</span></span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>camera1<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
         <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>update_rate</span><span class="token punctuation">></span></span>30.0<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>update_rate</span><span class="token punctuation">></span></span>
@@ -540,9 +541,9 @@ Figure 1 仿真四轮车
             <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>distortionT2</span><span class="token punctuation">></span></span>0.0<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>distortionT2</span><span class="token punctuation">></span></span>
         <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>plugin</span><span class="token punctuation">></span></span>
     <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>sensor</span><span class="token punctuation">></span></span>
-<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>gazebo</span><span class="token punctuation">></span></span></code></pre>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>gazebo</span><span class="token punctuation">></span></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <p>其中<code>&lt;sensor&gt;... &lt;/sensor&gt;</code>是描述传感器的标签，内部包含类型type，参数，仿真插件等信息。以相机为例，传感器类型为camera， 在<code>&lt;camera&gt; .. &lt;/camera&gt;</code>中描述了相机的分辨率，编码格式，图像范围，噪音参数等信息。在<code>&lt;plugin&gt; ... &lt;/plugin&gt;</code>中加载了相机的仿真插件libgazebo_ros_camera.so，插件中设置了其命名空间，话题和参考坐标系。</p>
-<h3 id="2-2-激光雷达"><a href="#2-2-激光雷达" class="headerlink" title="2.2 激光雷达"></a>2.2 激光雷达</h3><pre class=" language-xml"><code class="language-xml"><span class="token comment" spellcheck="true">&lt;!-- laser --></span>
+<h3 id="2-2-激光雷达"><a href="#2-2-激光雷达" class="headerlink" title="2.2 激光雷达"></a>2.2 激光雷达</h3><pre class="line-numbers language-xml"><code class="language-xml"><span class="token comment" spellcheck="true">&lt;!-- laser --></span>
 <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>gazebo</span> <span class="token attr-name">reference</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>laser_link<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
     <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>sensor</span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>ray<span class="token punctuation">"</span></span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>rplidar<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
         <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>pose</span><span class="token punctuation">></span></span>0 0 0 0 0 0<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>pose</span><span class="token punctuation">></span></span>
@@ -577,17 +578,17 @@ Figure 1 仿真四轮车
             <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>frameName</span><span class="token punctuation">></span></span>laser_link<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>frameName</span><span class="token punctuation">></span></span>
         <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>plugin</span><span class="token punctuation">></span></span>
     <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>sensor</span><span class="token punctuation">></span></span>
-<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>gazebo</span><span class="token punctuation">></span></span></code></pre>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>gazebo</span><span class="token punctuation">></span></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <p><code>&lt;sensor&gt;... &lt;/sensor&gt;</code>的表示形式与相机类似。在激光雷达中<code>&lt;ray&gt; ... &lt;/ray&gt;</code>中描述了其性能参数。在<code>&lt;plugin&gt; ... &lt;/plugin&gt;</code>中加载的仿真插件为libgazebo_ros_laser.so。</p>
 <h3 id="2-3-其它传感器"><a href="#2-3-其它传感器" class="headerlink" title="2.3 其它传感器"></a>2.3 其它传感器</h3><p>Gazebo的传感器插件还有很多，比如Multicamera，Depth Camera，Openni Kinect，GPU Laser，Block Laser，F3D，Force，IMU等等，更详细的介绍可参考<a href="http://gazebosim.org/tutorials?tut=ros_gzplugins&cat=connect_ros#Tutorial:UsingGazebopluginswithROS" target="_blank" rel="noopener">官网</a>。</p>
 <h3 id="2-4-模型测试"><a href="#2-4-模型测试" class="headerlink" title="2.4 模型测试"></a>2.4 模型测试</h3><p>搭载传感器后，使用gazebo工具进行仿真测试。</p>
-<center><img width="800" height="450" src="http://pwh3vw6xp.bkt.clouddn.com/4_car_with_sensors_gazebo.png">
+<center><img width="800" height="450" src="http://suljaxm.com/4_car_with_sensors_gazebo.png">
 Figure 2 仿真车搭载相机和激光雷达
 </center>
 
 
 <p>最后可以在rviz观察传感器的模拟数据。</p>
-<center><img width="800" height="450" src="http://pwh3vw6xp.bkt.clouddn.com/4_car_with_sensors_rviz.png">
+<center><img width="800" height="450" src="http://suljaxm.com/4_car_with_sensors_rviz.png">
 Figure 3  传感器数据显示
 </center>
 
@@ -830,12 +831,12 @@ Figure 3  传感器数据显示
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/机器人/" target="_blank">
-                        <span class="chip bg-color">机器人</span>
-                    </a>
-                    
                     <a href="/tags/XML/" target="_blank">
                         <span class="chip bg-color">XML</span>
+                    </a>
+                    
+                    <a href="/tags/机器人/" target="_blank">
+                        <span class="chip bg-color">机器人</span>
                     </a>
                     
                     <a href="/tags/Python/" target="_blank">
@@ -891,12 +892,12 @@ Figure 3  传感器数据显示
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/机器人/" target="_blank">
-                        <span class="chip bg-color">机器人</span>
-                    </a>
-                    
                     <a href="/tags/XML/" target="_blank">
                         <span class="chip bg-color">XML</span>
+                    </a>
+                    
+                    <a href="/tags/机器人/" target="_blank">
+                        <span class="chip bg-color">机器人</span>
                     </a>
                     
                 </div>
@@ -1051,7 +1052,7 @@ Figure 3  传感器数据显示
            &copy;<a href="https://suljaxm.github.io/" target="_blank">2019 SULJAXM. All Rights Reserved.
             
                 &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
-                <span class="white-color">10.4k</span>
+                <span class="white-color">11.1k</span>
             
 
             <br>
