@@ -8,7 +8,7 @@
       <link href="/2019/08/31/ros/slam/"/>
       <url>/2019/08/31/ros/slam/</url>
       
-        <content type="html"><![CDATA[<h2 id="一、SLAM"><a href="#一、SLAM" class="headerlink" title="一、SLAM"></a>一、SLAM</h2><h3 id="1-1-介绍"><a href="#1-1-介绍" class="headerlink" title="1.1 介绍"></a>1.1 介绍</h3><p>SLAM是机器人自身位置不确定的情况下，在完全未知的环境中创建地图，同时利用地图进行自主定位。</p><ul><li>定位：机器人根据周围环境估计自身在地图上的位置坐标。</li><li>地图构建：机器人根据传感器的结果来构建一张地图。</li></ul><h3 id="1-2-原理"><a href="#1-2-原理" class="headerlink" title="1.2 原理"></a>1.2 原理</h3><center><img width="400" height="350" src="http://suljaxm.com/10_slam_%E5%8E%9F%E7%90%86.png"></center><h2 id="二、数据结构"><a href="#二、数据结构" class="headerlink" title="二、数据结构"></a>二、数据结构</h2><h3 id="2-1-激光雷达"><a href="#2-1-激光雷达" class="headerlink" title="2.1 激光雷达"></a>2.1 激光雷达</h3><p>一般在slam中使用可以直接获得深度信息的传感器。以激光雷达为例，在终端上输入<code>rosmsg show sensor_msgs/LaserScan</code>可以获得其数据结构</p><pre class="line-numbers language-cpp"><code class="language-cpp">std_msgs<span class="token operator">/</span>Header header  uint32 seq  time stamp  string frame_idfloat32 angle_min <span class="token comment" spellcheck="true">//可检测范围的起始角度</span>float32 angle_max <span class="token comment" spellcheck="true">//可检测范围的终止角度，与angle_min组成激光雷达的可检测范围</span>float32 angle_increment <span class="token comment" spellcheck="true">//相邻数据帧之间的角度步长</span>float32 time_increment <span class="token comment" spellcheck="true">//采集到相邻数据帧之间的时间步长，当传感器处于相对运动状态时进行补偿使用</span>float32 scan_time <span class="token comment" spellcheck="true">//采集一帧数据所需要的时间</span>float32 range_min <span class="token comment" spellcheck="true">//最近可检测深度的阈值</span>float32 range_max <span class="token comment" spellcheck="true">//最远可检测深度的阈值</span>float32<span class="token punctuation">[</span><span class="token punctuation">]</span> ranges <span class="token comment" spellcheck="true">//一帧深度数据的存储数组</span>float32<span class="token punctuation">[</span><span class="token punctuation">]</span> intensities<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre><p>而RGB-D摄像头，也可以通过红外摄像头获取周围环境的深度信息，可以通过<code>depthimage_to_laserscan</code>功能包转化为激光雷达的数据。</p><h3 id="2-2-里程计"><a href="#2-2-里程计" class="headerlink" title="2.2 里程计"></a>2.2 里程计</h3><p>机器人在定位时要用到其里程计，在终端上输入<code>rosmsg show nav_msgs/Odometry</code>可以获得其数据结构</p><pre class="line-numbers language-cpp"><code class="language-cpp">std_msgs<span class="token operator">/</span>Header header  uint32 seq  time stamp  string frame_idstring child_frame_idgeometry_msgs<span class="token operator">/</span>PoseWithCovariance pose <span class="token comment" spellcheck="true">//机器人当前位置坐标，包括机器人的XYZ三轴位置和方向参数，以及用于校正误差的协方差矩阵</span>  geometry_msgs<span class="token operator">/</span>Pose pose     geometry_msgs<span class="token operator">/</span>Point position      float64 x      float64 y      float64 z    geometry_msgs<span class="token operator">/</span>Quaternion orientation      float64 x      float64 y      float64 z      float64 w  float64<span class="token punctuation">[</span><span class="token number">36</span><span class="token punctuation">]</span> covariancegeometry_msgs<span class="token operator">/</span>TwistWithCovariance twist <span class="token comment" spellcheck="true">//机器人当前的运动状态，包括XYZ三轴的线速度与角速度，以及用于校正误差的协方差矩阵</span>  geometry_msgs<span class="token operator">/</span>Twist twist    geometry_msgs<span class="token operator">/</span>Vector3 linear      float64 x      float64 y      float64 z    geometry_msgs<span class="token operator">/</span>Vector3 angular      float64 x      float64 y      float64 z  float64<span class="token punctuation">[</span><span class="token number">36</span><span class="token punctuation">]</span> covariance<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre><h2 id="三、SLAM功能包"><a href="#三、SLAM功能包" class="headerlink" title="三、SLAM功能包"></a>三、SLAM功能包</h2><h3 id="3-1-介绍"><a href="#3-1-介绍" class="headerlink" title="3.1 介绍"></a>3.1 介绍</h3><p>借助SLAM功能包，我们只需要输入特定格式的传感器信息，就可以自动建图和定位。在ROS中这种功能的包有很多，比如用于平面地图的gmapping，hector，cartographer等功能包，也有用于三维地图的rtabmap功能包。</p><h3 id="3-2-gmapping"><a href="#3-2-gmapping" class="headerlink" title="3.2 gmapping"></a>3.2 gmapping</h3><p>以<a href="http://wiki.ros.org/gmapping" target="_blank" rel="noopener">gmapping功能包</a>为例，gmapping是基于二维激光雷达的slam建图定位的功能包，采用的是Rao-Blackwellized粒子滤波算法，最后输出的是二维栅格地图。gmapping的总体框架如下</p><center><img width="350" height="200" src="http://suljaxm.com/10_gmapping.png">gmapping功能包的总体框架</center>深度信息，里程计信息，IMU信息是输入信息，其中前两个信息必须输入。### 3.3 应用我们借助gazebo，创建一个迷宫来测试gmapping功能包，<center><img width="450" height="300" src="http://suljaxm.com/10_maze.png">虚拟迷宫</center>gmapping的应用效果如下，我们可以看到随着小车的运动，未知环境开始构建地图<center><img width="450" height="200" src="http://suljaxm.com/10_gmapping.gif"></center><p>参考<br><a href="https://openslam-org.github.io/gmapping.html" target="_blank" rel="noopener">openslam</a></p>]]></content>
+        <content type="html"><![CDATA[<h2 id="一、SLAM"><a href="#一、SLAM" class="headerlink" title="一、SLAM"></a>一、SLAM</h2><h3 id="1-1-介绍"><a href="#1-1-介绍" class="headerlink" title="1.1 介绍"></a>1.1 介绍</h3><p>SLAM是机器人自身位置不确定的情况下，在完全未知的环境中创建地图，同时利用地图进行自主定位。</p><ul><li>定位：机器人根据周围环境估计自身在地图上的位置坐标。</li><li>地图构建：机器人根据传感器的结果来构建一张地图。</li></ul><h3 id="1-2-原理"><a href="#1-2-原理" class="headerlink" title="1.2 原理"></a>1.2 原理</h3><center><img width="400" height="350" src="http://suljaxm.com/10_slam_%E5%8E%9F%E7%90%86.png">图1. SLAM原理</center><h2 id="二、数据结构"><a href="#二、数据结构" class="headerlink" title="二、数据结构"></a>二、数据结构</h2><h3 id="2-1-激光雷达"><a href="#2-1-激光雷达" class="headerlink" title="2.1 激光雷达"></a>2.1 激光雷达</h3><p>一般在slam中使用可以直接获得深度信息的传感器。以激光雷达为例，在终端上输入<code>rosmsg show sensor_msgs/LaserScan</code>可以获得其数据结构</p><pre class="line-numbers language-cpp"><code class="language-cpp">std_msgs<span class="token operator">/</span>Header header  uint32 seq  time stamp  string frame_idfloat32 angle_min <span class="token comment" spellcheck="true">//可检测范围的起始角度</span>float32 angle_max <span class="token comment" spellcheck="true">//可检测范围的终止角度，与angle_min组成激光雷达的可检测范围</span>float32 angle_increment <span class="token comment" spellcheck="true">//相邻数据帧之间的角度步长</span>float32 time_increment <span class="token comment" spellcheck="true">//采集到相邻数据帧之间的时间步长，当传感器处于相对运动状态时进行补偿使用</span>float32 scan_time <span class="token comment" spellcheck="true">//采集一帧数据所需要的时间</span>float32 range_min <span class="token comment" spellcheck="true">//最近可检测深度的阈值</span>float32 range_max <span class="token comment" spellcheck="true">//最远可检测深度的阈值</span>float32<span class="token punctuation">[</span><span class="token punctuation">]</span> ranges <span class="token comment" spellcheck="true">//一帧深度数据的存储数组</span>float32<span class="token punctuation">[</span><span class="token punctuation">]</span> intensities<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre><p>而RGB-D摄像头，也可以通过红外摄像头获取周围环境的深度信息，可以通过<code>depthimage_to_laserscan</code>功能包转化为激光雷达的数据。</p><h3 id="2-2-里程计"><a href="#2-2-里程计" class="headerlink" title="2.2 里程计"></a>2.2 里程计</h3><p>机器人在定位时要用到其里程计，在终端上输入<code>rosmsg show nav_msgs/Odometry</code>可以获得其数据结构</p><pre class="line-numbers language-cpp"><code class="language-cpp">std_msgs<span class="token operator">/</span>Header header  uint32 seq  time stamp  string frame_idstring child_frame_idgeometry_msgs<span class="token operator">/</span>PoseWithCovariance pose <span class="token comment" spellcheck="true">//机器人当前位置坐标，包括机器人的XYZ三轴位置和方向参数，以及用于校正误差的协方差矩阵</span>  geometry_msgs<span class="token operator">/</span>Pose pose     geometry_msgs<span class="token operator">/</span>Point position      float64 x      float64 y      float64 z    geometry_msgs<span class="token operator">/</span>Quaternion orientation      float64 x      float64 y      float64 z      float64 w  float64<span class="token punctuation">[</span><span class="token number">36</span><span class="token punctuation">]</span> covariancegeometry_msgs<span class="token operator">/</span>TwistWithCovariance twist <span class="token comment" spellcheck="true">//机器人当前的运动状态，包括XYZ三轴的线速度与角速度，以及用于校正误差的协方差矩阵</span>  geometry_msgs<span class="token operator">/</span>Twist twist    geometry_msgs<span class="token operator">/</span>Vector3 linear      float64 x      float64 y      float64 z    geometry_msgs<span class="token operator">/</span>Vector3 angular      float64 x      float64 y      float64 z  float64<span class="token punctuation">[</span><span class="token number">36</span><span class="token punctuation">]</span> covariance<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre><h2 id="三、SLAM功能包"><a href="#三、SLAM功能包" class="headerlink" title="三、SLAM功能包"></a>三、SLAM功能包</h2><h3 id="3-1-介绍"><a href="#3-1-介绍" class="headerlink" title="3.1 介绍"></a>3.1 介绍</h3><p>借助SLAM功能包，我们只需要输入特定格式的传感器信息，就可以自动建图和定位。在ROS中这种功能的包有很多，比如用于平面地图的gmapping，hector，cartographer等功能包，也有用于三维地图的rtabmap功能包。</p><h3 id="3-2-gmapping"><a href="#3-2-gmapping" class="headerlink" title="3.2 gmapping"></a>3.2 gmapping</h3><p>以<a href="http://wiki.ros.org/gmapping" target="_blank" rel="noopener">gmapping功能包</a>为例，gmapping是基于二维激光雷达的slam建图定位的功能包，采用的是Rao-Blackwellized粒子滤波算法，最后输出的是二维栅格地图。gmapping的总体框架如下</p><center><img width="350" height="200" src="http://suljaxm.com/10_gmapping.png">图2. gmapping功能包的总体框架</center>深度信息，里程计信息，IMU信息是输入信息，其中前两个信息必须输入。### 3.3 应用我们借助gazebo，创建一个迷宫来测试gmapping功能包，<center><img width="350" height="200" src="http://suljaxm.com/10_maze.png">图3. 虚拟迷宫</center>gmapping的应用效果如图4示，我们可以看到随着小车的运动，未知环境开始构建地图的过程。<center><img width="350" height="200" src="http://suljaxm.com/10_gmapping.gif">图4. gmapping应用效果</center><p>参考<br><a href="https://openslam-org.github.io/gmapping.html" target="_blank" rel="noopener">openslam</a></p>]]></content>
       
       
       <categories>
@@ -20,9 +20,9 @@
       
         <tags>
             
-            <tag> XML </tag>
-            
             <tag> 机器人 </tag>
+            
+            <tag> XML </tag>
             
         </tags>
       
@@ -74,11 +74,11 @@
       
         <tags>
             
-            <tag> XML </tag>
+            <tag> C++ </tag>
             
             <tag> 机器人 </tag>
             
-            <tag> C++ </tag>
+            <tag> XML </tag>
             
             <tag> Python </tag>
             
@@ -105,9 +105,9 @@
       
         <tags>
             
-            <tag> XML </tag>
-            
             <tag> 机器人 </tag>
+            
+            <tag> XML </tag>
             
             <tag> Python </tag>
             
@@ -136,9 +136,9 @@
       
         <tags>
             
-            <tag> XML </tag>
-            
             <tag> 机器人 </tag>
+            
+            <tag> XML </tag>
             
         </tags>
       
@@ -163,9 +163,9 @@
       
         <tags>
             
-            <tag> XML </tag>
-            
             <tag> 机器人 </tag>
+            
+            <tag> XML </tag>
             
         </tags>
       
@@ -190,11 +190,11 @@
       
         <tags>
             
-            <tag> XML </tag>
+            <tag> C++ </tag>
             
             <tag> 机器人 </tag>
             
-            <tag> C++ </tag>
+            <tag> XML </tag>
             
         </tags>
       
@@ -219,9 +219,9 @@
       
         <tags>
             
-            <tag> 机器人 </tag>
-            
             <tag> C++ </tag>
+            
+            <tag> 机器人 </tag>
             
         </tags>
       
@@ -246,9 +246,9 @@
       
         <tags>
             
-            <tag> 机器人 </tag>
-            
             <tag> C++ </tag>
+            
+            <tag> 机器人 </tag>
             
         </tags>
       
@@ -273,9 +273,9 @@
       
         <tags>
             
-            <tag> 机器人 </tag>
-            
             <tag> C++ </tag>
+            
+            <tag> 机器人 </tag>
             
         </tags>
       
@@ -302,9 +302,9 @@
             
             <tag> Python </tag>
             
-            <tag> 无人车 </tag>
-            
             <tag> DL </tag>
+            
+            <tag> 无人车 </tag>
             
         </tags>
       

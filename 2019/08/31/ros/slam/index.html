@@ -383,12 +383,12 @@
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/XML/" target="_blank">
-                                <span class="chip bg-color">XML</span>
-                            </a>
-                        
                             <a href="/tags/机器人/" target="_blank">
                                 <span class="chip bg-color">机器人</span>
+                            </a>
+                        
+                            <a href="/tags/XML/" target="_blank">
+                                <span class="chip bg-color">XML</span>
                             </a>
                         
                     </div>
@@ -418,14 +418,14 @@
                     
                     <div class="info-break-policy">
                         <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
-                        769
+                        789
                     </div>
                     
 
                     
                     <div class="info-break-policy">
                         <i class="fa fa-clock-o fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                        2 分
+                        3 分
                     </div>
                     
                 
@@ -447,6 +447,7 @@
 <li>地图构建：机器人根据传感器的结果来构建一张地图。</li>
 </ul>
 <h3 id="1-2-原理"><a href="#1-2-原理" class="headerlink" title="1.2 原理"></a>1.2 原理</h3><center><img width="400" height="350" src="http://suljaxm.com/10_slam_%E5%8E%9F%E7%90%86.png">
+图1. SLAM原理
 </center>
 
 <h2 id="二、数据结构"><a href="#二、数据结构" class="headerlink" title="二、数据结构"></a>二、数据结构</h2><h3 id="2-1-激光雷达"><a href="#2-1-激光雷达" class="headerlink" title="2.1 激光雷达"></a>2.1 激光雷达</h3><p>一般在slam中使用可以直接获得深度信息的传感器。以激光雷达为例，在终端上输入<code>rosmsg show sensor_msgs/LaserScan</code>可以获得其数据结构</p>
@@ -496,16 +497,18 @@ geometry_msgs<span class="token operator">/</span>TwistWithCovariance twist <spa
 <h2 id="三、SLAM功能包"><a href="#三、SLAM功能包" class="headerlink" title="三、SLAM功能包"></a>三、SLAM功能包</h2><h3 id="3-1-介绍"><a href="#3-1-介绍" class="headerlink" title="3.1 介绍"></a>3.1 介绍</h3><p>借助SLAM功能包，我们只需要输入特定格式的传感器信息，就可以自动建图和定位。在ROS中这种功能的包有很多，比如用于平面地图的gmapping，hector，cartographer等功能包，也有用于三维地图的rtabmap功能包。</p>
 <h3 id="3-2-gmapping"><a href="#3-2-gmapping" class="headerlink" title="3.2 gmapping"></a>3.2 gmapping</h3><p>以<a href="http://wiki.ros.org/gmapping" target="_blank" rel="noopener">gmapping功能包</a>为例，gmapping是基于二维激光雷达的slam建图定位的功能包，采用的是Rao-Blackwellized粒子滤波算法，最后输出的是二维栅格地图。gmapping的总体框架如下</p>
 <center><img width="350" height="200" src="http://suljaxm.com/10_gmapping.png">
-gmapping功能包的总体框架
+图2. gmapping功能包的总体框架
 </center>
 深度信息，里程计信息，IMU信息是输入信息，其中前两个信息必须输入。
 ### 3.3 应用
 我们借助gazebo，创建一个迷宫来测试gmapping功能包，
-<center><img width="450" height="300" src="http://suljaxm.com/10_maze.png">
-虚拟迷宫
+<center><img width="350" height="200" src="http://suljaxm.com/10_maze.png">
+图3. 虚拟迷宫
 </center>
-gmapping的应用效果如下，我们可以看到随着小车的运动，未知环境开始构建地图
-<center><img width="450" height="200" src="http://suljaxm.com/10_gmapping.gif"></center>
+gmapping的应用效果如图4示，我们可以看到随着小车的运动，未知环境开始构建地图的过程。
+<center><img width="350" height="200" src="http://suljaxm.com/10_gmapping.gif">
+图4. gmapping应用效果
+</center>
 
 
 
@@ -750,12 +753,12 @@ gmapping的应用效果如下，我们可以看到随着小车的运动，未知
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/XML/" target="_blank">
-                        <span class="chip bg-color">XML</span>
-                    </a>
-                    
                     <a href="/tags/机器人/" target="_blank">
                         <span class="chip bg-color">机器人</span>
+                    </a>
+                    
+                    <a href="/tags/XML/" target="_blank">
+                        <span class="chip bg-color">XML</span>
                     </a>
                     
                 </div>

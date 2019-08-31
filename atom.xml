@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://suljaxm.github.io/"/>
-  <updated>2019-08-31T10:43:29.750Z</updated>
+  <updated>2019-08-31T11:05:11.957Z</updated>
   <id>https://suljaxm.github.io/</id>
   
   <author>
@@ -21,7 +21,7 @@
     <link href="https://suljaxm.github.io/2019/08/31/ros/slam/"/>
     <id>https://suljaxm.github.io/2019/08/31/ros/slam/</id>
     <published>2019-08-31T08:24:47.000Z</published>
-    <updated>2019-08-31T10:43:29.750Z</updated>
+    <updated>2019-08-31T11:05:11.957Z</updated>
     
     <summary type="html">
     
@@ -38,9 +38,9 @@
       <category term="ROS" scheme="https://suljaxm.github.io/categories/ROS/"/>
     
     
-      <category term="XML" scheme="https://suljaxm.github.io/tags/XML/"/>
-    
       <category term="机器人" scheme="https://suljaxm.github.io/tags/%E6%9C%BA%E5%99%A8%E4%BA%BA/"/>
+    
+      <category term="XML" scheme="https://suljaxm.github.io/tags/XML/"/>
     
   </entry>
   
@@ -94,11 +94,11 @@
       <category term="ROS" scheme="https://suljaxm.github.io/categories/ROS/"/>
     
     
-      <category term="XML" scheme="https://suljaxm.github.io/tags/XML/"/>
+      <category term="C++" scheme="https://suljaxm.github.io/tags/C/"/>
     
       <category term="机器人" scheme="https://suljaxm.github.io/tags/%E6%9C%BA%E5%99%A8%E4%BA%BA/"/>
     
-      <category term="C++" scheme="https://suljaxm.github.io/tags/C/"/>
+      <category term="XML" scheme="https://suljaxm.github.io/tags/XML/"/>
     
       <category term="Python" scheme="https://suljaxm.github.io/tags/Python/"/>
     
@@ -126,9 +126,9 @@
       <category term="ROS" scheme="https://suljaxm.github.io/categories/ROS/"/>
     
     
-      <category term="XML" scheme="https://suljaxm.github.io/tags/XML/"/>
-    
       <category term="机器人" scheme="https://suljaxm.github.io/tags/%E6%9C%BA%E5%99%A8%E4%BA%BA/"/>
+    
+      <category term="XML" scheme="https://suljaxm.github.io/tags/XML/"/>
     
       <category term="Python" scheme="https://suljaxm.github.io/tags/Python/"/>
     
@@ -158,9 +158,9 @@
       <category term="ROS" scheme="https://suljaxm.github.io/categories/ROS/"/>
     
     
-      <category term="XML" scheme="https://suljaxm.github.io/tags/XML/"/>
-    
       <category term="机器人" scheme="https://suljaxm.github.io/tags/%E6%9C%BA%E5%99%A8%E4%BA%BA/"/>
+    
+      <category term="XML" scheme="https://suljaxm.github.io/tags/XML/"/>
     
   </entry>
   
@@ -186,9 +186,9 @@
       <category term="ROS" scheme="https://suljaxm.github.io/categories/ROS/"/>
     
     
-      <category term="XML" scheme="https://suljaxm.github.io/tags/XML/"/>
-    
       <category term="机器人" scheme="https://suljaxm.github.io/tags/%E6%9C%BA%E5%99%A8%E4%BA%BA/"/>
+    
+      <category term="XML" scheme="https://suljaxm.github.io/tags/XML/"/>
     
   </entry>
   
@@ -214,11 +214,11 @@
       <category term="ROS" scheme="https://suljaxm.github.io/categories/ROS/"/>
     
     
-      <category term="XML" scheme="https://suljaxm.github.io/tags/XML/"/>
+      <category term="C++" scheme="https://suljaxm.github.io/tags/C/"/>
     
       <category term="机器人" scheme="https://suljaxm.github.io/tags/%E6%9C%BA%E5%99%A8%E4%BA%BA/"/>
     
-      <category term="C++" scheme="https://suljaxm.github.io/tags/C/"/>
+      <category term="XML" scheme="https://suljaxm.github.io/tags/XML/"/>
     
   </entry>
   
@@ -244,9 +244,9 @@
       <category term="ROS" scheme="https://suljaxm.github.io/categories/ROS/"/>
     
     
-      <category term="机器人" scheme="https://suljaxm.github.io/tags/%E6%9C%BA%E5%99%A8%E4%BA%BA/"/>
-    
       <category term="C++" scheme="https://suljaxm.github.io/tags/C/"/>
+    
+      <category term="机器人" scheme="https://suljaxm.github.io/tags/%E6%9C%BA%E5%99%A8%E4%BA%BA/"/>
     
   </entry>
   
@@ -272,9 +272,9 @@
       <category term="ROS" scheme="https://suljaxm.github.io/categories/ROS/"/>
     
     
-      <category term="机器人" scheme="https://suljaxm.github.io/tags/%E6%9C%BA%E5%99%A8%E4%BA%BA/"/>
-    
       <category term="C++" scheme="https://suljaxm.github.io/tags/C/"/>
+    
+      <category term="机器人" scheme="https://suljaxm.github.io/tags/%E6%9C%BA%E5%99%A8%E4%BA%BA/"/>
     
   </entry>
   
@@ -300,9 +300,9 @@
       <category term="ROS" scheme="https://suljaxm.github.io/categories/ROS/"/>
     
     
-      <category term="机器人" scheme="https://suljaxm.github.io/tags/%E6%9C%BA%E5%99%A8%E4%BA%BA/"/>
-    
       <category term="C++" scheme="https://suljaxm.github.io/tags/C/"/>
+    
+      <category term="机器人" scheme="https://suljaxm.github.io/tags/%E6%9C%BA%E5%99%A8%E4%BA%BA/"/>
     
   </entry>
   
@@ -338,9 +338,9 @@
     
       <category term="Python" scheme="https://suljaxm.github.io/tags/Python/"/>
     
-      <category term="无人车" scheme="https://suljaxm.github.io/tags/%E6%97%A0%E4%BA%BA%E8%BD%A6/"/>
-    
       <category term="DL" scheme="https://suljaxm.github.io/tags/DL/"/>
+    
+      <category term="无人车" scheme="https://suljaxm.github.io/tags/%E6%97%A0%E4%BA%BA%E8%BD%A6/"/>
     
   </entry>
   
