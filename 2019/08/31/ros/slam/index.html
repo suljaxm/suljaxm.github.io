@@ -383,12 +383,12 @@
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/机器人/" target="_blank">
-                                <span class="chip bg-color">机器人</span>
-                            </a>
-                        
                             <a href="/tags/XML/" target="_blank">
                                 <span class="chip bg-color">XML</span>
+                            </a>
+                        
+                            <a href="/tags/机器人/" target="_blank">
+                                <span class="chip bg-color">机器人</span>
                             </a>
                         
                     </div>
@@ -418,7 +418,7 @@
                     
                     <div class="info-break-policy">
                         <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
-                        803
+                        807
                     </div>
                     
 
@@ -464,7 +464,7 @@ float32 range_min <span class="token comment" spellcheck="true">//最近可检�
 float32 range_max <span class="token comment" spellcheck="true">//最远可检测深度的阈值</span>
 float32<span class="token punctuation">[</span><span class="token punctuation">]</span> ranges <span class="token comment" spellcheck="true">//一帧深度数据的存储数组</span>
 float32<span class="token punctuation">[</span><span class="token punctuation">]</span> intensities<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<p>而<strong>RGB-D</strong>摄像头，也可以通过红外摄像头获取周围环境的深度信息，可以通过<code>depthimage_to_laserscan</code>功能包转化为激光雷达的数据。</p>
+<p>而<strong>RGB-D</strong>摄像头，也可以通过红外摄像头获取周围环境的深度信息，可以通过<strong>depthimage_to_laserscan</strong>功能包转化为激光雷达的数据。</p>
 <h3 id="2-2-里程计"><a href="#2-2-里程计" class="headerlink" title="2.2 里程计"></a>2.2 里程计</h3><p>机器人在定位时要用到其里程计，在终端上输入<code>rosmsg show nav_msgs/Odometry</code>可以获得其数据结构</p>
 <pre class="line-numbers language-cpp"><code class="language-cpp">std_msgs<span class="token operator">/</span>Header header
   uint32 seq
@@ -495,25 +495,23 @@ geometry_msgs<span class="token operator">/</span>TwistWithCovariance twist <spa
       float64 z
   float64<span class="token punctuation">[</span><span class="token number">36</span><span class="token punctuation">]</span> covariance<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <h2 id="三、SLAM功能包"><a href="#三、SLAM功能包" class="headerlink" title="三、SLAM功能包"></a>三、SLAM功能包</h2><h3 id="3-1-介绍"><a href="#3-1-介绍" class="headerlink" title="3.1 介绍"></a>3.1 介绍</h3><p>借助<strong>SLAM</strong>功能包，我们只需要输入特定格式的传感器信息，就可以自动建图和定位。在<strong>ROS</strong>中这种功能的包有很多，比如用于平面地图的<strong>gmapping</strong>，<strong>hector</strong>，<strong>cartographer</strong>等功能包，也有用于三维地图的<strong>rtabmap</strong>功能包。</p>
-<h3 id="3-2-GMapping"><a href="#3-2-GMapping" class="headerlink" title="3.2 GMapping"></a>3.2 GMapping</h3><p>以<a href="http://wiki.ros.org/gmapping" target="_blank" rel="noopener">gmapping功能包</a>为例，<strong>GMapping</strong>是基于二维激光雷达的 <strong>SLAM</strong>建图定位的功能包，采用的是<strong>Rao-Blackwellized</strong>粒子滤波算法，<strong>GMapping</strong>的总体框架如图2所示。深度信息，里程计信息，IMU信息是输入信息，二维栅格地图是输出地图。其中深度信息和里程计信息是必须输入的，IMU可不输入。</p>
+<h3 id="3-2-GMapping"><a href="#3-2-GMapping" class="headerlink" title="3.2 GMapping"></a>3.2 GMapping</h3><p>以<a href="http://wiki.ros.org/gmapping" target="_blank" rel="noopener">gmapping功能包</a>为例，<strong>gmapping</strong>是基于二维激光雷达的 <strong>SLAM</strong>建图定位的功能包，采用的是<strong>Rao-Blackwellized</strong>粒子滤波算法，<strong>gmapping</strong>的总体框架如图2所示。深度信息，里程计信息，IMU信息是输入信息，二维栅格地图是输出地图。其中深度信息和里程计信息是必须输入的，IMU可不输入。</p>
 <center><img width="350" height="200" src="http://suljaxm.com/10_gmapping.png">
 图2. gmapping功能包的总体框架
 </center>
 
 
-<h3 id="3-3-应用"><a href="#3-3-应用" class="headerlink" title="3.3 应用"></a>3.3 应用</h3><p>我们借助<strong>gazebo</strong>，创建一个迷宫来测试<strong>GMapping</strong>功能包，</p>
-<center><img width="350" height="200" src="http://suljaxm.com/10_maze.png">
+<h3 id="3-3-应用"><a href="#3-3-应用" class="headerlink" title="3.3 应用"></a>3.3 应用</h3><p>我们借助<strong>gazebo</strong>，创建一个如图3所示的虚拟迷宫，用于小车的测试。图4是<strong>gmapping</strong>功能包的应用效果，可以看到小车的运动和地图构建都是同步的。</p>
+<center><img width="350" height="240" src="http://suljaxm.com/10_maze.png">
 图3. 虚拟迷宫
 </center>
-
-<p><strong>GMapping</strong>的应用效果如图4示，我们可以看到随着小车的运动，未知环境开始构建地图的过程。</p>
 <center><img width="350" height="200" src="http://suljaxm.com/10_gmapping.gif">
-图4. GMapping应用效果
+图4. gmapping应用效果
 </center>
 
 
 
-<p>参考<br><a href="https://openslam-org.github.io/gmapping.html" target="_blank" rel="noopener">openslam</a></p>
+<p><a href="https://github.com/suljaxm/mobile-robot-sim" target="_blank" rel="noopener">参考代码</a></p>
 
             </div>
             <hr/>
@@ -714,30 +712,29 @@ geometry_msgs<span class="token operator">/</span>TwistWithCovariance twist <spa
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6 overflow-policy" data-aos="fade-up" data-aos="fade-up">
+        <div class="article col s12 m6 overflow-policy" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fa fa-dot-circle-o"></i>&nbsp;本篇
-            </div>
+                <i class="fa fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2019/08/31/ros/slam/">
+                <a href="/2019/09/02/ros/navigation/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/15.jpg" class="responsive-img" alt="SLAM建图">
+                        <img src="/medias/featureimages/5.jpg" class="responsive-img" alt="机器人自主导航">
                         
-                        <span class="card-title">SLAM建图</span>
+                        <span class="card-title">机器人自主导航</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            借助SLAM功能包进行小车对周围环境的建图和自身的定位
+                            机器人在不同环境下的导航
                         
                     </div>
                     <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="fa fa-clock-o fa-fw icon-date"></i>2019-08-31
-                            </span>
+                        <span class="publish-date">
+                            <i class="fa fa-clock-o fa-fw icon-date"></i>2019-09-02
+                        </span>
                         <span class="publish-author">
                             
                             <i class="fa fa-bookmark fa-fw icon-category"></i>
@@ -750,16 +747,19 @@ geometry_msgs<span class="token operator">/</span>TwistWithCovariance twist <spa
                         </span>
                     </div>
                 </div>
-
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/机器人/" target="_blank">
-                        <span class="chip bg-color">机器人</span>
-                    </a>
-                    
                     <a href="/tags/XML/" target="_blank">
                         <span class="chip bg-color">XML</span>
+                    </a>
+                    
+                    <a href="/tags/Python/" target="_blank">
+                        <span class="chip bg-color">Python</span>
+                    </a>
+                    
+                    <a href="/tags/机器人/" target="_blank">
+                        <span class="chip bg-color">机器人</span>
                     </a>
                     
                 </div>
@@ -967,7 +967,7 @@ geometry_msgs<span class="token operator">/</span>TwistWithCovariance twist <spa
            &copy;<a href="https://suljaxm.github.io/" target="_blank">2019 SULJAXM. All Rights Reserved.
             
                 &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
-                <span class="white-color">11.2k</span>
+                <span class="white-color">12.3k</span>
             
 
             <br>

@@ -4,8 +4,8 @@
 
 <head><meta name="generator" content="Hexo 3.9.0">
     <meta charset="utf-8">
-    <meta name="keywords" content="卡尔曼滤波器, 木匠">
-    <meta name="description" content="一、高斯函数1.1 介绍一维高斯函数的表达式为$f\left ( x \right )=\frac{1}{\sqrt{2\pi \delta ^{2}}}exp^{-\frac{1}{2}\frac{\left ( x - \mu \rig">
+    <meta name="keywords" content="机器人自主导航, 木匠">
+    <meta name="description" content="一、导航框架1.1 思路首先是确定导航目标（Goal）和自身定位（amcl），然后根据静态图进行全局的路径规划。在实际运行中，我们还要考虑实时本地优化，通过本地优化器实现一些突发情况的处理，比如当前速度值（cmd_vel），再将这些实时的信">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -13,7 +13,7 @@
     <meta name="format-detection" content="telephone=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>卡尔曼滤波器 | 木匠</title>
+    <title>机器人自主导航 | 木匠</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/font-awesome.min.css">
@@ -261,13 +261,13 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/23.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/5.jpg')">
     <div class="container">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
                     <div class="description center-align post-title">
-                        卡尔曼滤波器
+                        机器人自主导航
                     </div>
                 </div>
             </div>
@@ -378,12 +378,16 @@
                     
                     <div class="article-tag">
                         
+                            <a href="/tags/XML/" target="_blank">
+                                <span class="chip bg-color">XML</span>
+                            </a>
+                        
                             <a href="/tags/Python/" target="_blank">
                                 <span class="chip bg-color">Python</span>
                             </a>
                         
-                            <a href="/tags/无人车/" target="_blank">
-                                <span class="chip bg-color">无人车</span>
+                            <a href="/tags/机器人/" target="_blank">
+                                <span class="chip bg-color">机器人</span>
                             </a>
                         
                     </div>
@@ -394,8 +398,8 @@
                     <div class="post-cate">
                         <i class="fa fa-bookmark fa-fw icon-category"></i>
                         
-                            <a href="/categories/无人驾驶/" class="post-category" target="_blank">
-                                无人驾驶
+                            <a href="/categories/ROS/" class="post-category" target="_blank">
+                                ROS
                             </a>
                         
                     </div>
@@ -406,21 +410,21 @@
             <div class="post-info">
                 <div class="post-date info-break-policy">
                     <i class="fa fa-calendar-minus-o fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2019-08-28
+                    2019-09-02
                 </div>
 
                 
                     
                     <div class="info-break-policy">
                         <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
-                        1.8k
+                        1.1k
                     </div>
                     
 
                     
                     <div class="info-break-policy">
                         <i class="fa fa-clock-o fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                        7 分
+                        4 分
                     </div>
                     
                 
@@ -436,82 +440,145 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h2 id="一、高斯函数"><a href="#一、高斯函数" class="headerlink" title="一、高斯函数"></a>一、高斯函数</h2><h3 id="1-1-介绍"><a href="#1-1-介绍" class="headerlink" title="1.1 介绍"></a>1.1 介绍</h3><p>一维高斯函数的表达式为$f\left ( x \right )=\frac{1}{\sqrt{2\pi \delta ^{2}}}exp^{-\frac{1}{2}\frac{\left ( x - \mu \right )^{2}}{\delta ^2}}$，其中$\mu$为函数尖峰值，$\delta$为标准方差。</p>
-<pre class="line-numbers language-python"><code class="language-python"><span class="token keyword">def</span> <span class="token function">f</span><span class="token punctuation">(</span>mu<span class="token punctuation">,</span> sigma2<span class="token punctuation">,</span> x<span class="token punctuation">)</span><span class="token punctuation">:</span>
-    <span class="token keyword">return</span> <span class="token number">1</span><span class="token operator">/</span>sqrt<span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">.</span><span class="token operator">*</span>pi<span class="token operator">*</span>sigma2<span class="token punctuation">)</span> <span class="token operator">*</span> exp<span class="token punctuation">(</span><span class="token operator">-</span><span class="token punctuation">.</span><span class="token number">5</span><span class="token operator">*</span><span class="token punctuation">(</span>x<span class="token operator">-</span>mu<span class="token punctuation">)</span><span class="token operator">**</span><span class="token number">2</span> <span class="token operator">/</span> sigma2<span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
-<h3 id="1-2-状态更新"><a href="#1-2-状态更新" class="headerlink" title="1.2 状态更新"></a>1.2 状态更新</h3><p>假设像贝叶斯定理一样，两个高斯函数相乘，$f_1\left ( x \right )=\frac{1}{\sqrt{2\pi \delta ^{2}}}exp^{-\frac{1}{2}\frac{\left ( x - \mu \right )^{2}}{\delta ^2}}$ 和$ f_2\left ( x \right )=\frac{1}{\sqrt{2\pi \gamma ^{2}}}exp^{-\frac{1}{2}\frac{\left ( x - \nu  \right )^2}{\gamma ^2}}$，相乘后获得新的高斯函数$f_3\left ( x \right )=\frac{1}{\sqrt{2\pi \delta ^{2’}}}exp^{-\frac{1}{2}\frac{\left ( x - {\mu}’ \right )^{2}}{\delta ^{2’}}}$，其中$f_3\left ( x \right )$ 的波峰处于$f_1\left ( x \right )$，$f_2\left ( x \right )$两个尖峰之间，且更细高，一个相对确定的分布，计算公式为${\mu}’= \frac{1}{\delta ^2+\gamma ^2}[\gamma ^2\mu + \delta ^2\nu ]$，$\delta^{2’}= \frac{1}{\frac{1}{\delta ^2}+\frac{1}{\gamma ^2}}$。</p>
-<center><img width="300" height="100" src="http://suljaxm.com/9_gaussian.png">
+                <h2 id="一、导航框架"><a href="#一、导航框架" class="headerlink" title="一、导航框架"></a>一、导航框架</h2><h3 id="1-1-思路"><a href="#1-1-思路" class="headerlink" title="1.1 思路"></a>1.1 思路</h3><p>首先是确定导航目标（Goal）和自身定位（amcl），然后根据静态图进行全局的路径规划。在实际运行中，我们还要考虑实时本地优化，通过本地优化器实现一些突发情况的处理，比如当前速度值（cmd_vel），再将这些实时的信息再通过控制器（Base Controller），输出电压或电流等信号给电机，让电机做出想应的动作（Motor Speeds）。</p>
+<center><img width="400" height="200" src="http://suljaxm.com/11_overview_nav.png">
+图1 导航思路
 </center>
 
-<pre class="line-numbers language-python"><code class="language-python"><span class="token keyword">def</span> <span class="token function">update</span><span class="token punctuation">(</span>mean1<span class="token punctuation">,</span> var1<span class="token punctuation">,</span> mean2<span class="token punctuation">,</span> var2<span class="token punctuation">)</span><span class="token punctuation">:</span>
-    new_mean <span class="token operator">=</span> <span class="token number">1</span><span class="token operator">/</span><span class="token punctuation">(</span>var1<span class="token operator">+</span>var2<span class="token punctuation">)</span><span class="token operator">*</span><span class="token punctuation">(</span>var1<span class="token operator">*</span>mean2<span class="token operator">+</span>var2<span class="token operator">*</span>mean1<span class="token punctuation">)</span>
-    new_var <span class="token operator">=</span> <span class="token number">1</span><span class="token operator">/</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token operator">/</span>var1 <span class="token operator">+</span> <span class="token number">1</span><span class="token operator">/</span>var2<span class="token punctuation">)</span>
-    <span class="token keyword">return</span> <span class="token punctuation">[</span>new_mean<span class="token punctuation">,</span> new_var<span class="token punctuation">]</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
-<h3 id="1-3-高斯运动预测"><a href="#1-3-高斯运动预测" class="headerlink" title="1.3 高斯运动预测"></a>1.3 高斯运动预测</h3><p>预测函数是两个函数的相加，${\mu}’= \mu + \nu $，$\delta^{2’}= \delta ^2+\gamma ^2$。</p>
-<pre class="line-numbers language-python"><code class="language-python"><span class="token keyword">def</span> <span class="token function">predict</span><span class="token punctuation">(</span>mean1<span class="token punctuation">,</span> var1<span class="token punctuation">,</span> mean2<span class="token punctuation">,</span> var2<span class="token punctuation">)</span><span class="token punctuation">:</span>
-    new_mean <span class="token operator">=</span> mean1 <span class="token operator">+</span> mean2
-    new_var <span class="token operator">=</span> var1 <span class="token operator">+</span> var2
-    <span class="token keyword">return</span> <span class="token punctuation">[</span>new_mean<span class="token punctuation">,</span> new_var<span class="token punctuation">]</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
-<h2 id="二、卡尔曼滤波"><a href="#二、卡尔曼滤波" class="headerlink" title="二、卡尔曼滤波"></a>二、卡尔曼滤波</h2><h3 id="2-1-介绍"><a href="#2-1-介绍" class="headerlink" title="2.1 介绍"></a>2.1 介绍</h3><p>卡尔曼滤波器本质上是一个预测和更新的估算问题，之前一维高斯函数的根据观测状态$f_2$分布，与预测状态$f_1$分布，获得当前状态$f_3$分布，这种可以由两种相对不确定分布推导相对确定分布，是卡尔曼滤波的核心思想。</p>
-<h3 id="2-2-理论"><a href="#2-2-理论" class="headerlink" title="2.2 理论"></a>2.2 理论</h3><p>下面是卡尔曼滤波器抽象出的7个步骤，</p>
-<center><img width="250" height="250" src="http://suljaxm.com/9_KF.png">
+<h3 id="1-2-机器人设置"><a href="#1-2-机器人设置" class="headerlink" title="1.2 机器人设置"></a>1.2 机器人设置</h3><p>机器人以图2的方式将不同模块组合用以导航。图中的白色组件（move_base）是<strong>ROS</strong>本身已经实现的功能算法，灰色组件是可选择添加的，蓝色组件是必须由人为自定义提供的。</p>
+<center><img width="650" height="300" src="http://suljaxm.com/11_overview_tf.png">
+图2 基于move_base的导航框架
 </center>
-$x$表示滤波器的状态向量，$F$是状态转移矩阵，${x}' = Fx+u$，表示了状态 $x\to x^{'}$ 的过程，是前一个状态对当前状态的预测。$P$是状态协方差矩阵，$Q$是过程噪声，$P^{'}=FPF^{T}+Q$ 表示了 $P\to P^{'}$ 的过程，是前一个不确定程度对当前状态的不确定程度的预测。
 
-<p>$z$表示观测状态量，$H$是测量矩阵，$y=z-H{x}’$表示了观测值和与预测值的差值。$R$是测量噪声矩阵，$K$为卡尔曼增益，是状态更新中的权重，在$x={x}’+Ky$中是y的权值，而在$P=(I-KH){P}’$中是${P}’$的权值。<br>卡尔曼滤波器的最后两个步骤是滤波器的闭环。$x={x}’+Ky$表示当前状态向量$x$的更新，$P=(I-KH){P}’$表示系统的不确定度$P$的更新，这些都被用于下一个周期的运算。</p>
-<h3 id="2-3-实例（一维追踪）"><a href="#2-3-实例（一维追踪）" class="headerlink" title="2.3 实例（一维追踪）"></a>2.3 实例（一维追踪）</h3><p>假设在恒定速度$v$的前提下，预测物体的位置$s$，这是一维卡尔曼滤波器的追踪问题，其中状态向量x为 $[s,v]^{T}$，因为v保持不变，则当$\Delta t = 1s$时，$F$表示为$[[1., 1.], [0, 1.]]$，当前预测的状态${x}’$为</p>
-<center><img width="240" height="40" src="http://suljaxm.com/9_get_x%27.gif"></center>
-$P$的初始值可以设置为$[[1000., 0.], [0., 1000.]]$，意味着速度和位置是两个不相关的变量，因为观测值只有$s$，则$H$为$[[1., 0.]]$。因为实例是简化的模型，所以$Q$和$R$都设置为0，一般情况下，$Q$是那些$P$无法表示的噪声，而$R$由传感器厂家提供。
+<h3 id="1-3-硬件约束"><a href="#1-3-硬件约束" class="headerlink" title="1.3 硬件约束"></a>1.3 硬件约束</h3><ul>
+<li>差分轮式机器人，可使用<a href="https://suljaxm.gitee.io/2019/07/29/ros/ros-tong-xin-hai-gui-mo-ni-qi/" target="_blank" rel="noopener">Twist</a>速度指令控制。<ul>
+<li>linear：XYZ方向上的线速度，单位是m/s;</li>
+<li>angular: XYZ方向上的角速度，单位是rad/s。</li>
+</ul>
+</li>
+<li>机器人必须安装激光雷达等测距设备，可以获取环境深度信息。</li>
+<li>最好使用圆形和正方形的机器人，其他外形的机器人虽然可以正常使用，但是效果不佳。</li>
+</ul>
+<h2 id="二、关键功能包"><a href="#二、关键功能包" class="headerlink" title="二、关键功能包"></a>二、关键功能包</h2><h3 id="2-1-move-base"><a href="#2-1-move-base" class="headerlink" title="2.1 move_base"></a>2.1 move_base</h3><p><strong>move_base</strong>功能包是<strong>ROS</strong>本身提供的必须组件，里面包含了5个主要模块，分别是global_costmap，local_costmap，global_planner，local_planner和recovery_behaviors。</p>
+<ul>
+<li><strong>global_costmap</strong><ul>
+<li>存储静态全局地图上障碍物的信息，用于全局规划成本计算</li>
+</ul>
+</li>
+<li><strong>local_costmap</strong><ul>
+<li>存储动态局部地图上障碍物的信息，用于本地规划和避障</li>
+</ul>
+</li>
+<li><strong>global_planner</strong><ul>
+<li>全局最优路径规划</li>
+<li>Dijkstra或$A^*$算法 </li>
+</ul>
+</li>
+<li><strong>local_planner</strong><ul>
+<li>规划机器人每个周期内的线速度、角速度，使之尽量符合全局最优路径</li>
+<li>实时避障</li>
+<li>Trajectory Rollout 和 Dynamic Window Approachs算法</li>
+<li>搜索躲避和行进的多条路径，综合各评价标准选取最优路径</li>
+</ul>
+</li>
+<li><strong>recovery_behaviors</strong><ul>
+<li>恢复机制，当机器人无法进行下一步操作时，例如卡住时，默认是原地360°旋转，由传感器感知周围哪个方向可以走出去，获得一个走出策略</li>
+</ul>
+</li>
+</ul>
+<p>机器人在运用<strong>move_base</strong>功能包时，采用的是<strong>action</strong>的消息机制。<strong>action</strong>是一种问答通信机制，是基于ROS的消息机制实现的。该机制带有连续反馈，可以在任务过程中止运行，这可以用来实时反馈机器人当前的情况。</p>
+<center><img width="480" height="280" src="http://suljaxm.com/11_cs.png">
+图3. action通信机制
+</center>
 
-<pre class="line-numbers language-python"><code class="language-python"><span class="token comment" spellcheck="true"># 卡尔曼滤波，对当前位置的估计</span>
-<span class="token keyword">def</span> <span class="token function">kalman_filter</span><span class="token punctuation">(</span>x<span class="token punctuation">,</span> P<span class="token punctuation">)</span><span class="token punctuation">:</span>
-    <span class="token keyword">for</span> n <span class="token keyword">in</span> range<span class="token punctuation">(</span>len<span class="token punctuation">(</span>measurements<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+<ul>
+<li><strong>action</strong>的接口<ul>
+<li>goal：发布任务目标</li>
+<li>cancel：请求取消任务</li>
+<li>status：通知客服端当前的状态</li>
+<li>feedback：周期反馈任务运行的监控数据</li>
+<li>result：向客户端发送任务的执行结果，只发布一次 </li>
+</ul>
+</li>
+</ul>
+<center><img width="300" height="200" src="http://suljaxm.com/11_cs_2.png">
+图4. action接口
+</center>
 
-        <span class="token comment" spellcheck="true"># measurement update</span>
-        z <span class="token operator">=</span> matrix<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token punctuation">[</span>measurements<span class="token punctuation">[</span>n<span class="token punctuation">]</span><span class="token punctuation">]</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
-        y <span class="token operator">=</span> z <span class="token operator">-</span> H<span class="token operator">*</span>x
-        S <span class="token operator">=</span> H<span class="token operator">*</span>P<span class="token operator">*</span>H<span class="token punctuation">.</span>transpose<span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">+</span> R
-        K <span class="token operator">=</span> P<span class="token operator">*</span>H<span class="token punctuation">.</span>transpose<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">*</span>S<span class="token punctuation">.</span>inverse<span class="token punctuation">(</span><span class="token punctuation">)</span>
-        x <span class="token operator">=</span> x <span class="token operator">+</span> <span class="token punctuation">(</span>K<span class="token operator">*</span>y<span class="token punctuation">)</span>
-        P <span class="token operator">=</span> <span class="token punctuation">(</span>I <span class="token operator">-</span> <span class="token punctuation">(</span>K<span class="token operator">*</span>H<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token operator">*</span>P
+<center>
+![](http://suljaxm.com/11_topic_service.png)
+图5. move_base功能包中的话题和服务
+</center>
 
-        <span class="token comment" spellcheck="true"># prediction</span>
-        x <span class="token operator">=</span> <span class="token punctuation">(</span>F<span class="token operator">*</span>x<span class="token punctuation">)</span> <span class="token operator">+</span> u
-        P <span class="token operator">=</span> F<span class="token operator">*</span>P<span class="token operator">*</span>F<span class="token punctuation">.</span>transpose<span class="token punctuation">(</span><span class="token punctuation">)</span>
+<h3 id="2-2-amcl"><a href="#2-2-amcl" class="headerlink" title="2.2 amcl"></a>2.2 amcl</h3><p><strong>amcl</strong>主要是在二维环境中使用蒙特卡罗定位方法，针对已有地图使用粒子滤波器跟踪一个机器人的姿态。</p>
+<center><img width="600" height="410" src="http://suljaxm.com/11_amcl.png">
+图6. amcl功能包中的话题和服务
+</center>
 
-    <span class="token keyword">return</span> x<span class="token punctuation">,</span>P
+<h2 id="三、导航仿真"><a href="#三、导航仿真" class="headerlink" title="三、导航仿真"></a>三、导航仿真</h2><h3 id="3-1-迷宫导航"><a href="#3-1-迷宫导航" class="headerlink" title="3.1 迷宫导航"></a>3.1 迷宫导航</h3><p>在已知地图中进行机器人导航，首先导入已经二维迷宫地图，接着启动仿真机器人，并设定机器人到达目的地的姿态，最后通过amcl和move_base进行自身定位和路径规划。</p>
+<ul>
+<li><p>导航目标点设定（客服端）</p>
+<ul>
+<li><p>头文件</p>
+<pre class="line-numbers language-python"><code class="language-python">  <span class="token keyword">import</span> roslib
+  <span class="token keyword">import</span> rospy  
+  <span class="token keyword">import</span> actionlib  <span class="token comment" spellcheck="true">#action消息机制库</span>
+  <span class="token keyword">from</span> actionlib_msgs<span class="token punctuation">.</span>msg <span class="token keyword">import</span> <span class="token operator">*</span>    <span class="token comment" spellcheck="true">#action的消息类型</span>
+  <span class="token keyword">from</span> geometry_msgs<span class="token punctuation">.</span>msg <span class="token keyword">import</span> Pose<span class="token punctuation">,</span> PoseWithCovarianceStamped<span class="token punctuation">,</span> Point<span class="token punctuation">,</span> Quaternion<span class="token punctuation">,</span> Twist   <span class="token comment" spellcheck="true">#姿态消息类型</span>
+  <span class="token keyword">from</span> move_base_msgs<span class="token punctuation">.</span>msg <span class="token keyword">import</span> MoveBaseAction<span class="token punctuation">,</span> MoveBaseGoal   <span class="token comment" spellcheck="true">#move_base消息类型</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+</li>
+<li><p>信息发送</p>
+<pre class="line-numbers language-python"><code class="language-python">  <span class="token comment" spellcheck="true">#目标点设定</span>
+  target <span class="token operator">=</span> Pose<span class="token punctuation">(</span>Point<span class="token punctuation">(</span><span class="token operator">-</span><span class="token number">5.543</span><span class="token punctuation">,</span> <span class="token operator">-</span><span class="token number">4.779</span><span class="token punctuation">,</span> <span class="token number">0.000</span><span class="token punctuation">)</span><span class="token punctuation">,</span> Quaternion<span class="token punctuation">(</span><span class="token number">0.000</span><span class="token punctuation">,</span> <span class="token number">0.000</span><span class="token punctuation">,</span> <span class="token number">0.645</span><span class="token punctuation">,</span> <span class="token number">0.764</span><span class="token punctuation">)</span><span class="token punctuation">)</span>  
+  goal <span class="token operator">=</span> MoveBaseGoal<span class="token punctuation">(</span><span class="token punctuation">)</span>  
+  goal<span class="token punctuation">.</span>target_pose<span class="token punctuation">.</span>pose <span class="token operator">=</span> target  
+  goal<span class="token punctuation">.</span>target_pose<span class="token punctuation">.</span>header<span class="token punctuation">.</span>frame_id <span class="token operator">=</span> <span class="token string">'map'</span>  
+  goal<span class="token punctuation">.</span>target_pose<span class="token punctuation">.</span>header<span class="token punctuation">.</span>stamp <span class="token operator">=</span> rospy<span class="token punctuation">.</span>Time<span class="token punctuation">.</span>now<span class="token punctuation">(</span><span class="token punctuation">)</span>  
 
-measurements <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">]</span>
+  rospy<span class="token punctuation">.</span>loginfo<span class="token punctuation">(</span><span class="token string">"Going to: "</span> <span class="token operator">+</span> str<span class="token punctuation">(</span>target<span class="token punctuation">)</span><span class="token punctuation">)</span>  
 
-x <span class="token operator">=</span> matrix<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">.</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">.</span><span class="token punctuation">]</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token comment" spellcheck="true"># initial state (location and velocity)</span>
-P <span class="token operator">=</span> matrix<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token punctuation">[</span><span class="token number">1000</span><span class="token punctuation">.</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">.</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">.</span><span class="token punctuation">,</span> <span class="token number">1000</span><span class="token punctuation">.</span><span class="token punctuation">]</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token comment" spellcheck="true"># initial uncertainty</span>
-u <span class="token operator">=</span> matrix<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">.</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">.</span><span class="token punctuation">]</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token comment" spellcheck="true"># external motion</span>
-F <span class="token operator">=</span> matrix<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">.</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">.</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">.</span><span class="token punctuation">]</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token comment" spellcheck="true"># next state function</span>
-H <span class="token operator">=</span> matrix<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">.</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">.</span><span class="token punctuation">]</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token comment" spellcheck="true"># measurement function</span>
-R <span class="token operator">=</span> matrix<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">.</span><span class="token punctuation">]</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token comment" spellcheck="true"># measurement uncertainty</span>
-I <span class="token operator">=</span> matrix<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">.</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">.</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">.</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">.</span><span class="token punctuation">]</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token comment" spellcheck="true"># identity matrix</span>
+  <span class="token comment" spellcheck="true"># 向服务器发送目标点 </span>
+  move_base<span class="token punctuation">.</span>send_goal<span class="token punctuation">(</span>goal<span class="token punctuation">)</span>  <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+</li>
+</ul>
+</li>
+<li><p>定位</p>
+<ul>
+<li><strong>amcl</strong><pre class="line-numbers language-xml"><code class="language-xml"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>launch</span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>初始姿态设定</span> <span class="token punctuation">/></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>node</span> <span class="token attr-name">pkg</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>amcl<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+      ...
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>param</span><span class="token punctuation">/></span></span>
+      ...
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>node</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>launch</span><span class="token punctuation">></span></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+</li>
+</ul>
+</li>
+<li><p>路径规划</p>
+<ul>
+<li><strong>move_base</strong><pre class="line-numbers language-xml"><code class="language-xml"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>launch</span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>node</span> <span class="token attr-name">pkg</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>move_base<span class="token punctuation">"</span></span> <span class="token punctuation">></span></span>
+      ...
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>param</span><span class="token punctuation">/></span></span>
+      ...
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>node</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>launch</span><span class="token punctuation">></span></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+</li>
+</ul>
+</li>
+</ul>
+<center><img width="300" height="200" src="http://suljaxm.com/11_nav.gif">
+图7. 迷宫导航
+</center>
 
-<span class="token keyword">print</span><span class="token punctuation">(</span>kalman_filter<span class="token punctuation">(</span>x<span class="token punctuation">,</span> P<span class="token punctuation">)</span><span class="token punctuation">)</span>
-<span class="token comment" spellcheck="true"># output should be:</span>
-<span class="token comment" spellcheck="true"># x: [[3.9996664447958645], [0.9999998335552873]]</span>
-<span class="token comment" spellcheck="true"># P: [[2.3318904241194827, 0.9991676099921091], [0.9991676099921067, 0.49950058263974184]]</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<h3 id="2-4-实例（二维追踪）"><a href="#2-4-实例（二维追踪）" class="headerlink" title="2.4 实例（二维追踪）"></a>2.4 实例（二维追踪）</h3><p>假设传感器为激光雷达，可以提供二维测量数据，首先要定义状态转移矩阵$F$，来估算二维位置$(s_x, s_y)$和二维速度$(v_x,v_y)$，则当$\Delta t = 1s$时，$F$表示为$[[1, 0,1,0], [0, 1,0,0,1],[0,0,1,0],[0,0,0,1]]$，当前预测的状态$x^{‘}$为</p>
-<center><img width="400" height="80" src="http://suljaxm.com/9_get_x2%27.gif"></center>
-又因为激光雷达只能测量距离，则对应的测量矩阵$H=[[1,0,0,0],[0,1,0,0]]$，而只能测量距离不能测量速度的性质，体现在协方差矩阵上就是位置测量的不确定度较低，速度测量的不确定度较高，则$P = [[1,0,0,0],[0,1,0,0],[0,0,1000,0],[0,0,0,1000]]$。该处理方式和一维追踪中的相同。
+<h3 id="3-2-未知地图导航"><a href="#3-2-未知地图导航" class="headerlink" title="3.2 未知地图导航"></a>3.2 未知地图导航</h3><p>在未探索过的地图中进行导航，只要需要随机设定导航目标点，然后在导航时使用<strong>SLAM</strong>技术，就能观察到机器人为了到达目标点所做的路径规划过程。导航方式和<strong>迷宫导航</strong>一样，只是增加了<strong>SLAM</strong>环节。</p>
+<center><img width="300" height="200" src="http://suljaxm.com/11_slam_nav.gif">
+图7. 未知地图导航
+</center>
 
-<h2 id="三、扩展卡尔曼滤波"><a href="#三、扩展卡尔曼滤波" class="headerlink" title="三、扩展卡尔曼滤波"></a>三、扩展卡尔曼滤波</h2><h3 id="3-1-介绍"><a href="#3-1-介绍" class="headerlink" title="3.1 介绍"></a>3.1 介绍</h3><p>扩展卡尔曼滤波是为了解决不同传感器融合时采集数据不统一的问题，比如激光雷达的观测值是在笛卡尔坐标系的，而毫米波雷达的观测值是在极坐标系的，在进行传感器融合时，需要统一坐标系，但是当坐标系转换时会引入非线性变化，于是这种非线性的卡尔曼滤波就称为扩展卡尔曼滤波。</p>
-<h3 id="3-2-毫米波雷达"><a href="#3-2-毫米波雷达" class="headerlink" title="3.2 毫米波雷达"></a>3.2 毫米波雷达</h3><p>毫米波雷达的原理是多普勒效应，其测量的数据都是在极坐标系下的，状态向量x为$[\rho ,\phi, \dot{\rho } ]^T$。$\rho$为目标在极坐标下离雷达的距离，$\phi$为方向角，$\dot{\rho }$为距离的变化率。<br>因为预测的状态向量${x}’$为$ [{s_x}’, {s_y}’, {v_x}’,{v_y}’]^T$，则观测值和与预测值的差值</p>
-<center><img width="300" height="100" src="http://suljaxm.com/9_h%28x%29.gif"></center>
 
-<p>这种非线性的模型时，习惯于将计算差值$y=z-H{x}’$中的$H{x}’$用$h({x}’)$表示。此时$H{x}’$不在是常数矩阵，高斯分布在经过非线性函数的变换后，其结果将不再符合高斯分布，这直接导致卡尔曼滤波器失效。因此我们需要将$h({x}’)$先转化为近似的线性函数。$y=h(x)$可通过泰勒公式在点$(x_0,y_0)$处展开为泰勒级数，并忽略二次以上的高阶项，于是可以如下的式子，<br>$h(x)\approx h(x_0)+\dot{h}(x_0)(x-x_0)$<br>其中，$\dot{h}(x_0)$ 表示$h(x)$在$x_0$处对$x$的偏导，即$\dot{h}(x_0) =\frac{\partial h(x_0)}{\partial x}$，这一项被称为雅可比（Jacobian）式。<br>求得非线性函数$h(x’)$对${s_x}’$，${s_y}’$，${v_x}’$，${v_y}’$的一阶偏导数，并排列成的矩阵，最终得到雅克比（Jacobian）矩阵$H_{3\times 4 }$，</p>
-<center><img width="250" height="100" src="http://suljaxm.com/9_h34.gif"></center>
-
-<p>将$\rho ,\phi, \dot{\rho }$带入上述公式可得实际的测量矩阵$H_{3\times 4 }$，</p>
-<center><img width="450" height="200" src="http://suljaxm.com/9_h34_0.png"></center>
-
-<p>其余是卡尔曼滤波的标准步骤。</p>
-<h2 id="四、总结"><a href="#四、总结" class="headerlink" title="四、总结"></a>四、总结</h2><p>扩展卡尔曼滤波，只是增加了对非线性观察矩阵H的线性化处理，依此来满足高斯分布的性质，即高斯分布在经过预测和测量值更新后，还是符合高斯分布。<br>卡尔曼滤波器的这些性质适合融合多个传感器，以此减少单个传感器的误差，降低了单个传感器的精度成本。</p>
-<p>参考<br><a href="https://mp.weixin.qq.com/s/hZQFtHYt0S924JPUCCd7MA" target="_blank" rel="noopener"> 手把手教你写卡尔曼滤波器</a><br><a href="https://mp.weixin.qq.com/s/YO7FVJ1-7L9H2VwVO4NJ2A" target="_blank" rel="noopener">手把手教你写扩展卡尔曼滤波器</a></p>
+<p><a href="https://github.com/suljaxm/mobile-robot-sim" target="_blank" rel="noopener">参考代码</a></p>
 
             </div>
             <hr/>
@@ -670,9 +737,9 @@ I <span class="token operator">=</span> matrix<span class="token punctuation">(<
             <br/>
             <span xmlns:dct="http://purl.org/dc/terms/" href="http://purl.org/dc/dcmitype/Text"
                   property="dct:title" rel="dct:type">
-                    《卡尔曼滤波器》
+                    《机器人自主导航》
                 </span> 由
-            <a xmlns:cc="http://creativecommons.org/ns#" href="/2019/08/28/wu-ren-jia-shi/kalman-filter/" property="cc:attributionName"
+            <a xmlns:cc="http://creativecommons.org/ns#" href="/2019/09/02/ros/navigation/" property="cc:attributionName"
                rel="cc:attributionURL">
                 kieranych
             </a> 采用
@@ -712,29 +779,30 @@ I <span class="token operator">=</span> matrix<span class="token punctuation">(<
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6 overflow-policy" data-aos="fade-up">
+        <div class="article col s12 m6 overflow-policy" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fa fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="fa fa-dot-circle-o"></i>&nbsp;本篇
+            </div>
             <div class="card">
-                <a href="/2019/08/31/ros/slam/">
+                <a href="/2019/09/02/ros/navigation/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/15.jpg" class="responsive-img" alt="SLAM建图">
+                        <img src="/medias/featureimages/5.jpg" class="responsive-img" alt="机器人自主导航">
                         
-                        <span class="card-title">SLAM建图</span>
+                        <span class="card-title">机器人自主导航</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            借助SLAM功能包进行小车对周围环境的建图和自身的定位
+                            机器人在不同环境下的导航
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="fa fa-clock-o fa-fw icon-date"></i>2019-08-31
-                        </span>
+                            <span class="publish-date">
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2019-09-02
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fa fa-bookmark fa-fw icon-category"></i>
@@ -747,11 +815,16 @@ I <span class="token operator">=</span> matrix<span class="token punctuation">(<
                         </span>
                     </div>
                 </div>
+
                 
                 <div class="card-action article-tags">
                     
                     <a href="/tags/XML/" target="_blank">
                         <span class="chip bg-color">XML</span>
+                    </a>
+                    
+                    <a href="/tags/Python/" target="_blank">
+                        <span class="chip bg-color">Python</span>
                     </a>
                     
                     <a href="/tags/机器人/" target="_blank">
@@ -769,24 +842,24 @@ I <span class="token operator">=</span> matrix<span class="token punctuation">(<
                 下一篇&nbsp;<i class="fa fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2019/08/24/ros/yao-kong-si-lun-che-voice/">
+                <a href="/2019/08/31/ros/slam/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/21.jpg" class="responsive-img" alt="遥控四轮车（语音控制）">
+                        <img src="/medias/featureimages/15.jpg" class="responsive-img" alt="SLAM建图">
                         
-                        <span class="card-title">遥控四轮车（语音控制）</span>
+                        <span class="card-title">SLAM建图</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            通过语音遥控四路车的前进后退，左右转弯。
+                            借助SLAM功能包进行小车对周围环境的建图和自身的定位
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="fa fa-clock-o fa-fw icon-date"></i>2019-08-24
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2019-08-31
                             </span>
                         <span class="publish-author">
                             
@@ -807,16 +880,8 @@ I <span class="token operator">=</span> matrix<span class="token punctuation">(<
                         <span class="chip bg-color">XML</span>
                     </a>
                     
-                    <a href="/tags/Python/" target="_blank">
-                        <span class="chip bg-color">Python</span>
-                    </a>
-                    
                     <a href="/tags/机器人/" target="_blank">
                         <span class="chip bg-color">机器人</span>
-                    </a>
-                    
-                    <a href="/tags/C/" target="_blank">
-                        <span class="chip bg-color">C++</span>
                     </a>
                     
                 </div>
@@ -964,13 +1029,6 @@ I <span class="token operator">=</span> matrix<span class="token punctuation">(<
 
 </main>
 
-
-<script src="https://cdn.bootcss.com/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-<script>
-    MathJax.Hub.Config({
-        tex2jax: {inlineMath: [['$', '$'], ['\(', '\)']]}
-    });
-</script>
 
 <footer class="page-footer bg-color">
     <div class="container row center-align">
