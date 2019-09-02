@@ -8,7 +8,7 @@
       <link href="/2019/09/02/ros/navigation/"/>
       <url>/2019/09/02/ros/navigation/</url>
       
-        <content type="html"><![CDATA[<h2 id="一、导航框架"><a href="#一、导航框架" class="headerlink" title="一、导航框架"></a>一、导航框架</h2><h3 id="1-1-思路"><a href="#1-1-思路" class="headerlink" title="1.1 思路"></a>1.1 思路</h3><p>首先是确定导航目标（Goal）和自身定位（amcl），然后根据静态图进行全局的路径规划。在实际运行中，我们还要考虑实时本地优化，通过本地优化器实现一些突发情况的处理，比如当前速度值（cmd_vel），再将这些实时的信息再通过控制器（Base Controller），输出电压或电流等信号给电机，让电机做出想应的动作（Motor Speeds）。</p><center><img width="400" height="200" src="http://suljaxm.com/11_overview_nav.png">图1 导航思路</center><h3 id="1-2-机器人设置"><a href="#1-2-机器人设置" class="headerlink" title="1.2 机器人设置"></a>1.2 机器人设置</h3><p>机器人以图2的方式将不同模块组合用以导航。图中的白色组件（move_base）是<strong>ROS</strong>本身已经实现的功能算法，灰色组件是可选择添加的，蓝色组件是必须由人为自定义提供的。</p><center><img width="650" height="300" src="http://suljaxm.com/11_overview_tf.png">图2 基于move_base的导航框架</center><h3 id="1-3-硬件约束"><a href="#1-3-硬件约束" class="headerlink" title="1.3 硬件约束"></a>1.3 硬件约束</h3><ul><li>差分轮式机器人，可使用<a href="https://suljaxm.gitee.io/2019/07/29/ros/ros-tong-xin-hai-gui-mo-ni-qi/" target="_blank" rel="noopener">Twist</a>速度指令控制。<ul><li>linear：XYZ方向上的线速度，单位是m/s;</li><li>angular: XYZ方向上的角速度，单位是rad/s。</li></ul></li><li>机器人必须安装激光雷达等测距设备，可以获取环境深度信息。</li><li>最好使用圆形和正方形的机器人，其他外形的机器人虽然可以正常使用，但是效果不佳。</li></ul><h2 id="二、关键功能包"><a href="#二、关键功能包" class="headerlink" title="二、关键功能包"></a>二、关键功能包</h2><h3 id="2-1-move-base"><a href="#2-1-move-base" class="headerlink" title="2.1 move_base"></a>2.1 move_base</h3><p><strong>move_base</strong>功能包是<strong>ROS</strong>本身提供的必须组件，里面包含了5个主要模块，分别是global_costmap，local_costmap，global_planner，local_planner和recovery_behaviors。</p><ul><li><strong>global_costmap</strong><ul><li>存储静态全局地图上障碍物的信息，用于全局规划成本计算</li></ul></li><li><strong>local_costmap</strong><ul><li>存储动态局部地图上障碍物的信息，用于本地规划和避障</li></ul></li><li><strong>global_planner</strong><ul><li>全局最优路径规划</li><li>Dijkstra或$A^*$算法 </li></ul></li><li><strong>local_planner</strong><ul><li>规划机器人每个周期内的线速度、角速度，使之尽量符合全局最优路径</li><li>实时避障</li><li>Trajectory Rollout 和 Dynamic Window Approachs算法</li><li>搜索躲避和行进的多条路径，综合各评价标准选取最优路径</li></ul></li><li><strong>recovery_behaviors</strong><ul><li>恢复机制，当机器人无法进行下一步操作时，例如卡住时，默认是原地360°旋转，由传感器感知周围哪个方向可以走出去，获得一个走出策略</li></ul></li></ul><p>机器人在运用<strong>move_base</strong>功能包时，采用的是<strong>action</strong>的消息机制。<strong>action</strong>是一种问答通信机制，是基于ROS的消息机制实现的。该机制带有连续反馈，可以在任务过程中止运行，这可以用来实时反馈机器人当前的情况。</p><center><img width="480" height="280" src="http://suljaxm.com/11_cs.png">图3. action通信机制</center><ul><li><strong>action</strong>的接口<ul><li>goal：发布任务目标</li><li>cancel：请求取消任务</li><li>status：通知客服端当前的状态</li><li>feedback：周期反馈任务运行的监控数据</li><li>result：向客户端发送任务的执行结果，只发布一次 </li></ul></li></ul><center><img width="300" height="200" src="http://suljaxm.com/11_cs_2.png">图4. action接口</center><center>![](http://suljaxm.com/11_topic_service.png)图5. move_base功能包中的话题和服务</center><h3 id="2-2-amcl"><a href="#2-2-amcl" class="headerlink" title="2.2 amcl"></a>2.2 amcl</h3><p><strong>amcl</strong>主要是在二维环境中使用蒙特卡罗定位方法，针对已有地图使用粒子滤波器跟踪一个机器人的姿态。</p><center><img width="600" height="410" src="http://suljaxm.com/11_amcl.png">图6. amcl功能包中的话题和服务</center><h2 id="三、导航仿真"><a href="#三、导航仿真" class="headerlink" title="三、导航仿真"></a>三、导航仿真</h2><h3 id="3-1-迷宫导航"><a href="#3-1-迷宫导航" class="headerlink" title="3.1 迷宫导航"></a>3.1 迷宫导航</h3><p>在已知地图中进行机器人导航，首先导入已经二维迷宫地图，接着启动仿真机器人，并设定机器人到达目的地的姿态，最后通过amcl和move_base进行自身定位和路径规划。</p><ul><li><p>导航目标点设定（客服端）</p><ul><li><p>头文件</p><pre class="line-numbers language-python"><code class="language-python">  <span class="token keyword">import</span> roslib  <span class="token keyword">import</span> rospy    <span class="token keyword">import</span> actionlib  <span class="token comment" spellcheck="true">#action消息机制库</span>  <span class="token keyword">from</span> actionlib_msgs<span class="token punctuation">.</span>msg <span class="token keyword">import</span> <span class="token operator">*</span>    <span class="token comment" spellcheck="true">#action的消息类型</span>  <span class="token keyword">from</span> geometry_msgs<span class="token punctuation">.</span>msg <span class="token keyword">import</span> Pose<span class="token punctuation">,</span> PoseWithCovarianceStamped<span class="token punctuation">,</span> Point<span class="token punctuation">,</span> Quaternion<span class="token punctuation">,</span> Twist   <span class="token comment" spellcheck="true">#姿态消息类型</span>  <span class="token keyword">from</span> move_base_msgs<span class="token punctuation">.</span>msg <span class="token keyword">import</span> MoveBaseAction<span class="token punctuation">,</span> MoveBaseGoal   <span class="token comment" spellcheck="true">#move_base消息类型</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li><li><p>信息发送</p><pre class="line-numbers language-python"><code class="language-python">  <span class="token comment" spellcheck="true">#目标点设定</span>  target <span class="token operator">=</span> Pose<span class="token punctuation">(</span>Point<span class="token punctuation">(</span><span class="token operator">-</span><span class="token number">5.543</span><span class="token punctuation">,</span> <span class="token operator">-</span><span class="token number">4.779</span><span class="token punctuation">,</span> <span class="token number">0.000</span><span class="token punctuation">)</span><span class="token punctuation">,</span> Quaternion<span class="token punctuation">(</span><span class="token number">0.000</span><span class="token punctuation">,</span> <span class="token number">0.000</span><span class="token punctuation">,</span> <span class="token number">0.645</span><span class="token punctuation">,</span> <span class="token number">0.764</span><span class="token punctuation">)</span><span class="token punctuation">)</span>    goal <span class="token operator">=</span> MoveBaseGoal<span class="token punctuation">(</span><span class="token punctuation">)</span>    goal<span class="token punctuation">.</span>target_pose<span class="token punctuation">.</span>pose <span class="token operator">=</span> target    goal<span class="token punctuation">.</span>target_pose<span class="token punctuation">.</span>header<span class="token punctuation">.</span>frame_id <span class="token operator">=</span> <span class="token string">'map'</span>    goal<span class="token punctuation">.</span>target_pose<span class="token punctuation">.</span>header<span class="token punctuation">.</span>stamp <span class="token operator">=</span> rospy<span class="token punctuation">.</span>Time<span class="token punctuation">.</span>now<span class="token punctuation">(</span><span class="token punctuation">)</span>    rospy<span class="token punctuation">.</span>loginfo<span class="token punctuation">(</span><span class="token string">"Going to: "</span> <span class="token operator">+</span> str<span class="token punctuation">(</span>target<span class="token punctuation">)</span><span class="token punctuation">)</span>    <span class="token comment" spellcheck="true"># 向服务器发送目标点 </span>  move_base<span class="token punctuation">.</span>send_goal<span class="token punctuation">(</span>goal<span class="token punctuation">)</span>  <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li></ul></li><li><p>定位</p><ul><li><strong>amcl</strong><pre class="line-numbers language-xml"><code class="language-xml"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>launch</span><span class="token punctuation">></span></span>  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>初始姿态设定</span> <span class="token punctuation">/></span></span>  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>node</span> <span class="token attr-name">pkg</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>amcl<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>      ...      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>param</span><span class="token punctuation">/></span></span>      ...  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>node</span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>launch</span><span class="token punctuation">></span></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li></ul></li><li><p>路径规划</p><ul><li><strong>move_base</strong><pre class="line-numbers language-xml"><code class="language-xml"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>launch</span><span class="token punctuation">></span></span>  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>node</span> <span class="token attr-name">pkg</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>move_base<span class="token punctuation">"</span></span> <span class="token punctuation">></span></span>      ...      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>param</span><span class="token punctuation">/></span></span>      ...  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>node</span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>launch</span><span class="token punctuation">></span></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li></ul></li></ul><center><img width="300" height="200" src="http://suljaxm.com/11_nav.gif">图7. 迷宫导航</center><h3 id="3-2-未知地图导航"><a href="#3-2-未知地图导航" class="headerlink" title="3.2 未知地图导航"></a>3.2 未知地图导航</h3><p>在未探索过的地图中进行导航，只要需要随机设定导航目标点，然后在导航时使用<strong>SLAM</strong>技术，就能观察到机器人为了到达目标点所做的路径规划过程。导航方式和<strong>迷宫导航</strong>一样，只是增加了<strong>SLAM</strong>环节。</p><center><img width="300" height="200" src="http://suljaxm.com/11_slam_nav.gif">图7. 未知地图导航</center><p><a href="https://github.com/suljaxm/mobile-robot-sim" target="_blank" rel="noopener">参考代码</a></p>]]></content>
+        <content type="html"><![CDATA[<h2 id="一、导航框架"><a href="#一、导航框架" class="headerlink" title="一、导航框架"></a>一、导航框架</h2><h3 id="1-1-思路"><a href="#1-1-思路" class="headerlink" title="1.1 思路"></a>1.1 思路</h3><p>首先是确定导航目标（Goal）和自身定位（amcl），然后根据静态图进行全局的路径规划。在实际运行中，我们还要考虑实时本地优化，通过本地优化器实现一些突发情况的处理，比如当前速度值（cmd_vel），再将这些实时的信息再通过控制器（Base Controller），输出电压或电流等信号给电机，让电机做出想应的动作（Motor Speeds）。</p><center><img width="400" height="200" src="http://suljaxm.com/11_overview_nav.png">图1 导航思路</center><h3 id="1-2-机器人设置"><a href="#1-2-机器人设置" class="headerlink" title="1.2 机器人设置"></a>1.2 机器人设置</h3><p>机器人以图2的方式将不同模块组合用以导航。图中的白色组件（move_base）是<strong>ROS</strong>本身已经实现的功能算法，灰色组件是可选择添加的，蓝色组件是必须由人为自定义提供的。</p><center><img width="650" height="300" src="http://suljaxm.com/11_overview_tf.png">图2 基于move_base的导航框架</center><h3 id="1-3-硬件约束"><a href="#1-3-硬件约束" class="headerlink" title="1.3 硬件约束"></a>1.3 硬件约束</h3><ul><li>差分轮式机器人，可使用<a href="https://suljaxm.gitee.io/2019/07/29/ros/ros-tong-xin-hai-gui-mo-ni-qi/" target="_blank" rel="noopener">Twist</a>速度指令控制。<ul><li>linear：XYZ方向上的线速度，单位是m/s;</li><li>angular: XYZ方向上的角速度，单位是rad/s。</li></ul></li><li>机器人必须安装激光雷达等测距设备，可以获取环境深度信息。</li><li>最好使用圆形和正方形的机器人，其他外形的机器人虽然可以正常使用，但是效果不佳。</li></ul><h2 id="二、关键功能包"><a href="#二、关键功能包" class="headerlink" title="二、关键功能包"></a>二、关键功能包</h2><h3 id="2-1-move-base"><a href="#2-1-move-base" class="headerlink" title="2.1 move_base"></a>2.1 move_base</h3><p><strong>move_base</strong>功能包是<strong>ROS</strong>本身提供的必须组件，里面包含了5个主要模块，分别是global_costmap，local_costmap，global_planner，local_planner和recovery_behaviors。</p><ul><li><strong>global_costmap</strong><ul><li>存储静态全局地图上障碍物的信息，用于全局规划成本计算</li></ul></li><li><strong>local_costmap</strong><ul><li>存储动态局部地图上障碍物的信息，用于本地规划和避障</li></ul></li><li><strong>global_planner</strong><ul><li>全局最优路径规划</li><li>Dijkstra或$A^*$算法 </li></ul></li><li><strong>local_planner</strong><ul><li>规划机器人每个周期内的线速度、角速度，使之尽量符合全局最优路径</li><li>实时避障</li><li>Trajectory Rollout 和 Dynamic Window Approachs算法</li><li>搜索躲避和行进的多条路径，综合各评价标准选取最优路径</li></ul></li><li><strong>recovery_behaviors</strong><ul><li>恢复机制，当机器人无法进行下一步操作时，例如卡住时，默认是原地360°旋转，由传感器感知周围哪个方向可以走出去，获得一个走出策略</li></ul></li></ul><p>机器人在运用<strong>move_base</strong>功能包时，采用的是<strong>action</strong>的消息机制。<strong>action</strong>是一种问答通信机制，是基于ROS的消息机制实现的。该机制带有连续反馈，可以在任务过程中止运行，这可以用来实时反馈机器人当前的情况。</p><center><img width="480" height="280" src="http://suljaxm.com/11_cs.png">图3. action通信机制</center><ul><li><strong>action</strong>的接口<ul><li>goal：发布任务目标</li><li>cancel：请求取消任务</li><li>status：通知客服端当前的状态</li><li>feedback：周期反馈任务运行的监控数据</li><li>result：向客户端发送任务的执行结果，只发布一次 </li></ul></li></ul><center><img width="300" height="200" src="http://suljaxm.com/11_cs_2.png">图4. action接口</center><center><img width="1170" height="540" src="http://suljaxm.com/11_topic_service.png">图5. move_base功能包中的话题和服务</center><h3 id="2-2-amcl"><a href="#2-2-amcl" class="headerlink" title="2.2 amcl"></a>2.2 amcl</h3><p><strong>amcl</strong>主要是在二维环境中使用蒙特卡罗定位方法，针对已有地图使用粒子滤波器跟踪一个机器人的姿态。</p><center><img width="600" height="410" src="http://suljaxm.com/11_amcl.png">图6. amcl功能包中的话题和服务</center><h2 id="三、导航仿真"><a href="#三、导航仿真" class="headerlink" title="三、导航仿真"></a>三、导航仿真</h2><h3 id="3-1-迷宫导航"><a href="#3-1-迷宫导航" class="headerlink" title="3.1 迷宫导航"></a>3.1 迷宫导航</h3><p>在已知地图中进行机器人导航，首先导入已经二维迷宫地图，接着启动仿真机器人，并设定机器人到达目的地的姿态，最后通过amcl和move_base进行自身定位和路径规划。</p><ul><li><p>导航目标点设定（客服端）</p><ul><li><p>头文件</p><pre class="line-numbers language-python"><code class="language-python">  <span class="token keyword">import</span> roslib  <span class="token keyword">import</span> rospy    <span class="token keyword">import</span> actionlib  <span class="token comment" spellcheck="true">#action消息机制库</span>  <span class="token keyword">from</span> actionlib_msgs<span class="token punctuation">.</span>msg <span class="token keyword">import</span> <span class="token operator">*</span>    <span class="token comment" spellcheck="true">#action的消息类型</span>  <span class="token keyword">from</span> geometry_msgs<span class="token punctuation">.</span>msg <span class="token keyword">import</span> Pose<span class="token punctuation">,</span> PoseWithCovarianceStamped<span class="token punctuation">,</span> Point<span class="token punctuation">,</span> Quaternion<span class="token punctuation">,</span> Twist   <span class="token comment" spellcheck="true">#姿态消息类型</span>  <span class="token keyword">from</span> move_base_msgs<span class="token punctuation">.</span>msg <span class="token keyword">import</span> MoveBaseAction<span class="token punctuation">,</span> MoveBaseGoal   <span class="token comment" spellcheck="true">#move_base消息类型</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li><li><p>信息发送</p><pre class="line-numbers language-python"><code class="language-python">  <span class="token comment" spellcheck="true">#目标点设定</span>  target <span class="token operator">=</span> Pose<span class="token punctuation">(</span>Point<span class="token punctuation">(</span><span class="token operator">-</span><span class="token number">5.543</span><span class="token punctuation">,</span> <span class="token operator">-</span><span class="token number">4.779</span><span class="token punctuation">,</span> <span class="token number">0.000</span><span class="token punctuation">)</span><span class="token punctuation">,</span> Quaternion<span class="token punctuation">(</span><span class="token number">0.000</span><span class="token punctuation">,</span> <span class="token number">0.000</span><span class="token punctuation">,</span> <span class="token number">0.645</span><span class="token punctuation">,</span> <span class="token number">0.764</span><span class="token punctuation">)</span><span class="token punctuation">)</span>    goal <span class="token operator">=</span> MoveBaseGoal<span class="token punctuation">(</span><span class="token punctuation">)</span>    goal<span class="token punctuation">.</span>target_pose<span class="token punctuation">.</span>pose <span class="token operator">=</span> target    goal<span class="token punctuation">.</span>target_pose<span class="token punctuation">.</span>header<span class="token punctuation">.</span>frame_id <span class="token operator">=</span> <span class="token string">'map'</span>    goal<span class="token punctuation">.</span>target_pose<span class="token punctuation">.</span>header<span class="token punctuation">.</span>stamp <span class="token operator">=</span> rospy<span class="token punctuation">.</span>Time<span class="token punctuation">.</span>now<span class="token punctuation">(</span><span class="token punctuation">)</span>    rospy<span class="token punctuation">.</span>loginfo<span class="token punctuation">(</span><span class="token string">"Going to: "</span> <span class="token operator">+</span> str<span class="token punctuation">(</span>target<span class="token punctuation">)</span><span class="token punctuation">)</span>    <span class="token comment" spellcheck="true"># 向服务器发送目标点 </span>  move_base<span class="token punctuation">.</span>send_goal<span class="token punctuation">(</span>goal<span class="token punctuation">)</span>  <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li></ul></li><li><p>定位</p><ul><li><strong>amcl</strong><pre class="line-numbers language-xml"><code class="language-xml"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>launch</span><span class="token punctuation">></span></span>  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>初始姿态设定</span> <span class="token punctuation">/></span></span>  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>node</span> <span class="token attr-name">pkg</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>amcl<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>      ...      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>param</span><span class="token punctuation">/></span></span>      ...  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>node</span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>launch</span><span class="token punctuation">></span></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li></ul></li><li><p>路径规划</p><ul><li><strong>move_base</strong><pre class="line-numbers language-xml"><code class="language-xml"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>launch</span><span class="token punctuation">></span></span>  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>node</span> <span class="token attr-name">pkg</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>move_base<span class="token punctuation">"</span></span> <span class="token punctuation">></span></span>      ...      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>param</span><span class="token punctuation">/></span></span>      ...  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>node</span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>launch</span><span class="token punctuation">></span></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li></ul></li></ul><center><img width="300" height="200" src="http://suljaxm.com/11_nav.gif">图7. 迷宫导航</center><h3 id="3-2-未知地图导航"><a href="#3-2-未知地图导航" class="headerlink" title="3.2 未知地图导航"></a>3.2 未知地图导航</h3><p>在未探索过的地图中进行导航，只要需要随机设定导航目标点，然后在导航时使用<strong>SLAM</strong>技术，就能观察到机器人为了到达目标点所做的路径规划过程。导航方式和<strong>迷宫导航</strong>一样，只是增加了<strong>SLAM</strong>环节。</p><center><img width="300" height="200" src="http://suljaxm.com/11_slam_nav.gif">图7. 未知地图导航</center><p><a href="https://github.com/suljaxm/mobile-robot-sim" target="_blank" rel="noopener">参考代码</a></p>]]></content>
       
       
       <categories>
@@ -20,11 +20,11 @@
       
         <tags>
             
+            <tag> 机器人 </tag>
+            
             <tag> XML </tag>
             
             <tag> Python </tag>
-            
-            <tag> 机器人 </tag>
             
         </tags>
       
@@ -49,9 +49,9 @@
       
         <tags>
             
-            <tag> XML </tag>
-            
             <tag> 机器人 </tag>
+            
+            <tag> XML </tag>
             
         </tags>
       
@@ -103,13 +103,13 @@
       
         <tags>
             
-            <tag> XML </tag>
-            
-            <tag> Python </tag>
+            <tag> C++ </tag>
             
             <tag> 机器人 </tag>
             
-            <tag> C++ </tag>
+            <tag> XML </tag>
+            
+            <tag> Python </tag>
             
         </tags>
       
@@ -134,11 +134,11 @@
       
         <tags>
             
+            <tag> 机器人 </tag>
+            
             <tag> XML </tag>
             
             <tag> Python </tag>
-            
-            <tag> 机器人 </tag>
             
             <tag> DL </tag>
             
@@ -165,9 +165,9 @@
       
         <tags>
             
-            <tag> XML </tag>
-            
             <tag> 机器人 </tag>
+            
+            <tag> XML </tag>
             
         </tags>
       
@@ -192,9 +192,9 @@
       
         <tags>
             
-            <tag> XML </tag>
-            
             <tag> 机器人 </tag>
+            
+            <tag> XML </tag>
             
         </tags>
       
@@ -219,11 +219,11 @@
       
         <tags>
             
-            <tag> XML </tag>
+            <tag> C++ </tag>
             
             <tag> 机器人 </tag>
             
-            <tag> C++ </tag>
+            <tag> XML </tag>
             
         </tags>
       
@@ -248,9 +248,9 @@
       
         <tags>
             
-            <tag> 机器人 </tag>
-            
             <tag> C++ </tag>
+            
+            <tag> 机器人 </tag>
             
         </tags>
       
@@ -275,9 +275,9 @@
       
         <tags>
             
-            <tag> 机器人 </tag>
-            
             <tag> C++ </tag>
+            
+            <tag> 机器人 </tag>
             
         </tags>
       
@@ -302,9 +302,9 @@
       
         <tags>
             
-            <tag> 机器人 </tag>
-            
             <tag> C++ </tag>
+            
+            <tag> 机器人 </tag>
             
         </tags>
       
