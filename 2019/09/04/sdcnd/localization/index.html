@@ -4,16 +4,8 @@
 
 <head><meta name="generator" content="Hexo 3.9.0">
     <meta charset="utf-8">
-    <meta name="keywords" content="车辆行为克隆, 木匠">
-    <meta name="description" content="网络搭建训练步骤：
-
-数据收集
-网络搭建
-网络训练
-模型测试
-
-
-一、 总体思路1.1 模型体系结构我的网络模型中的卷积层，前三层卷积神经网络的stride为${2}\times{2} $，kernel为${5}\times{5} $，而后">
+    <meta name="keywords" content="无人车定位, 木匠">
+    <meta name="description" content="一、粒子滤波1.1 介绍粒子滤波器是一种基于蒙特卡罗的近似解法，由于计算机计算能力的不断提高和易于实现，粒子滤波器在机器人定位领域得到了广泛的应用，其优势在于对复杂问题的求解上，比如一些非线性、非高斯动态系统的状态递推估计或概率推理问题。粒">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -21,7 +13,7 @@
     <meta name="format-detection" content="telephone=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>车辆行为克隆 | 木匠</title>
+    <title>无人车定位 | 木匠</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/font-awesome.min.css">
@@ -273,13 +265,13 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/23.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/1.jpg')">
     <div class="container">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
                     <div class="description center-align post-title">
-                        车辆行为克隆
+                        无人车定位
                     </div>
                 </div>
             </div>
@@ -394,10 +386,6 @@
                                 <span class="chip bg-color">Python</span>
                             </a>
                         
-                            <a href="/tags/DL/" target="_blank">
-                                <span class="chip bg-color">DL</span>
-                            </a>
-                        
                             <a href="/tags/无人车/" target="_blank">
                                 <span class="chip bg-color">无人车</span>
                             </a>
@@ -422,21 +410,21 @@
             <div class="post-info">
                 <div class="post-date info-break-policy">
                     <i class="fa fa-calendar-minus-o fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2019-06-05
+                    2019-09-04
                 </div>
 
                 
                     
                     <div class="info-break-policy">
                         <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
-                        1.5k
+                        1.3k
                     </div>
                     
 
                     
                     <div class="info-break-policy">
                         <i class="fa fa-clock-o fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                        5 分
+                        4 分
                     </div>
                     
                 
@@ -452,120 +440,53 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <p>网络搭建训练步骤：</p>
+                <h2 id="一、粒子滤波"><a href="#一、粒子滤波" class="headerlink" title="一、粒子滤波"></a>一、粒子滤波</h2><h3 id="1-1-介绍"><a href="#1-1-介绍" class="headerlink" title="1.1 介绍"></a>1.1 介绍</h3><p>粒子滤波器是一种基于蒙特卡罗的近似解法，由于计算机计算能力的不断提高和易于实现，粒子滤波器在机器人定位领域得到了广泛的应用，其优势在于对复杂问题的求解上，比如一些非线性、非高斯动态系统的状态递推估计或概率推理问题。粒子滤波器的本质是使用一组有限的加权随机样本（粒子）来近似表征任意状态的后验概率密度 $bel(x_t)$ 。</p>
+<h3 id="1-2-算法"><a href="#1-2-算法" class="headerlink" title="1.2 算法"></a>1.2 算法</h3><p>粒子滤波器的算法流程主要是对粒子集$X$的预测和更新，算法流程如下所示。</p>
+<center><img width="300" height="300" src="http://suljaxm.com/12_pf_algorithm.png">
+</center>
+
+<p>该算法的输入是粒子集$X_{t-1}$，以及最新的控制$u_t$和测量$z_t$。算法首先构造一个暂时的粒子集 $\bar{X}$，表示置信度 $\bar {bel(x_t)} $。这通过系统地处理输入粒子集$X_{t-1}$中的每个粒子$x^{[1]}_{t-1}$完成。随后它将这些粒子转换为粒子集$X_t$，用于近似后验分布 $bel(x_t)$。值得注意的是，<strong>这里 $M$ 代表粒子集$x$,的粒子数量，$M$的要根据实际情况选取合适的值。$w^{[m]}_t=p(z_t|x^{[m]}_t)$是测量$z_t$在粒子$x^{[m]}_t$下的概率，是粒子滤波表征后验概率密度的由来，即通过当前的观测到的数据来预测当前状态的发生概率。还有就是算法的更新部分，采用了重采样（有一个版本是不进行重采样的）。</strong></p>
+<h2 id="二、定位"><a href="#二、定位" class="headerlink" title="二、定位"></a>二、定位</h2><h3 id="2-1-初始化"><a href="#2-1-初始化" class="headerlink" title="2.1 初始化"></a>2.1 初始化</h3><p>假定机器人是在一个二维的世界中，在这个世界中可以被感知到的路标点有4个，分别是$L1(20.0, 20.0)$, $L2(80.0, 80.0)$, $L3(20.0, 80.0)$, $L4(80.0, 20.0)$，同时地图的大小是100X100。那么首先我们在地图上随机一个机器人的坐标(x,y)和运动方向orientation，设定粒子集的M为1000，每个粒子都初始化一个和机器人相同数据结构的状态。</p>
+<pre class="line-numbers language-python"><code class="language-python">N <span class="token operator">=</span> <span class="token number">1000</span> <span class="token comment" spellcheck="true">#初始粒子个数</span>
+p <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token comment" spellcheck="true">#粒子集</span>
+world_size <span class="token operator">=</span> <span class="token number">100.0</span> <span class="token comment" spellcheck="true">#地图尺寸</span>
+
+<span class="token keyword">for</span> i <span class="token keyword">in</span> range<span class="token punctuation">(</span>N<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    x <span class="token operator">=</span> random<span class="token punctuation">.</span>random<span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">*</span> world_size
+    y <span class="token operator">=</span> random<span class="token punctuation">.</span>random<span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">*</span> world_size
+    orientation <span class="token operator">=</span> random<span class="token punctuation">.</span>random<span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">*</span> <span class="token number">2.0</span> <span class="token operator">*</span> pi
+    p<span class="token punctuation">.</span>append<span class="token punctuation">(</span><span class="token punctuation">[</span>x<span class="token punctuation">,</span>y<span class="token punctuation">,</span>orientation<span class="token punctuation">]</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>接着给机器人设定初始噪声参数，分别是前进噪声$forward_{noise}$，转向噪声$turn_{noise}$和传感器噪声 $sense_{noise}$。</p>
+<pre class="line-numbers language-python"><code class="language-python">forward_noise <span class="token operator">=</span> <span class="token number">5.0</span>
+turn_noise <span class="token operator">=</span> <span class="token number">0.1</span>
+sense_noise <span class="token operator">=</span> <span class="token number">5.0</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<h3 id="2-2-预测"><a href="#2-2-预测" class="headerlink" title="2.2 预测"></a>2.2 预测</h3><p>对每一个粒子根据机器人的运动状态，进行下一个状态的预测，例如，机器人的运动指令是先顺时针转动pi/2，再前进10米，则所有的粒子都采用相同的运动指令。</p>
+<pre class="line-numbers language-python"><code class="language-python">myrobot <span class="token operator">=</span> myrobot<span class="token punctuation">.</span>move<span class="token punctuation">(</span><span class="token operator">-</span>pi<span class="token operator">/</span><span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">10.0</span><span class="token punctuation">)</span> <span class="token comment" spellcheck="true">#机器人先顺时针转动pi/2，再前进10米</span>
+
+p2 <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token comment" spellcheck="true">#粒子和机器人做出同样的动作</span>
+<span class="token keyword">for</span> i <span class="token keyword">in</span> range<span class="token punctuation">(</span>N<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    p2<span class="token punctuation">.</span>append<span class="token punctuation">(</span>p<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">.</span>move<span class="token punctuation">(</span><span class="token operator">-</span>pi<span class="token operator">/</span><span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">10.0</span><span class="token punctuation">)</span><span class="token punctuation">)</span> 
+p <span class="token operator">=</span> p2<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>接着运动之后的，机器人感知路标点，获得与4个路标点的测量距离Z，然后那些粒子也都进行一次路标点的距离dist的计算，然后每个粒子通过各自dist和Z的相近程度，分配权值w。dist与Z越接近，权值w越大，即该粒子越可能是当前机器人的所在点。</p>
+<h3 id="2-3-重采样"><a href="#2-3-重采样" class="headerlink" title="2.3 重采样"></a>2.3 重采样</h3><p>重采样采用<strong>Resampling wheel</strong>算法。我们将所有粒子摆在轮盘上，并规定粒子权重的大小和其所占的转轮面积成正比。随后确定一个转盘指针的位置index，beta是在当前index的粒子中，可否被采样的指标。初始beta为0，每次转动转盘我们随机增加r给beta。在重采样中会出现两种情况：</p>
 <ul>
-<li>数据收集</li>
-<li>网络搭建</li>
-<li>网络训练</li>
-<li>模型测试</li>
+<li>当$beta &gt; w[index]$时，此时算没有抽中，我们将index更新为index+1，同时beta更新为beta-w[index]。</li>
+<li>当$beta \leqslant  w[index]$时，此时算抽中， 将编号为index的粒子采样到新的粒子集中，之后转动转盘接着抽，且beta更新为beta+r，直到beta的值大于index所指的权重。</li>
 </ul>
-<hr>
-<h2 id="一、-总体思路"><a href="#一、-总体思路" class="headerlink" title="一、 总体思路"></a>一、 总体思路</h2><h3 id="1-1-模型体系结构"><a href="#1-1-模型体系结构" class="headerlink" title="1.1 模型体系结构"></a>1.1 模型体系结构</h3><p>我的网络模型中的卷积层，前三层卷积神经网络的<code>stride</code>为${2}\times{2} $，<code>kernel</code>为${5}\times{5} $，而后两层卷积神经网络的<code>stride</code>为${1}\times{1} $，<code>kernel</code>为${3}\times{3}$。我跟随五个卷积层和三个完全连接的层，得到一个输出控制值，即反向转弯半径。这参考了NVIDIA在16年发表的论文“<a href="https://images.nvidia.com/content/tegra/automotive/images/2016/solutions/pdf/end-to-end-dl-using-px.pdf" target="_blank" rel="noopener">End to End Learning for Self-Driving Cars</a>”，本文提出了一种将单个前置摄像头的原始像素直接映射到转向指令的网络。所以这篇论文与这个项目的目的是一致的。</p>
-<p>NVIDIA的工作是基于卷积的设计。根据作者的观点，他们设计了卷积层作为特征提取器，而全连接层负责控制转向角。但是，正如他们所指出的，由于系统端到端的特性，使得在网络中分离出特性提取器和控制器的位置是极为困难的。</p>
-<h3 id="1-2-防止模型过度拟合"><a href="#1-2-防止模型过度拟合" class="headerlink" title="1.2 防止模型过度拟合"></a>1.2 防止模型过度拟合</h3><p>该模型包含池化层，以减少过度拟合，在不同的数据集上对模型进行训练和验证，以保证模型不过度拟合。<br>最后对模型进行了测试，通过在模拟器上运行该模型，并确保车辆能够保持在轨道上。</p>
-<h3 id="1-3-优化器"><a href="#1-3-优化器" class="headerlink" title="1.3 优化器"></a>1.3 优化器</h3><p>该模型使用adam优化器，因此学习速度不是手动调优的</p>
-<pre class="line-numbers language-python"><code class="language-python">model<span class="token punctuation">.</span>compile<span class="token punctuation">(</span>loss<span class="token operator">=</span><span class="token string">'mse'</span><span class="token punctuation">,</span> optimizer<span class="token operator">=</span><span class="token string">'adam'</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-<h3 id="1-4-训练数据"><a href="#1-4-训练数据" class="headerlink" title="1.4 训练数据"></a>1.4 训练数据</h3><p>选择训练数据以保持车辆在道路上行驶。我使用了中心车道驾驶的组合，从道路左右两侧的转向角由于<strong>校正</strong>恢复，<strong>校正</strong>就是将原本不是处在中心的相机通过对角度进行 $\pm {correction}$，最后等效于中心相机的效果，这算是数据增强的一种方式。</p>
-<pre class="line-numbers language-python"><code class="language-python">correction <span class="token operator">=</span> <span class="token number">0.2</span> <span class="token comment" spellcheck="true"># this is a parameter to tune</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-<h2 id="二、模型架构和培训策略"><a href="#二、模型架构和培训策略" class="headerlink" title="二、模型架构和培训策略"></a>二、模型架构和培训策略</h2><h3 id="2-1-方案设计"><a href="#2-1-方案设计" class="headerlink" title="2.1 方案设计"></a>2.1 方案设计</h3><p>推导模型体系结构的总体策略是通过摄像机图像来控制汽车的转向角。</p>
-<p>我的第一步是使用卷积神经网络模型类似于<em>LeNet</em>。我认为这个模型可能是合适的，因为它是一个成熟的分类网络。<br>之后为了衡量模型运行得有好坏，我将图像和转向角数据分割成一个训练和验证集。我发现我的第一个模型在训练集上有一个低的均方误差，但在验证集上有一个高的均方误差。这意味着模型过度拟合。为了克服过拟合，我对模型进行了修改，使网络能够减少过拟合。然后我添加了dropout图层，但是效果不是很理想。之后，我参考了NVIDIA的工作。</p>
-<p>最后在模拟器上测试，看看小车在轨道上的行驶情况。当小车经过一些特定的地方时，会脱离轨道，为了改善这些情况下的驾驶行为，我打乱了数据集的训练顺序，增加了批次的数量。在经过这个步骤后，车辆能够在不离开道路的情况下自动绕轨道行驶。</p>
-<h3 id="2-2-网络结构"><a href="#2-2-网络结构" class="headerlink" title="2.2 网络结构"></a>2.2 网络结构</h3><p>最终的模型结构由一个卷积神经网络组成，该网络信息如下，</p>
-<table>
-<thead>
-<tr>
-<th align="center">Layer</th>
-<th align="center">Description</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="center">Input</td>
-<td align="center">90x320x3 RGB image</td>
-</tr>
-<tr>
-<td align="center">Convolution 5x5(RELU)</td>
-<td align="center">2x2 stride, same padding, outputs 45x160x24</td>
-</tr>
-<tr>
-<td align="center">Max pooling</td>
-<td align="center">1x1 stride,  outputs 44x159x24</td>
-</tr>
-<tr>
-<td align="center">Convolution 5x5(RELU)</td>
-<td align="center">2x2 stride, same padding, outputs 22x80x36</td>
-</tr>
-<tr>
-<td align="center">Max pooling</td>
-<td align="center">1x1 stride,  outputs 21x79x36</td>
-</tr>
-<tr>
-<td align="center">Convolution 5x5(RELU)</td>
-<td align="center">2x2 stride, same padding, outputs 11x40x48</td>
-</tr>
-<tr>
-<td align="center">Max pooling</td>
-<td align="center">1x1 stride,  outputs 10x39x48</td>
-</tr>
-<tr>
-<td align="center">Convolution 3x3(RELU)</td>
-<td align="center">1x1 stride, same padding, outputs 10x39x64</td>
-</tr>
-<tr>
-<td align="center">Max pooling</td>
-<td align="center">1x1 stride,  outputs 9x38x48</td>
-</tr>
-<tr>
-<td align="center">Convolution 3x3(RELU)</td>
-<td align="center">1x1 stride, same padding, outputs 9x38x64</td>
-</tr>
-<tr>
-<td align="center">Max pooling</td>
-<td align="center">1x1 stride,  outputs 8x37x48</td>
-</tr>
-<tr>
-<td align="center">Fully connected(RELU)</td>
-<td align="center">inputs 18944, outputs 1164</td>
-</tr>
-<tr>
-<td align="center">Fully connected(RELU)</td>
-<td align="center">inputs 1164, outputs 100</td>
-</tr>
-<tr>
-<td align="center">Fully connected(RELU)</td>
-<td align="center">inputs 100, outputs 50</td>
-</tr>
-<tr>
-<td align="center">Fully connected(RELU)</td>
-<td align="center">inputs 50, outputs 10</td>
-</tr>
-<tr>
-<td align="center">Fully connected</td>
-<td align="center">inputs 10, outputs 1</td>
-</tr>
-</tbody></table>
-<p>起初，我采用了dropout策略，发现容易欠拟合，模型不容易收敛，所以我选择了<code>step</code>为${1}\times{1} $的pooling层。同时，利用步幅为${1}\times{1} $的卷积，尽可能多地保留预测信息。<br>下面是该网络结构的可视化。</p>
-<p><img src="http://suljaxm.com/6_Net.png" alt="Figure 1 网络" title="Model Visualization"></p>
-<h3 id="2-3-网络训练与测试"><a href="#2-3-网络训练与测试" class="headerlink" title="2.3 网络训练与测试"></a>2.3 网络训练与测试</h3><p>为了捕捉良好的驾驶行为，我从互联网上下载了相关的 <a href="https://d17h27t6h515a5.cloudfront.net/topher/2016/December/584f6edd_data/data.zip" target="_blank" rel="noopener">数据集</a>。下面是一个中心车道驾驶的例子:</p>
-<p><img src="http://suljaxm.com/6_center_01383082.jpg" alt="Figure 2 训练图片" title="Grayscaling"></p>
-<p>由于模拟器会同时会为左右摄像头保存图像，于是我将左右摄像头采集的数据，经过转向角由于<strong>校正</strong>，等效于中心相机的数据。</p>
-<p> <img src="http://suljaxm.com/6_right_03383082.jpg" alt="Figure 3.1 转向角=0.3383082" title="Recovery Image_right"> <img src="http://suljaxm.com/6_center_01383082.jpg" alt="Figure 3.2 转向角=0.1383082" title="Grayscaling"> <img src="http://suljaxm.com/6_left_f01383082.jpg" alt="Figure 3.3 转向角=-0.1383082" title="Recovery Image_left"> </p>
-<p>为了扩充数据，我还翻转了图像和角度，认为这样可以提高网络预测的稳定性。例如，下面是一个已经翻转的图像。</p>
-<p><img src="http://suljaxm.com/6_center_01383082.jpg" alt="Figure 4.1 原图片" title="Grayscaling"> <img src="http://suljaxm.com/6_center_image_flipped.jpg" alt="Figure 4.2 翻转图片" title="Flipped Image"></p>
-<p>不过，并不是所有这些像素都包含有用的信息。在上面的图像中，图像的顶部部分捕捉树木、山丘和天空，底部部分捕捉汽车的引擎盖。我使用<code>Cropping2D</code>裁剪图像。例如，下面是一个经过裁剪的图像。</p>
-<p><img src="http://suljaxm.com/6_center_01383082.jpg" alt="Figure 5.1 原图片" title="Grayscaling"> <img src="http://suljaxm.com/6_center_image_cropped.jpg" alt="Figure5.2 裁剪图片" title="Cropped Image"></p>
-<p>最后，我随机打乱数据集，将20%的数据放入验证集。</p>
-<p>我使用这些训练数据来训练模型。验证集帮助确定模型是否超过或低于拟合。理想的迭代数是10，可以通过可视化的损失来说明。</p>
-<p><img src="http://suljaxm.com/6_result.png" alt="Figure 6 损失曲线" title="Result Image"></p>
-<p>我使用了adam优化器，因此不需要手动训练学习率。</p>
-<h2 id="三、总结"><a href="#三、总结" class="headerlink" title="三、总结"></a>三、总结</h2><p>车辆行为克隆网络中需要调整的参数是</p>
-<ul>
-<li><strong>batch_size=32</strong>, </li>
-<li><strong>correction = 0.2</strong>, </li>
-<li><strong>cropping=((50,20), (0,0))</strong></li>
-<li><strong>train_test_split(samples, test_size=0.2)</strong></li>
-</ul>
-<p>此外，数据集的在训练时需要做随机处理，而且训练数据越多，训练效果越好。</p>
-<p><a href="https://github.com/suljaxm/CarND-Behavioral-Cloning" target="_blank" rel="noopener">代码参考</a></p>
+<pre class="line-numbers language-python"><code class="language-python">p3 <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
+index <span class="token operator">=</span> int<span class="token punctuation">(</span>random<span class="token punctuation">.</span>random<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">*</span>N<span class="token punctuation">)</span> <span class="token comment" spellcheck="true"># 从N个粒子中随机选择一个粒子的编号index</span>
+beta <span class="token operator">=</span> <span class="token number">0.0</span>
+mw <span class="token operator">=</span> max<span class="token punctuation">(</span>w<span class="token punctuation">)</span> <span class="token comment" spellcheck="true">#获取粒子集中最大一个粒子的权值w</span>
+<span class="token keyword">for</span> i <span class="token keyword">in</span> range<span class="token punctuation">(</span>N<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    r <span class="token operator">=</span> random<span class="token punctuation">.</span>random<span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">*</span> <span class="token number">2.0</span> <span class="token operator">*</span> mw 
+    beta <span class="token operator">+=</span> r
+    <span class="token keyword">while</span> beta <span class="token operator">></span> w<span class="token punctuation">[</span>index<span class="token punctuation">]</span><span class="token punctuation">:</span>
+        beta <span class="token operator">-=</span> w<span class="token punctuation">[</span>index<span class="token punctuation">]</span>
+        index <span class="token operator">=</span> <span class="token punctuation">(</span>index <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">)</span> <span class="token operator">%</span> N
+    p3<span class="token punctuation">.</span>append<span class="token punctuation">(</span>p<span class="token punctuation">[</span>index<span class="token punctuation">]</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="2-4-结果"><a href="#2-4-结果" class="headerlink" title="2.4 结果"></a>2.4 结果</h3><p>最终，经过不断的预测，重采样更新粒子集，把那些和机器人有着相似观测数据的粒子保留了下来。之后我们可能将权值最大的粒子的状态当作此时机器人的状态，完成了定位。粒子滤波定位的演示如下，绿色是机器人，红色是粒子，一开始这些粒子是均匀分布在地图的，随着机器人的不断运动，慢慢只剩下符合机器人状态的粒子。</p>
+<center><img width="500" height="250" src="http://suljaxm.com/12_pf_demo.gif">
+</center>
 
             </div>
             <hr/>
@@ -724,9 +645,9 @@
             <br/>
             <span xmlns:dct="http://purl.org/dc/terms/" href="http://purl.org/dc/dcmitype/Text"
                   property="dct:title" rel="dct:type">
-                    《车辆行为克隆》
+                    《无人车定位》
                 </span> 由
-            <a xmlns:cc="http://creativecommons.org/ns#" href="/2019/06/05/wu-ren-jia-shi/behavioral-cloning/" property="cc:attributionName"
+            <a xmlns:cc="http://creativecommons.org/ns#" href="/2019/09/04/sdcnd/localization/" property="cc:attributionName"
                rel="cc:attributionURL">
                 kieranych
             </a> 采用
@@ -766,29 +687,84 @@
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6 overflow-policy" data-aos="fade-up">
+        <div class="article col s12 m6 overflow-policy" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fa fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="fa fa-dot-circle-o"></i>&nbsp;本篇
+            </div>
             <div class="card">
-                <a href="/2019/07/24/ros/ros-chu-shi/">
+                <a href="/2019/09/04/sdcnd/localization/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/23.jpg" class="responsive-img" alt="ROS初识">
+                        <img src="/medias/featureimages/1.jpg" class="responsive-img" alt="无人车定位">
                         
-                        <span class="card-title">ROS初识</span>
+                        <span class="card-title">无人车定位</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            ROS海龟的基本操作
+                            使用粒子滤波的二维地图定位
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="fa fa-clock-o fa-fw icon-date"></i>2019-07-24
+                            <span class="publish-date">
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2019-09-04
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fa fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/无人驾驶/" class="post-category" target="_blank">
+                                    无人驾驶
+                                </a>
+                            
+                            
                         </span>
+                    </div>
+                </div>
+
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/Python/" target="_blank">
+                        <span class="chip bg-color">Python</span>
+                    </a>
+                    
+                    <a href="/tags/无人车/" target="_blank">
+                        <span class="chip bg-color">无人车</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6 overflow-policy" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fa fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2019/09/02/ros/navigation/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/5.jpg" class="responsive-img" alt="机器人自主导航">
+                        
+                        <span class="card-title">机器人自主导航</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            机器人在不同环境下的导航
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2019-09-02
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fa fa-bookmark fa-fw icon-category"></i>
@@ -804,65 +780,16 @@
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/C/" target="_blank">
-                        <span class="chip bg-color">C++</span>
-                    </a>
-                    
                     <a href="/tags/机器人/" target="_blank">
                         <span class="chip bg-color">机器人</span>
                     </a>
                     
-                </div>
-                
-            </div>
-        </div>
-        
-        
-        <div class="article col s12 m6 overflow-policy" data-aos="fade-up">
-            <div class="article-badge right-badge text-color">
-                下一篇&nbsp;<i class="fa fa-chevron-right"></i>
-            </div>
-            <div class="card">
-                <a href="/2019/05/16/wu-ren-jia-shi/advanced-lane-finding/">
-                    <div class="card-image">
-                        
-                        
-                        <img src="/medias/featureimages/13.jpg" class="responsive-img" alt="车道线检测">
-                        
-                        <span class="card-title">车道线检测</span>
-                    </div>
-                </a>
-                <div class="card-content article-content">
-                    <div class="summary block-with-text">
-                        
-                            使用传统图像检测方式进行车道线的检测
-                        
-                    </div>
-                    <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="fa fa-clock-o fa-fw icon-date"></i>2019-05-16
-                            </span>
-                        <span class="publish-author">
-                            
-                            <i class="fa fa-bookmark fa-fw icon-category"></i>
-                            
-                            <a href="/categories/无人驾驶/" class="post-category" target="_blank">
-                                    无人驾驶
-                                </a>
-                            
-                            
-                        </span>
-                    </div>
-                </div>
-                
-                <div class="card-action article-tags">
+                    <a href="/tags/XML/" target="_blank">
+                        <span class="chip bg-color">XML</span>
+                    </a>
                     
                     <a href="/tags/Python/" target="_blank">
                         <span class="chip bg-color">Python</span>
-                    </a>
-                    
-                    <a href="/tags/无人车/" target="_blank">
-                        <span class="chip bg-color">无人车</span>
                     </a>
                     
                 </div>
@@ -1024,7 +951,7 @@
            &copy;<a href="https://suljaxm.github.io/" target="_blank">2019 SULJAXM. All Rights Reserved.
             
                 &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
-                <span class="white-color">12.3k</span>
+                <span class="white-color">14.3k</span>
             
 
             <br>

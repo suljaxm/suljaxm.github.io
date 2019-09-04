@@ -4,8 +4,8 @@
 
 <head><meta name="generator" content="Hexo 3.9.0">
     <meta charset="utf-8">
-    <meta name="keywords" content="ROS通信(海龟模拟器), 木匠">
-    <meta name="description" content="一、发布指令1.1 发布海龟速度指令，让海龟圆周运动创建一个Publisher，发布名为turtle1/cmd_vel的topic，其消息类型为geometry_msgs::Twist，通过控制cmd_vel中linear下的x和angul">
+    <meta name="keywords" content="卡尔曼滤波器, 木匠">
+    <meta name="description" content="一、高斯函数1.1 介绍一维高斯函数的表达式为$f\left ( x \right )=\frac{1}{\sqrt{2\pi \delta ^{2}}}exp^{-\frac{1}{2}\frac{\left ( x - \mu \rig">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -13,7 +13,7 @@
     <meta name="format-detection" content="telephone=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>ROS通信(海龟模拟器) | 木匠</title>
+    <title>卡尔曼滤波器 | 木匠</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/font-awesome.min.css">
@@ -265,13 +265,13 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/22.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/23.jpg')">
     <div class="container">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
                     <div class="description center-align post-title">
-                        ROS通信(海龟模拟器)
+                        卡尔曼滤波器
                     </div>
                 </div>
             </div>
@@ -382,12 +382,12 @@
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/C/" target="_blank">
-                                <span class="chip bg-color">C++</span>
+                            <a href="/tags/Python/" target="_blank">
+                                <span class="chip bg-color">Python</span>
                             </a>
                         
-                            <a href="/tags/机器人/" target="_blank">
-                                <span class="chip bg-color">机器人</span>
+                            <a href="/tags/无人车/" target="_blank">
+                                <span class="chip bg-color">无人车</span>
                             </a>
                         
                     </div>
@@ -398,8 +398,8 @@
                     <div class="post-cate">
                         <i class="fa fa-bookmark fa-fw icon-category"></i>
                         
-                            <a href="/categories/ROS/" class="post-category" target="_blank">
-                                ROS
+                            <a href="/categories/无人驾驶/" class="post-category" target="_blank">
+                                无人驾驶
                             </a>
                         
                     </div>
@@ -410,21 +410,21 @@
             <div class="post-info">
                 <div class="post-date info-break-policy">
                     <i class="fa fa-calendar-minus-o fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2019-07-29
+                    2019-08-28
                 </div>
 
                 
                     
                     <div class="info-break-policy">
                         <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
-                        799
+                        1.8k
                     </div>
                     
 
                     
                     <div class="info-break-policy">
                         <i class="fa fa-clock-o fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                        3 分
+                        7 分
                     </div>
                     
                 
@@ -440,144 +440,82 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h2 id="一、发布指令"><a href="#一、发布指令" class="headerlink" title="一、发布指令"></a>一、发布指令</h2><h3 id="1-1-发布海龟速度指令，让海龟圆周运动"><a href="#1-1-发布海龟速度指令，让海龟圆周运动" class="headerlink" title="1.1 发布海龟速度指令，让海龟圆周运动"></a>1.1 发布海龟速度指令，让海龟圆周运动</h3><p>创建一个<strong>Publisher</strong>，发布名为<strong>turtle1/cmd_vel</strong>的<strong>topic</strong>，其消息类型为<strong>geometry_msgs::Twist</strong>，通过控制<strong>cmd_vel</strong>中<strong>linear</strong>下的<strong>x</strong>和<strong>angular</strong>下的<strong>z</strong>。</p>
-<pre class="line-numbers language-cpp"><code class="language-cpp">geometry_msgs<span class="token operator">/</span>Vector3 linear
-  float64 x
-  float64 y
-  float64 z
-geometry_msgs<span class="token operator">/</span>Vector3 angular
-  float64 x
-  float64 y
-  float64 z<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<h3 id="1-2-参考代码"><a href="#1-2-参考代码" class="headerlink" title="1.2 参考代码"></a>1.2 参考代码</h3><pre class="line-numbers language-cpp"><code class="language-cpp"><span class="token macro property">#<span class="token directive keyword">include</span> <span class="token string">&lt;sstream></span></span>
-<span class="token macro property">#<span class="token directive keyword">include</span> <span class="token string">"ros/ros.h"</span></span>
-<span class="token macro property">#<span class="token directive keyword">include</span> <span class="token string">"std_msgs/String.h"</span></span>
-<span class="token macro property">#<span class="token directive keyword">include</span> <span class="token string">"geometry_msgs/Twist.h"</span></span>
-<span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token keyword">int</span> argc<span class="token punctuation">,</span> <span class="token keyword">char</span> <span class="token operator">*</span><span class="token operator">*</span>argv<span class="token punctuation">)</span>
-<span class="token punctuation">{</span>
-    <span class="token comment" spellcheck="true">// ROS节点初始化</span>
-    ros<span class="token operator">::</span><span class="token function">init</span><span class="token punctuation">(</span>argc<span class="token punctuation">,</span> argv<span class="token punctuation">,</span> <span class="token string">"turtle_publisher"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <h2 id="一、高斯函数"><a href="#一、高斯函数" class="headerlink" title="一、高斯函数"></a>一、高斯函数</h2><h3 id="1-1-介绍"><a href="#1-1-介绍" class="headerlink" title="1.1 介绍"></a>1.1 介绍</h3><p>一维高斯函数的表达式为$f\left ( x \right )=\frac{1}{\sqrt{2\pi \delta ^{2}}}exp^{-\frac{1}{2}\frac{\left ( x - \mu \right )^{2}}{\delta ^2}}$，其中$\mu$为函数尖峰值，$\delta$为标准方差。</p>
+<pre class="line-numbers language-python"><code class="language-python"><span class="token keyword">def</span> <span class="token function">f</span><span class="token punctuation">(</span>mu<span class="token punctuation">,</span> sigma2<span class="token punctuation">,</span> x<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">return</span> <span class="token number">1</span><span class="token operator">/</span>sqrt<span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">.</span><span class="token operator">*</span>pi<span class="token operator">*</span>sigma2<span class="token punctuation">)</span> <span class="token operator">*</span> exp<span class="token punctuation">(</span><span class="token operator">-</span><span class="token punctuation">.</span><span class="token number">5</span><span class="token operator">*</span><span class="token punctuation">(</span>x<span class="token operator">-</span>mu<span class="token punctuation">)</span><span class="token operator">**</span><span class="token number">2</span> <span class="token operator">/</span> sigma2<span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<h3 id="1-2-状态更新"><a href="#1-2-状态更新" class="headerlink" title="1.2 状态更新"></a>1.2 状态更新</h3><p>假设像贝叶斯定理一样，两个高斯函数相乘，$f_1\left ( x \right )=\frac{1}{\sqrt{2\pi \delta ^{2}}}exp^{-\frac{1}{2}\frac{\left ( x - \mu \right )^{2}}{\delta ^2}}$ 和$ f_2\left ( x \right )=\frac{1}{\sqrt{2\pi \gamma ^{2}}}exp^{-\frac{1}{2}\frac{\left ( x - \nu  \right )^2}{\gamma ^2}}$，相乘后获得新的高斯函数$f_3\left ( x \right )=\frac{1}{\sqrt{2\pi \delta ^{2’}}}exp^{-\frac{1}{2}\frac{\left ( x - {\mu}’ \right )^{2}}{\delta ^{2’}}}$，其中$f_3\left ( x \right )$ 的波峰处于$f_1\left ( x \right )$，$f_2\left ( x \right )$两个尖峰之间，且更细高，一个相对确定的分布，计算公式为${\mu}’= \frac{1}{\delta ^2+\gamma ^2}[\gamma ^2\mu + \delta ^2\nu ]$，$\delta^{2’}= \frac{1}{\frac{1}{\delta ^2}+\frac{1}{\gamma ^2}}$。</p>
+<center><img width="300" height="100" src="http://suljaxm.com/9_gaussian.png">
+</center>
 
-    <span class="token comment" spellcheck="true">// 创建节点句柄</span>
-    ros<span class="token operator">::</span>NodeHandle n<span class="token punctuation">;</span>
+<pre class="line-numbers language-python"><code class="language-python"><span class="token keyword">def</span> <span class="token function">update</span><span class="token punctuation">(</span>mean1<span class="token punctuation">,</span> var1<span class="token punctuation">,</span> mean2<span class="token punctuation">,</span> var2<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    new_mean <span class="token operator">=</span> <span class="token number">1</span><span class="token operator">/</span><span class="token punctuation">(</span>var1<span class="token operator">+</span>var2<span class="token punctuation">)</span><span class="token operator">*</span><span class="token punctuation">(</span>var1<span class="token operator">*</span>mean2<span class="token operator">+</span>var2<span class="token operator">*</span>mean1<span class="token punctuation">)</span>
+    new_var <span class="token operator">=</span> <span class="token number">1</span><span class="token operator">/</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token operator">/</span>var1 <span class="token operator">+</span> <span class="token number">1</span><span class="token operator">/</span>var2<span class="token punctuation">)</span>
+    <span class="token keyword">return</span> <span class="token punctuation">[</span>new_mean<span class="token punctuation">,</span> new_var<span class="token punctuation">]</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="1-3-高斯运动预测"><a href="#1-3-高斯运动预测" class="headerlink" title="1.3 高斯运动预测"></a>1.3 高斯运动预测</h3><p>预测函数是两个函数的相加，${\mu}’= \mu + \nu $，$\delta^{2’}= \delta ^2+\gamma ^2$。</p>
+<pre class="line-numbers language-python"><code class="language-python"><span class="token keyword">def</span> <span class="token function">predict</span><span class="token punctuation">(</span>mean1<span class="token punctuation">,</span> var1<span class="token punctuation">,</span> mean2<span class="token punctuation">,</span> var2<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    new_mean <span class="token operator">=</span> mean1 <span class="token operator">+</span> mean2
+    new_var <span class="token operator">=</span> var1 <span class="token operator">+</span> var2
+    <span class="token keyword">return</span> <span class="token punctuation">[</span>new_mean<span class="token punctuation">,</span> new_var<span class="token punctuation">]</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="二、卡尔曼滤波"><a href="#二、卡尔曼滤波" class="headerlink" title="二、卡尔曼滤波"></a>二、卡尔曼滤波</h2><h3 id="2-1-介绍"><a href="#2-1-介绍" class="headerlink" title="2.1 介绍"></a>2.1 介绍</h3><p>卡尔曼滤波器本质上是一个预测和更新的估算问题，根据之前一维高斯函数的观测状态$f_2$分布，与预测状态$f_1$分布，获得当前状态$f_3$分布，这种可以由两种相对不确定分布推导相对确定分布，是卡尔曼滤波的核心思想。</p>
+<h3 id="2-2-理论"><a href="#2-2-理论" class="headerlink" title="2.2 理论"></a>2.2 理论</h3><p>下面是卡尔曼滤波器抽象出的7个步骤，</p>
+<center><img width="250" height="250" src="http://suljaxm.com/9_KF.png">
+</center>
+$x$表示滤波器的状态向量，$F$是状态转移矩阵，${x}' = Fx+u$，表示了状态 $x\to x^{'}$ 的过程，是前一个状态对当前状态的预测。$P$是状态协方差矩阵，$Q$是过程噪声，$P^{'}=FPF^{T}+Q$ 表示了 $P\to P^{'}$ 的过程，是前一个不确定程度对当前状态的不确定程度的预测。
 
-    <span class="token comment" spellcheck="true">// 创建一个Publisher，发布名为turtle1/cmd_vel的topic，消息类型为geometry_msgs::Twist，传输空间大小1000</span>
-    ros<span class="token operator">::</span>Publisher chatter_pub <span class="token operator">=</span> n<span class="token punctuation">.</span>advertise<span class="token operator">&lt;</span>geometry_msgs<span class="token operator">::</span>Twist<span class="token operator">></span><span class="token punctuation">(</span><span class="token string">"turtle1/cmd_vel"</span><span class="token punctuation">,</span> <span class="token number">1000</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<p>$z$表示观测状态量，$H$是测量矩阵，$y=z-H{x}’$表示了观测值和与预测值的差值。$R$是测量噪声矩阵，$K$为卡尔曼增益，是状态更新中的权重，在$x={x}’+Ky$中是y的权值，而在$P=(I-KH){P}’$中是${P}’$的权值。<br>卡尔曼滤波器的最后两个步骤是滤波器的闭环。$x={x}’+Ky$表示当前状态向量$x$的更新，$P=(I-KH){P}’$表示系统的不确定度$P$的更新，这些都被用于下一个周期的运算。</p>
+<h3 id="2-3-实例（一维追踪）"><a href="#2-3-实例（一维追踪）" class="headerlink" title="2.3 实例（一维追踪）"></a>2.3 实例（一维追踪）</h3><p>假设在恒定速度$v$的前提下，预测物体的位置$s$，这是一维卡尔曼滤波器的追踪问题，其中状态向量x为 $[s,v]^{T}$，因为v保持不变，则当$\Delta t = 1s$时，$F$表示为$[[1., 1.], [0, 1.]]$，当前预测的状态${x}’$为</p>
+<center><img width="240" height="40" src="http://suljaxm.com/9_get_x%27.gif"></center>
+$P$的初始值可以设置为$[[1000., 0.], [0., 1000.]]$，意味着速度和位置是两个不相关的变量，因为观测值只有$s$，则$H$为$[[1., 0.]]$。因为实例是简化的模型，所以$Q$和$R$都设置为0，一般情况下，$Q$是那些$P$无法表示的噪声，而$R$由传感器厂家提供。
 
-    <span class="token comment" spellcheck="true">// 设置循环的频率</span>
-    ros<span class="token operator">::</span>Rate <span class="token function">loop_rate</span><span class="token punctuation">(</span><span class="token number">10</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<pre class="line-numbers language-python"><code class="language-python"><span class="token comment" spellcheck="true"># 卡尔曼滤波，对当前位置的估计</span>
+<span class="token keyword">def</span> <span class="token function">kalman_filter</span><span class="token punctuation">(</span>x<span class="token punctuation">,</span> P<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">for</span> n <span class="token keyword">in</span> range<span class="token punctuation">(</span>len<span class="token punctuation">(</span>measurements<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
 
-    <span class="token keyword">int</span> count <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
-    <span class="token keyword">while</span> <span class="token punctuation">(</span>ros<span class="token operator">::</span><span class="token function">ok</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
-    <span class="token punctuation">{</span>
-        <span class="token comment" spellcheck="true">// 初始化geometry_msgs::Twist类型的消息</span>
-        geometry_msgs<span class="token operator">::</span>Twist Twist_msg<span class="token punctuation">;</span>
+        <span class="token comment" spellcheck="true"># measurement update</span>
+        z <span class="token operator">=</span> matrix<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token punctuation">[</span>measurements<span class="token punctuation">[</span>n<span class="token punctuation">]</span><span class="token punctuation">]</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+        y <span class="token operator">=</span> z <span class="token operator">-</span> H<span class="token operator">*</span>x
+        S <span class="token operator">=</span> H<span class="token operator">*</span>P<span class="token operator">*</span>H<span class="token punctuation">.</span>transpose<span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">+</span> R
+        K <span class="token operator">=</span> P<span class="token operator">*</span>H<span class="token punctuation">.</span>transpose<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">*</span>S<span class="token punctuation">.</span>inverse<span class="token punctuation">(</span><span class="token punctuation">)</span>
+        x <span class="token operator">=</span> x <span class="token operator">+</span> <span class="token punctuation">(</span>K<span class="token operator">*</span>y<span class="token punctuation">)</span>
+        P <span class="token operator">=</span> <span class="token punctuation">(</span>I <span class="token operator">-</span> <span class="token punctuation">(</span>K<span class="token operator">*</span>H<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token operator">*</span>P
 
-        <span class="token keyword">float</span> linear_x<span class="token punctuation">,</span> linear_y<span class="token punctuation">,</span> angular_z<span class="token punctuation">;</span>
-        linear_x <span class="token operator">=</span> <span class="token number">2</span><span class="token punctuation">;</span>
-        linear_y <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
-        angular_z <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span>
-        Twist_msg<span class="token punctuation">.</span>linear<span class="token punctuation">.</span>x <span class="token operator">=</span> linear_x<span class="token punctuation">;</span>
-        Twist_msg<span class="token punctuation">.</span>linear<span class="token punctuation">.</span>y <span class="token operator">=</span> linear_y<span class="token punctuation">;</span>
-        Twist_msg<span class="token punctuation">.</span>angular<span class="token punctuation">.</span>z <span class="token operator">=</span> angular_z<span class="token punctuation">;</span>
+        <span class="token comment" spellcheck="true"># prediction</span>
+        x <span class="token operator">=</span> <span class="token punctuation">(</span>F<span class="token operator">*</span>x<span class="token punctuation">)</span> <span class="token operator">+</span> u
+        P <span class="token operator">=</span> F<span class="token operator">*</span>P<span class="token operator">*</span>F<span class="token punctuation">.</span>transpose<span class="token punctuation">(</span><span class="token punctuation">)</span>
 
-        <span class="token comment" spellcheck="true">// 发布消息</span>
-        <span class="token function">ROS_INFO</span><span class="token punctuation">(</span><span class="token string">"I heard cmd_vel linear.x:[%f] linear.y:[%f] angular.z:[%f]"</span><span class="token punctuation">,</span>linear_x<span class="token punctuation">,</span> linear_y<span class="token punctuation">,</span> angular_z<span class="token punctuation">)</span><span class="token punctuation">;</span>
-        chatter_pub<span class="token punctuation">.</span><span class="token function">publish</span><span class="token punctuation">(</span>Twist_msg<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">return</span> x<span class="token punctuation">,</span>P
 
-        <span class="token comment" spellcheck="true">// 按照循环频率延时</span>
-        loop_rate<span class="token punctuation">.</span><span class="token function">sleep</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-        <span class="token operator">++</span>count<span class="token punctuation">;</span>
-    <span class="token punctuation">}</span>
+measurements <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">]</span>
 
-    <span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
-<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<h2 id="二、定阅"><a href="#二、定阅" class="headerlink" title="二、定阅"></a>二、定阅</h2><h3 id="2-1-海龟的位置，并在终端中周期打印输出"><a href="#2-1-海龟的位置，并在终端中周期打印输出" class="headerlink" title="2.1 海龟的位置，并在终端中周期打印输出"></a>2.1 海龟的位置，并在终端中周期打印输出</h3><p>创建一个<strong>Subscriber</strong>，订阅名为<strong>turtle1/pose</strong>的<strong>topic</strong>，其消息类型为<strong>turtlesim::Pose</strong>，注册回调函数<strong>chatterCallback_pose</strong>，而输出<strong>turtle1/pose</strong>中<strong>x</strong>， <strong>y</strong>，<strong>theta</strong>就是海龟<strong>turtle1</strong>的位置。</p>
-<pre class="line-numbers language-cpp"><code class="language-cpp">float32 x
-float32 y
-float32 theta
-float32 linear_velocity
-float32 angular_velocity<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<h3 id="2-2-参考代码："><a href="#2-2-参考代码：" class="headerlink" title="2.2 参考代码："></a>2.2 参考代码：</h3><pre class="line-numbers language-cpp"><code class="language-cpp"><span class="token macro property">#<span class="token directive keyword">include</span> <span class="token string">"ros/ros.h"</span></span>
-<span class="token macro property">#<span class="token directive keyword">include</span> <span class="token string">"std_msgs/String.h"</span></span>
-<span class="token macro property">#<span class="token directive keyword">include</span> <span class="token string">"turtlesim/Pose.h"</span></span>
-<span class="token comment" spellcheck="true">// 接收到订阅的消息后，会进入消息回调函数</span>
-<span class="token keyword">void</span> <span class="token function">chatterCallback_pose</span><span class="token punctuation">(</span><span class="token keyword">const</span> turtlesim<span class="token operator">::</span>Pose<span class="token operator">::</span>ConstPtr<span class="token operator">&amp;</span> Pose_msg<span class="token punctuation">)</span>
-<span class="token punctuation">{</span>
-    <span class="token comment" spellcheck="true">// 将接收到的消息打印出来</span>
-    <span class="token keyword">float</span> x<span class="token punctuation">,</span> y<span class="token punctuation">,</span> theta<span class="token punctuation">;</span>
-    x<span class="token operator">=</span>Pose_msg<span class="token operator">-</span><span class="token operator">></span>x<span class="token punctuation">;</span>
-    y<span class="token operator">=</span>Pose_msg<span class="token operator">-</span><span class="token operator">></span>y<span class="token punctuation">;</span>
-    theta<span class="token operator">=</span>Pose_msg<span class="token operator">-</span><span class="token operator">></span>theta<span class="token punctuation">;</span>
-    <span class="token function">ROS_INFO</span><span class="token punctuation">(</span><span class="token string">"I heard pose x:[%f] y:[%f] z:[%f]"</span><span class="token punctuation">,</span>x<span class="token punctuation">,</span> y<span class="token punctuation">,</span> theta<span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token punctuation">}</span>
+x <span class="token operator">=</span> matrix<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">.</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">.</span><span class="token punctuation">]</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token comment" spellcheck="true"># initial state (location and velocity)</span>
+P <span class="token operator">=</span> matrix<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token punctuation">[</span><span class="token number">1000</span><span class="token punctuation">.</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">.</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">.</span><span class="token punctuation">,</span> <span class="token number">1000</span><span class="token punctuation">.</span><span class="token punctuation">]</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token comment" spellcheck="true"># initial uncertainty</span>
+u <span class="token operator">=</span> matrix<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">.</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">.</span><span class="token punctuation">]</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token comment" spellcheck="true"># external motion</span>
+F <span class="token operator">=</span> matrix<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">.</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">.</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">.</span><span class="token punctuation">]</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token comment" spellcheck="true"># next state function</span>
+H <span class="token operator">=</span> matrix<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">.</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">.</span><span class="token punctuation">]</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token comment" spellcheck="true"># measurement function</span>
+R <span class="token operator">=</span> matrix<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">.</span><span class="token punctuation">]</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token comment" spellcheck="true"># measurement uncertainty</span>
+I <span class="token operator">=</span> matrix<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">.</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">.</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">.</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">.</span><span class="token punctuation">]</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token comment" spellcheck="true"># identity matrix</span>
 
-<span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token keyword">int</span> argc<span class="token punctuation">,</span> <span class="token keyword">char</span> <span class="token operator">*</span><span class="token operator">*</span>argv<span class="token punctuation">)</span>
-<span class="token punctuation">{</span>
-    <span class="token comment" spellcheck="true">// 初始化ROS节点</span>
-    ros<span class="token operator">::</span><span class="token function">init</span><span class="token punctuation">(</span>argc<span class="token punctuation">,</span> argv<span class="token punctuation">,</span> <span class="token string">"turtle_subscriber"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>kalman_filter<span class="token punctuation">(</span>x<span class="token punctuation">,</span> P<span class="token punctuation">)</span><span class="token punctuation">)</span>
+<span class="token comment" spellcheck="true"># output should be:</span>
+<span class="token comment" spellcheck="true"># x: [[3.9996664447958645], [0.9999998335552873]]</span>
+<span class="token comment" spellcheck="true"># P: [[2.3318904241194827, 0.9991676099921091], [0.9991676099921067, 0.49950058263974184]]</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="2-4-实例（二维追踪）"><a href="#2-4-实例（二维追踪）" class="headerlink" title="2.4 实例（二维追踪）"></a>2.4 实例（二维追踪）</h3><p>假设传感器为激光雷达，可以提供二维测量数据，首先要定义状态转移矩阵$F$，来估算二维位置$(s_x, s_y)$和二维速度$(v_x,v_y)$，则当$\Delta t = 1s$时，$F$表示为$[[1, 0,1,0], [0, 1,0,0,1],[0,0,1,0],[0,0,0,1]]$，当前预测的状态$x^{‘}$为</p>
+<center><img width="400" height="80" src="http://suljaxm.com/9_get_x2%27.gif"></center>
+又因为激光雷达只能测量距离，则对应的测量矩阵$H=[[1,0,0,0],[0,1,0,0]]$，而只能测量距离不能测量速度的性质，体现在协方差矩阵上就是位置测量的不确定度较低，速度测量的不确定度较高，则$P = [[1,0,0,0],[0,1,0,0],[0,0,1000,0],[0,0,0,1000]]$。该处理方式和一维追踪中的相同。
 
-    <span class="token comment" spellcheck="true">// 创建节点句柄     </span>
-    ros<span class="token operator">::</span>NodeHandle n<span class="token punctuation">;</span>
+<h2 id="三、扩展卡尔曼滤波"><a href="#三、扩展卡尔曼滤波" class="headerlink" title="三、扩展卡尔曼滤波"></a>三、扩展卡尔曼滤波</h2><h3 id="3-1-介绍"><a href="#3-1-介绍" class="headerlink" title="3.1 介绍"></a>3.1 介绍</h3><p>扩展卡尔曼滤波是为了解决不同传感器融合时采集数据不统一的问题，比如激光雷达的观测值是在笛卡尔坐标系的，而毫米波雷达的观测值是在极坐标系的，在进行传感器融合时，需要统一坐标系，但是当坐标系转换时会引入非线性变化，于是这种非线性的卡尔曼滤波就称为扩展卡尔曼滤波。</p>
+<h3 id="3-2-毫米波雷达"><a href="#3-2-毫米波雷达" class="headerlink" title="3.2 毫米波雷达"></a>3.2 毫米波雷达</h3><p>毫米波雷达的原理是多普勒效应，其测量的数据都是在极坐标系下的，状态向量x为$[\rho ,\phi, \dot{\rho } ]^T$。$\rho$为目标在极坐标下离雷达的距离，$\phi$为方向角，$\dot{\rho }$为距离的变化率。<br>因为预测的状态向量${x}’$为$ [{s_x}’, {s_y}’, {v_x}’,{v_y}’]^T$，则观测值和与预测值的差值</p>
+<center><img width="300" height="100" src="http://suljaxm.com/9_h%28x%29.gif"></center>
 
-    <span class="token comment" spellcheck="true">// 创建一个Subscriber，订阅名为turtle1/pose的topic，注册回调函数chatterCallback_pose</span>
-    ros<span class="token operator">::</span>Subscriber sub <span class="token operator">=</span> n<span class="token punctuation">.</span><span class="token function">subscribe</span><span class="token punctuation">(</span><span class="token string">"turtle1/pose"</span><span class="token punctuation">,</span> <span class="token number">1000</span><span class="token punctuation">,</span> chatterCallback_pose<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<p>这种非线性的模型时，习惯于将计算差值$y=z-H{x}’$中的$H{x}’$用$h({x}’)$表示。此时$H{x}’$不在是常数矩阵，高斯分布在经过非线性函数的变换后，其结果将不再符合高斯分布，这直接导致卡尔曼滤波器失效。因此我们需要将$h({x}’)$先转化为近似的线性函数。$y=h(x)$可通过泰勒公式在点$(x_0,y_0)$处展开为泰勒级数，并忽略二次以上的高阶项，于是可以如下的式子，<br>$h(x)\approx h(x_0)+\dot{h}(x_0)(x-x_0)$<br>其中，$\dot{h}(x_0)$ 表示$h(x)$在$x_0$处对$x$的偏导，即$\dot{h}(x_0) =\frac{\partial h(x_0)}{\partial x}$，这一项被称为雅可比（Jacobian）式。<br>求得非线性函数$h(x’)$对${s_x}’$，${s_y}’$，${v_x}’$，${v_y}’$的一阶偏导数，并排列成的矩阵，最终得到雅克比（Jacobian）矩阵$H_{3\times 4 }$，</p>
+<center><img width="250" height="100" src="http://suljaxm.com/9_h34.gif"></center>
 
-    <span class="token comment" spellcheck="true">// 循环等待回调函数</span>
-    ros<span class="token operator">::</span><span class="token function">spin</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<p>将$\rho ,\phi, \dot{\rho }$带入上述公式可得实际的测量矩阵$H_{3\times 4 }$，</p>
+<center><img width="450" height="200" src="http://suljaxm.com/9_h34_0.png"></center>
 
-    <span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
-<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<h2 id="三、-创建新服务"><a href="#三、-创建新服务" class="headerlink" title="三、 创建新服务"></a>三、 创建新服务</h2><h3 id="3-1-创建新海龟的服务，在仿真器中产生一只新海龟"><a href="#3-1-创建新海龟的服务，在仿真器中产生一只新海龟" class="headerlink" title="3.1 创建新海龟的服务，在仿真器中产生一只新海龟"></a>3.1 创建新海龟的服务，在仿真器中产生一只新海龟</h3><p>创建一个<strong>client</strong>，<strong>service</strong>消息类型是<strong>turtlesim::Spawn</strong>，向服务端传入设置好的海龟位置和名称(<strong>x y theta name</strong>)。</p>
-<pre class="line-numbers language-cpp"><code class="language-cpp">Node<span class="token operator">:</span> <span class="token operator">/</span>turtlesim
-URI<span class="token operator">:</span> rosrpc<span class="token operator">:</span><span class="token operator">/</span><span class="token operator">/</span><span class="token number">10.0</span><span class="token punctuation">.</span><span class="token number">2.15</span><span class="token operator">:</span><span class="token number">60487</span>
-Type<span class="token operator">:</span> turtlesim<span class="token operator">/</span>Spawn
-Args<span class="token operator">:</span> x y theta name<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
-<h3 id="3-2-参考代码："><a href="#3-2-参考代码：" class="headerlink" title="3.2 参考代码："></a>3.2 参考代码：</h3><pre class="line-numbers language-cpp"><code class="language-cpp"><span class="token macro property">#<span class="token directive keyword">include</span> <span class="token string">"ros/ros.h"</span></span>
-<span class="token macro property">#<span class="token directive keyword">include</span> <span class="token string">"std_srvs/SetBool.h"</span></span>
-<span class="token macro property">#<span class="token directive keyword">include</span> <span class="token string">"turtlesim/Spawn.h"</span></span>
-<span class="token macro property">#<span class="token directive keyword">include</span> <span class="token string">&lt;stdlib.h></span>             </span><span class="token comment" spellcheck="true">/* srand, rand */</span>
-<span class="token macro property">#<span class="token directive keyword">include</span> <span class="token string">&lt;time.h></span>               </span><span class="token comment" spellcheck="true">/* time */</span>
-<span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token keyword">int</span> argc<span class="token punctuation">,</span> <span class="token keyword">char</span> <span class="token operator">*</span><span class="token operator">*</span>argv<span class="token punctuation">)</span>
-<span class="token punctuation">{</span>
-    <span class="token comment" spellcheck="true">// ROS节点初始化</span>
-    ros<span class="token operator">::</span><span class="token function">init</span><span class="token punctuation">(</span>argc<span class="token punctuation">,</span> argv<span class="token punctuation">,</span> <span class="token string">"turtle_client"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-
-    <span class="token comment" spellcheck="true">// set argv[1] not null</span>
-    <span class="token keyword">if</span><span class="token punctuation">(</span>argv<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span> <span class="token operator">==</span> <span class="token constant">NULL</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
-        argv<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token string">""</span><span class="token punctuation">;</span>
-    <span class="token punctuation">}</span>
-    <span class="token function">ROS_INFO</span><span class="token punctuation">(</span><span class="token string">"argv: %s"</span><span class="token punctuation">,</span> argv<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token comment" spellcheck="true">// 创建节点句柄</span>
-    ros<span class="token operator">::</span>NodeHandle n<span class="token punctuation">;</span>
-
-    <span class="token comment" spellcheck="true">// 创建一个client，service消息类型是turtlesim::Spawn  turtlesim/Spawn</span>
-    ros<span class="token operator">::</span>service<span class="token operator">::</span><span class="token function">waitForService</span><span class="token punctuation">(</span><span class="token string">"/spawn"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    ros<span class="token operator">::</span>ServiceClient client <span class="token operator">=</span> n<span class="token punctuation">.</span>serviceClient<span class="token operator">&lt;</span>turtlesim<span class="token operator">::</span>Spawn<span class="token operator">></span><span class="token punctuation">(</span><span class="token string">"/spawn"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-
-    <span class="token comment" spellcheck="true">// 创建turtlesim::Spawn类型的service消息</span>
-    turtlesim<span class="token operator">::</span>Spawn srv<span class="token punctuation">;</span>
-    <span class="token function">srand</span> <span class="token punctuation">(</span><span class="token function">time</span><span class="token punctuation">(</span><span class="token constant">NULL</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    srv<span class="token punctuation">.</span>request<span class="token punctuation">.</span>x <span class="token operator">=</span> <span class="token function">rand</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">%</span><span class="token number">10</span><span class="token punctuation">;</span>
-    srv<span class="token punctuation">.</span>request<span class="token punctuation">.</span>y <span class="token operator">=</span> <span class="token function">rand</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">%</span><span class="token number">10</span><span class="token punctuation">;</span>
-    srv<span class="token punctuation">.</span>request<span class="token punctuation">.</span>theta <span class="token operator">=</span> <span class="token function">rand</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">%</span><span class="token number">10</span><span class="token operator">*</span><span class="token number">0.5</span><span class="token punctuation">;</span>
-    srv<span class="token punctuation">.</span>request<span class="token punctuation">.</span>name <span class="token operator">=</span> argv<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
-
-    <span class="token comment" spellcheck="true">// 发布service请求，等待应答结果</span>
-    <span class="token keyword">if</span> <span class="token punctuation">(</span>client<span class="token punctuation">.</span><span class="token function">call</span><span class="token punctuation">(</span>srv<span class="token punctuation">)</span><span class="token punctuation">)</span>
-    <span class="token punctuation">{</span>
-        <span class="token function">ROS_INFO</span><span class="token punctuation">(</span><span class="token string">"Response : ok"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token punctuation">}</span>
-    <span class="token keyword">else</span>
-    <span class="token punctuation">{</span>
-        <span class="token function">ROS_ERROR</span><span class="token punctuation">(</span><span class="token string">"Failed to call service spawn"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-        <span class="token keyword">return</span> <span class="token number">1</span><span class="token punctuation">;</span>
-    <span class="token punctuation">}</span>
-    <span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
-<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<h2 id="四、控制"><a href="#四、控制" class="headerlink" title="四、控制"></a>四、控制</h2><h3 id="控制特定海龟的速度大小"><a href="#控制特定海龟的速度大小" class="headerlink" title="控制特定海龟的速度大小"></a>控制特定海龟的速度大小</h3><p>这里和1中的实现方式相似，可以在终端输入控制的参数<strong>argv</strong>，然后由这些参数控制海龟状态。</p>
-<p>ps:有时候在编译时会出现<strong>warning:  Clock skew detected.  Your build may be incomplete.</strong>这样的警告。这是时钟同步问题，可以</p>
-<pre class="line-numbers language-cpp"><code class="language-cpp">find <span class="token punctuation">.</span> <span class="token operator">-</span>type f <span class="token operator">|</span> xargs <span class="token operator">-</span>n <span class="token number">5</span> touch<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>其余是卡尔曼滤波的标准步骤。</p>
+<h2 id="四、总结"><a href="#四、总结" class="headerlink" title="四、总结"></a>四、总结</h2><p>扩展卡尔曼滤波，只是增加了对非线性观察矩阵H的线性化处理，依此来满足高斯分布的性质，即高斯分布在经过预测和测量值更新后，还是符合高斯分布。<br>卡尔曼滤波器的这些性质适合融合多个传感器，以此减少单个传感器的误差，降低了单个传感器的精度成本。</p>
+<p>参考<br><a href="https://mp.weixin.qq.com/s/hZQFtHYt0S924JPUCCd7MA" target="_blank" rel="noopener"> 手把手教你写卡尔曼滤波器</a><br><a href="https://mp.weixin.qq.com/s/YO7FVJ1-7L9H2VwVO4NJ2A" target="_blank" rel="noopener">手把手教你写扩展卡尔曼滤波器</a></p>
 
             </div>
             <hr/>
@@ -736,9 +674,9 @@ Args<span class="token operator">:</span> x y theta name<span aria-hidden="true"
             <br/>
             <span xmlns:dct="http://purl.org/dc/terms/" href="http://purl.org/dc/dcmitype/Text"
                   property="dct:title" rel="dct:type">
-                    《ROS通信(海龟模拟器)》
+                    《卡尔曼滤波器》
                 </span> 由
-            <a xmlns:cc="http://creativecommons.org/ns#" href="/2019/07/29/ros/ros-tong-xin-hai-gui-mo-ni-qi/" property="cc:attributionName"
+            <a xmlns:cc="http://creativecommons.org/ns#" href="/2019/08/28/sdcnd/kalman-filter/" property="cc:attributionName"
                rel="cc:attributionURL">
                 kieranych
             </a> 采用
@@ -782,31 +720,31 @@ Args<span class="token operator">:</span> x y theta name<span aria-hidden="true"
             <div class="article-badge left-badge text-color">
                 <i class="fa fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2019/08/09/ros/ros-ji-qi-ren-de-tf-bian-huan/">
+                <a href="/2019/08/30/pgm/pgm-fundamental/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/22.jpg" class="responsive-img" alt="ROS机器人的tf变换">
+                        <img src="/medias/featureimages/11.jpg" class="responsive-img" alt="概率论与图论基础">
                         
-                        <span class="card-title">ROS机器人的tf变换</span>
+                        <span class="card-title">概率论与图论基础</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            ROS中机器人各个部件间的坐标系转换关系
+                            概率论与图论基础
                         
                     </div>
                     <div class="publish-info">
                         <span class="publish-date">
-                            <i class="fa fa-clock-o fa-fw icon-date"></i>2019-08-09
+                            <i class="fa fa-clock-o fa-fw icon-date"></i>2019-08-30
                         </span>
                         <span class="publish-author">
                             
                             <i class="fa fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/ROS/" class="post-category" target="_blank">
-                                    ROS
+                            <a href="/categories/概率图模型/" class="post-category" target="_blank">
+                                    概率图模型
                                 </a>
                             
                             
@@ -816,12 +754,8 @@ Args<span class="token operator">:</span> x y theta name<span aria-hidden="true"
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/C/" target="_blank">
-                        <span class="chip bg-color">C++</span>
-                    </a>
-                    
-                    <a href="/tags/机器人/" target="_blank">
-                        <span class="chip bg-color">机器人</span>
+                    <a href="/tags/PGM/" target="_blank">
+                        <span class="chip bg-color">PGM</span>
                     </a>
                     
                 </div>
@@ -835,24 +769,24 @@ Args<span class="token operator">:</span> x y theta name<span aria-hidden="true"
                 下一篇&nbsp;<i class="fa fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2019/07/24/ros/ros-chu-shi/">
+                <a href="/2019/08/24/ros/yao-kong-si-lun-che-voice/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/23.jpg" class="responsive-img" alt="ROS初识">
+                        <img src="/medias/featureimages/21.jpg" class="responsive-img" alt="遥控四轮车（语音控制）">
                         
-                        <span class="card-title">ROS初识</span>
+                        <span class="card-title">遥控四轮车（语音控制）</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            ROS海龟的基本操作
+                            通过语音遥控四路车的前进后退，左右转弯。
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="fa fa-clock-o fa-fw icon-date"></i>2019-07-24
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2019-08-24
                             </span>
                         <span class="publish-author">
                             
@@ -875,6 +809,14 @@ Args<span class="token operator">:</span> x y theta name<span aria-hidden="true"
                     
                     <a href="/tags/机器人/" target="_blank">
                         <span class="chip bg-color">机器人</span>
+                    </a>
+                    
+                    <a href="/tags/XML/" target="_blank">
+                        <span class="chip bg-color">XML</span>
+                    </a>
+                    
+                    <a href="/tags/Python/" target="_blank">
+                        <span class="chip bg-color">Python</span>
                     </a>
                     
                 </div>
@@ -1022,6 +964,13 @@ Args<span class="token operator">:</span> x y theta name<span aria-hidden="true"
 
 </main>
 
+
+<script src="https://cdn.bootcss.com/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script>
+    MathJax.Hub.Config({
+        tex2jax: {inlineMath: [['$', '$'], ['\(', '\)']]}
+    });
+</script>
 
 <footer class="page-footer bg-color">
     <div class="container row center-align">

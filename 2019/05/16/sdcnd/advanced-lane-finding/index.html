@@ -4,8 +4,19 @@
 
 <head><meta name="generator" content="Hexo 3.9.0">
     <meta charset="utf-8">
-    <meta name="keywords" content="卡尔曼滤波器, 木匠">
-    <meta name="description" content="一、高斯函数1.1 介绍一维高斯函数的表达式为$f\left ( x \right )=\frac{1}{\sqrt{2\pi \delta ^{2}}}exp^{-\frac{1}{2}\frac{\left ( x - \mu \rig">
+    <meta name="keywords" content="车道线检测, 木匠">
+    <meta name="description" content="检测步骤：
+
+相机标定
+图片失真校正
+图像阈值化
+透视变换
+检测车道像素并拟合边界
+计算车道的曲率和车辆相对位置
+车道边界弯曲回原始图像
+
+
+一、相机标定1.1 角点检测我从准备object points开始，它将是世界棋盘角落的(x, y">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -13,7 +24,7 @@
     <meta name="format-detection" content="telephone=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>卡尔曼滤波器 | 木匠</title>
+    <title>车道线检测 | 木匠</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/font-awesome.min.css">
@@ -265,13 +276,13 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/23.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/13.jpg')">
     <div class="container">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
                     <div class="description center-align post-title">
-                        卡尔曼滤波器
+                        车道线检测
                     </div>
                 </div>
             </div>
@@ -410,21 +421,21 @@
             <div class="post-info">
                 <div class="post-date info-break-policy">
                     <i class="fa fa-calendar-minus-o fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2019-08-28
+                    2019-05-16
                 </div>
 
                 
                     
                     <div class="info-break-policy">
                         <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
-                        1.8k
+                        1.5k
                     </div>
                     
 
                     
                     <div class="info-break-policy">
                         <i class="fa fa-clock-o fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                        7 分
+                        6 分
                     </div>
                     
                 
@@ -440,82 +451,149 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h2 id="一、高斯函数"><a href="#一、高斯函数" class="headerlink" title="一、高斯函数"></a>一、高斯函数</h2><h3 id="1-1-介绍"><a href="#1-1-介绍" class="headerlink" title="1.1 介绍"></a>1.1 介绍</h3><p>一维高斯函数的表达式为$f\left ( x \right )=\frac{1}{\sqrt{2\pi \delta ^{2}}}exp^{-\frac{1}{2}\frac{\left ( x - \mu \right )^{2}}{\delta ^2}}$，其中$\mu$为函数尖峰值，$\delta$为标准方差。</p>
-<pre class="line-numbers language-python"><code class="language-python"><span class="token keyword">def</span> <span class="token function">f</span><span class="token punctuation">(</span>mu<span class="token punctuation">,</span> sigma2<span class="token punctuation">,</span> x<span class="token punctuation">)</span><span class="token punctuation">:</span>
-    <span class="token keyword">return</span> <span class="token number">1</span><span class="token operator">/</span>sqrt<span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">.</span><span class="token operator">*</span>pi<span class="token operator">*</span>sigma2<span class="token punctuation">)</span> <span class="token operator">*</span> exp<span class="token punctuation">(</span><span class="token operator">-</span><span class="token punctuation">.</span><span class="token number">5</span><span class="token operator">*</span><span class="token punctuation">(</span>x<span class="token operator">-</span>mu<span class="token punctuation">)</span><span class="token operator">**</span><span class="token number">2</span> <span class="token operator">/</span> sigma2<span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
-<h3 id="1-2-状态更新"><a href="#1-2-状态更新" class="headerlink" title="1.2 状态更新"></a>1.2 状态更新</h3><p>假设像贝叶斯定理一样，两个高斯函数相乘，$f_1\left ( x \right )=\frac{1}{\sqrt{2\pi \delta ^{2}}}exp^{-\frac{1}{2}\frac{\left ( x - \mu \right )^{2}}{\delta ^2}}$ 和$ f_2\left ( x \right )=\frac{1}{\sqrt{2\pi \gamma ^{2}}}exp^{-\frac{1}{2}\frac{\left ( x - \nu  \right )^2}{\gamma ^2}}$，相乘后获得新的高斯函数$f_3\left ( x \right )=\frac{1}{\sqrt{2\pi \delta ^{2’}}}exp^{-\frac{1}{2}\frac{\left ( x - {\mu}’ \right )^{2}}{\delta ^{2’}}}$，其中$f_3\left ( x \right )$ 的波峰处于$f_1\left ( x \right )$，$f_2\left ( x \right )$两个尖峰之间，且更细高，一个相对确定的分布，计算公式为${\mu}’= \frac{1}{\delta ^2+\gamma ^2}[\gamma ^2\mu + \delta ^2\nu ]$，$\delta^{2’}= \frac{1}{\frac{1}{\delta ^2}+\frac{1}{\gamma ^2}}$。</p>
-<center><img width="300" height="100" src="http://suljaxm.com/9_gaussian.png">
-</center>
+                <p>检测步骤：</p>
+<ul>
+<li>相机标定</li>
+<li>图片失真校正</li>
+<li>图像阈值化</li>
+<li>透视变换</li>
+<li>检测车道像素并拟合边界</li>
+<li>计算车道的曲率和车辆相对位置</li>
+<li>车道边界弯曲回原始图像</li>
+</ul>
+<hr>
+<h2 id="一、相机标定"><a href="#一、相机标定" class="headerlink" title="一、相机标定"></a>一、相机标定</h2><h3 id="1-1-角点检测"><a href="#1-1-角点检测" class="headerlink" title="1.1 角点检测"></a>1.1 角点检测</h3><p>我从准备<code>object points</code>开始，它将是世界棋盘角落的(x, y, z)坐标。这里我假设棋盘固定在z=0的(x, y)平面上，这样每个校准图像的目标点都是相同的。因此<code>objp</code>只是一个复制的坐标数组，每当我成功地检测到测试图像中的所有棋盘角时，<code>objpoints</code>将附加一个它的副本。<code>imgpoints</code>将与(x, y)像素位置的每一个角落在图像平面与每一个成功的棋盘检测。</p>
+<pre class="line-numbers language-python"><code class="language-python"><span class="token comment" spellcheck="true"># prepare object points, like (0,0,0), (1,0,0), (2,0,0) ....,(6,5,0)</span>
+objp <span class="token operator">=</span> np<span class="token punctuation">.</span>zeros<span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token number">6</span><span class="token operator">*</span><span class="token number">9</span><span class="token punctuation">,</span><span class="token number">3</span><span class="token punctuation">)</span><span class="token punctuation">,</span> np<span class="token punctuation">.</span>float32<span class="token punctuation">)</span>
+objp<span class="token punctuation">[</span><span class="token punctuation">:</span><span class="token punctuation">,</span><span class="token punctuation">:</span><span class="token number">2</span><span class="token punctuation">]</span> <span class="token operator">=</span> np<span class="token punctuation">.</span>mgrid<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">:</span><span class="token number">9</span><span class="token punctuation">,</span><span class="token number">0</span><span class="token punctuation">:</span><span class="token number">6</span><span class="token punctuation">]</span><span class="token punctuation">.</span>T<span class="token punctuation">.</span>reshape<span class="token punctuation">(</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">2</span><span class="token punctuation">)</span>
 
-<pre class="line-numbers language-python"><code class="language-python"><span class="token keyword">def</span> <span class="token function">update</span><span class="token punctuation">(</span>mean1<span class="token punctuation">,</span> var1<span class="token punctuation">,</span> mean2<span class="token punctuation">,</span> var2<span class="token punctuation">)</span><span class="token punctuation">:</span>
-    new_mean <span class="token operator">=</span> <span class="token number">1</span><span class="token operator">/</span><span class="token punctuation">(</span>var1<span class="token operator">+</span>var2<span class="token punctuation">)</span><span class="token operator">*</span><span class="token punctuation">(</span>var1<span class="token operator">*</span>mean2<span class="token operator">+</span>var2<span class="token operator">*</span>mean1<span class="token punctuation">)</span>
-    new_var <span class="token operator">=</span> <span class="token number">1</span><span class="token operator">/</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token operator">/</span>var1 <span class="token operator">+</span> <span class="token number">1</span><span class="token operator">/</span>var2<span class="token punctuation">)</span>
-    <span class="token keyword">return</span> <span class="token punctuation">[</span>new_mean<span class="token punctuation">,</span> new_var<span class="token punctuation">]</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
-<h3 id="1-3-高斯运动预测"><a href="#1-3-高斯运动预测" class="headerlink" title="1.3 高斯运动预测"></a>1.3 高斯运动预测</h3><p>预测函数是两个函数的相加，${\mu}’= \mu + \nu $，$\delta^{2’}= \delta ^2+\gamma ^2$。</p>
-<pre class="line-numbers language-python"><code class="language-python"><span class="token keyword">def</span> <span class="token function">predict</span><span class="token punctuation">(</span>mean1<span class="token punctuation">,</span> var1<span class="token punctuation">,</span> mean2<span class="token punctuation">,</span> var2<span class="token punctuation">)</span><span class="token punctuation">:</span>
-    new_mean <span class="token operator">=</span> mean1 <span class="token operator">+</span> mean2
-    new_var <span class="token operator">=</span> var1 <span class="token operator">+</span> var2
-    <span class="token keyword">return</span> <span class="token punctuation">[</span>new_mean<span class="token punctuation">,</span> new_var<span class="token punctuation">]</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
-<h2 id="二、卡尔曼滤波"><a href="#二、卡尔曼滤波" class="headerlink" title="二、卡尔曼滤波"></a>二、卡尔曼滤波</h2><h3 id="2-1-介绍"><a href="#2-1-介绍" class="headerlink" title="2.1 介绍"></a>2.1 介绍</h3><p>卡尔曼滤波器本质上是一个预测和更新的估算问题，之前一维高斯函数的根据观测状态$f_2$分布，与预测状态$f_1$分布，获得当前状态$f_3$分布，这种可以由两种相对不确定分布推导相对确定分布，是卡尔曼滤波的核心思想。</p>
-<h3 id="2-2-理论"><a href="#2-2-理论" class="headerlink" title="2.2 理论"></a>2.2 理论</h3><p>下面是卡尔曼滤波器抽象出的7个步骤，</p>
-<center><img width="250" height="250" src="http://suljaxm.com/9_KF.png">
-</center>
-$x$表示滤波器的状态向量，$F$是状态转移矩阵，${x}' = Fx+u$，表示了状态 $x\to x^{'}$ 的过程，是前一个状态对当前状态的预测。$P$是状态协方差矩阵，$Q$是过程噪声，$P^{'}=FPF^{T}+Q$ 表示了 $P\to P^{'}$ 的过程，是前一个不确定程度对当前状态的不确定程度的预测。
+<span class="token comment" spellcheck="true"># Arrays to store object points and image points from all the images.</span>
+objpoints <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token comment" spellcheck="true"># 3d points in real world space</span>
+imgpoints <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token comment" spellcheck="true"># 2d points in image plane.</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>其中<code>imgpoints</code>的获得，通过<code>cv2.findChessboardCorners()</code>函数。</p>
+<h3 id="1-2-标定"><a href="#1-2-标定" class="headerlink" title="1.2 标定"></a>1.2 标定</h3><p>然后，我使用输出<code>objpoints</code>和<code>imgpoints</code>使用<code>cv2.calibrateCamera()</code>函数计算相机校准和失真系数。我使用<code>cv2. undistort()</code>函数对测试图像进行失真校正，</p>
+<pre class="line-numbers language-python"><code class="language-python"><span class="token comment" spellcheck="true"># Test undistortion on an image</span>
+img <span class="token operator">=</span> cv2<span class="token punctuation">.</span>imread<span class="token punctuation">(</span><span class="token string">'./calibration.jpg'</span><span class="token punctuation">)</span>
+img_size <span class="token operator">=</span> <span class="token punctuation">(</span>img<span class="token punctuation">.</span>shape<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">,</span> img<span class="token punctuation">.</span>shape<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
 
-<p>$z$表示观测状态量，$H$是测量矩阵，$y=z-H{x}’$表示了观测值和与预测值的差值。$R$是测量噪声矩阵，$K$为卡尔曼增益，是状态更新中的权重，在$x={x}’+Ky$中是y的权值，而在$P=(I-KH){P}’$中是${P}’$的权值。<br>卡尔曼滤波器的最后两个步骤是滤波器的闭环。$x={x}’+Ky$表示当前状态向量$x$的更新，$P=(I-KH){P}’$表示系统的不确定度$P$的更新，这些都被用于下一个周期的运算。</p>
-<h3 id="2-3-实例（一维追踪）"><a href="#2-3-实例（一维追踪）" class="headerlink" title="2.3 实例（一维追踪）"></a>2.3 实例（一维追踪）</h3><p>假设在恒定速度$v$的前提下，预测物体的位置$s$，这是一维卡尔曼滤波器的追踪问题，其中状态向量x为 $[s,v]^{T}$，因为v保持不变，则当$\Delta t = 1s$时，$F$表示为$[[1., 1.], [0, 1.]]$，当前预测的状态${x}’$为</p>
-<center><img width="240" height="40" src="http://suljaxm.com/9_get_x%27.gif"></center>
-$P$的初始值可以设置为$[[1000., 0.], [0., 1000.]]$，意味着速度和位置是两个不相关的变量，因为观测值只有$s$，则$H$为$[[1., 0.]]$。因为实例是简化的模型，所以$Q$和$R$都设置为0，一般情况下，$Q$是那些$P$无法表示的噪声，而$R$由传感器厂家提供。
+<span class="token comment" spellcheck="true"># Do camera calibration given object points and image points</span>
+ret<span class="token punctuation">,</span> mtx<span class="token punctuation">,</span> dist<span class="token punctuation">,</span> rvecs<span class="token punctuation">,</span> tvecs <span class="token operator">=</span> cv2<span class="token punctuation">.</span>calibrateCamera<span class="token punctuation">(</span>objpoints<span class="token punctuation">,</span> imgpoints<span class="token punctuation">,</span> img_size<span class="token punctuation">,</span>None<span class="token punctuation">,</span>None<span class="token punctuation">)</span>
 
-<pre class="line-numbers language-python"><code class="language-python"><span class="token comment" spellcheck="true"># 卡尔曼滤波，对当前位置的估计</span>
-<span class="token keyword">def</span> <span class="token function">kalman_filter</span><span class="token punctuation">(</span>x<span class="token punctuation">,</span> P<span class="token punctuation">)</span><span class="token punctuation">:</span>
-    <span class="token keyword">for</span> n <span class="token keyword">in</span> range<span class="token punctuation">(</span>len<span class="token punctuation">(</span>measurements<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+dst <span class="token operator">=</span> cv2<span class="token punctuation">.</span>undistort<span class="token punctuation">(</span>img<span class="token punctuation">,</span> mtx<span class="token punctuation">,</span> dist<span class="token punctuation">,</span> None<span class="token punctuation">,</span> mtx<span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>得到如下结果:</p>
+<p><img src="http://suljaxm.com/5_undistorted.png" alt="Figure 1 去畸变" title="Undistorted"></p>
+<h2 id="二、图片的Pipeline"><a href="#二、图片的Pipeline" class="headerlink" title="二、图片的Pipeline"></a>二、图片的Pipeline</h2><h3 id="2-1-图片获取"><a href="#2-1-图片获取" class="headerlink" title="2.1 图片获取"></a>2.1 图片获取</h3><p>将一张原始图片通过之前标定的参数进行矫正，再对矫正后的图片进行余下操作，矫正的函数为<code>cv2.undistort()</code>，结果如<code>Figure 2</code>所示，</p>
+<p><img src="http://suljaxm.com/5_undistorted_lane.png" alt="Figure 2 车道线矫正" title="Road Transformed"></p>
+<h3 id="2-2-图像阈值化"><a href="#2-2-图像阈值化" class="headerlink" title="2.2 图像阈值化"></a>2.2 图像阈值化</h3><p>我使用颜色和梯度阈值的组合来生成一个二进制图像。下面是这个步骤的输出示例。我使用<code>binary_select()</code>函数对测试图像应用了颜色变换和渐变，并得到了这个结果。</p>
+<pre class="line-numbers language-python"><code class="language-python"><span class="token comment" spellcheck="true"># Define a function that thresholds the S-channel of HLS</span>
+<span class="token keyword">def</span> <span class="token function">binary_select</span><span class="token punctuation">(</span>image<span class="token punctuation">,</span> s_thresh<span class="token operator">=</span><span class="token punctuation">(</span><span class="token number">170</span><span class="token punctuation">,</span> <span class="token number">255</span><span class="token punctuation">)</span><span class="token punctuation">,</span> sx_thresh<span class="token operator">=</span><span class="token punctuation">(</span><span class="token number">20</span><span class="token punctuation">,</span> <span class="token number">100</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    hls <span class="token operator">=</span> cv2<span class="token punctuation">.</span>cvtColor<span class="token punctuation">(</span>image<span class="token punctuation">,</span> cv2<span class="token punctuation">.</span>COLOR_RGB2HLS<span class="token punctuation">)</span> <span class="token comment" spellcheck="true">#Convert to HLS color space</span>
+    s_channel <span class="token operator">=</span> hls<span class="token punctuation">[</span><span class="token punctuation">:</span><span class="token punctuation">,</span><span class="token punctuation">:</span><span class="token punctuation">,</span><span class="token number">2</span><span class="token punctuation">]</span> <span class="token comment" spellcheck="true">#Apply a threshold to the S channel</span>
 
-        <span class="token comment" spellcheck="true"># measurement update</span>
-        z <span class="token operator">=</span> matrix<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token punctuation">[</span>measurements<span class="token punctuation">[</span>n<span class="token punctuation">]</span><span class="token punctuation">]</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
-        y <span class="token operator">=</span> z <span class="token operator">-</span> H<span class="token operator">*</span>x
-        S <span class="token operator">=</span> H<span class="token operator">*</span>P<span class="token operator">*</span>H<span class="token punctuation">.</span>transpose<span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">+</span> R
-        K <span class="token operator">=</span> P<span class="token operator">*</span>H<span class="token punctuation">.</span>transpose<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">*</span>S<span class="token punctuation">.</span>inverse<span class="token punctuation">(</span><span class="token punctuation">)</span>
-        x <span class="token operator">=</span> x <span class="token operator">+</span> <span class="token punctuation">(</span>K<span class="token operator">*</span>y<span class="token punctuation">)</span>
-        P <span class="token operator">=</span> <span class="token punctuation">(</span>I <span class="token operator">-</span> <span class="token punctuation">(</span>K<span class="token operator">*</span>H<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token operator">*</span>P
+    <span class="token comment" spellcheck="true"># Threshold color channel</span>
+    s_binary <span class="token operator">=</span> np<span class="token punctuation">.</span>zeros_like<span class="token punctuation">(</span>s_channel<span class="token punctuation">)</span>
+    s_binary<span class="token punctuation">[</span><span class="token punctuation">(</span>s_channel <span class="token operator">>=</span> s_thresh<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token operator">&amp;</span> <span class="token punctuation">(</span>s_channel <span class="token operator">&lt;=</span> s_thresh<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token number">255</span>
 
-        <span class="token comment" spellcheck="true"># prediction</span>
-        x <span class="token operator">=</span> <span class="token punctuation">(</span>F<span class="token operator">*</span>x<span class="token punctuation">)</span> <span class="token operator">+</span> u
-        P <span class="token operator">=</span> F<span class="token operator">*</span>P<span class="token operator">*</span>F<span class="token punctuation">.</span>transpose<span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token comment" spellcheck="true"># Sobel x</span>
+    sobelx <span class="token operator">=</span> cv2<span class="token punctuation">.</span>Sobel<span class="token punctuation">(</span>s_channel<span class="token punctuation">,</span> cv2<span class="token punctuation">.</span>CV_64F<span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token comment" spellcheck="true"># Take the derivative in x</span>
+    abs_sobelx <span class="token operator">=</span> np<span class="token punctuation">.</span>absolute<span class="token punctuation">(</span>sobelx<span class="token punctuation">)</span> <span class="token comment" spellcheck="true"># Absolute x derivative to accentuate lines away from horizontal</span>
+    scaled_sobel <span class="token operator">=</span> np<span class="token punctuation">.</span>uint8<span class="token punctuation">(</span><span class="token number">255</span><span class="token operator">*</span>abs_sobelx<span class="token operator">/</span>np<span class="token punctuation">.</span>max<span class="token punctuation">(</span>abs_sobelx<span class="token punctuation">)</span><span class="token punctuation">)</span>
 
-    <span class="token keyword">return</span> x<span class="token punctuation">,</span>P
+    <span class="token comment" spellcheck="true"># Threshold x gradient</span>
+    sxbinary <span class="token operator">=</span> np<span class="token punctuation">.</span>zeros_like<span class="token punctuation">(</span>scaled_sobel<span class="token punctuation">)</span>
+    sxbinary<span class="token punctuation">[</span><span class="token punctuation">(</span>scaled_sobel <span class="token operator">>=</span> sx_thresh<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token operator">&amp;</span> <span class="token punctuation">(</span>scaled_sobel <span class="token operator">&lt;=</span> sx_thresh<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token number">255</span>
 
-measurements <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">]</span>
+    <span class="token comment" spellcheck="true">#the threshold result of combine s_binary and sxbinary</span>
+    binary_output <span class="token operator">=</span> np<span class="token punctuation">.</span>zeros_like<span class="token punctuation">(</span>s_channel<span class="token punctuation">)</span>
+    binary_output<span class="token punctuation">[</span><span class="token punctuation">(</span>s_binary <span class="token operator">>=</span> <span class="token number">255</span><span class="token punctuation">)</span> <span class="token operator">&amp;</span> <span class="token punctuation">(</span>sxbinary <span class="token operator">>=</span> <span class="token number">255</span><span class="token punctuation">)</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token number">255</span>
 
-x <span class="token operator">=</span> matrix<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">.</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">.</span><span class="token punctuation">]</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token comment" spellcheck="true"># initial state (location and velocity)</span>
-P <span class="token operator">=</span> matrix<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token punctuation">[</span><span class="token number">1000</span><span class="token punctuation">.</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">.</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">.</span><span class="token punctuation">,</span> <span class="token number">1000</span><span class="token punctuation">.</span><span class="token punctuation">]</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token comment" spellcheck="true"># initial uncertainty</span>
-u <span class="token operator">=</span> matrix<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">.</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">.</span><span class="token punctuation">]</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token comment" spellcheck="true"># external motion</span>
-F <span class="token operator">=</span> matrix<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">.</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">.</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">.</span><span class="token punctuation">]</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token comment" spellcheck="true"># next state function</span>
-H <span class="token operator">=</span> matrix<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">.</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">.</span><span class="token punctuation">]</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token comment" spellcheck="true"># measurement function</span>
-R <span class="token operator">=</span> matrix<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">.</span><span class="token punctuation">]</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token comment" spellcheck="true"># measurement uncertainty</span>
-I <span class="token operator">=</span> matrix<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">.</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">.</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">.</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">.</span><span class="token punctuation">]</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token comment" spellcheck="true"># identity matrix</span>
+    <span class="token keyword">return</span> s_channel<span class="token punctuation">,</span> s_binary<span class="token punctuation">,</span> sxbinary<span class="token punctuation">,</span> binary_output <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p><img src="http://suljaxm.com/5_Binary.png" alt="Figure 3 阈值化效果" title="Binary Example"></p>
+<h3 id="2-3-透视变换"><a href="#2-3-透视变换" class="headerlink" title="2.3 透视变换"></a>2.3 透视变换</h3><p>我的透视图转换代码包含一个名为<code>birds_eye_warp()</code>的函数。函数<code>birds_eye_warp()</code>接收图像(<code>img</code>)、Source(<code>src</code>)和 Destination(<code>dst</code>)作为输入。 其中Source(src)为图片上的像素坐标，而Destination(dst)是实际场景的比例关系估算获得。</p>
+<table>
+<thead>
+<tr>
+<th align="center">Source(src)</th>
+<th align="center">Destination(dst)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">575,464</td>
+<td align="center">150,0</td>
+</tr>
+<tr>
+<td align="center">707,464</td>
+<td align="center">1130,0</td>
+</tr>
+<tr>
+<td align="center">1049,682</td>
+<td align="center">1130,720</td>
+</tr>
+<tr>
+<td align="center">258,682</td>
+<td align="center">150,720</td>
+</tr>
+</tbody></table>
+<p>接着通过函数<code>cv2.getPerspectiveTransform()</code>获得Source点和Destination的变换关系，</p>
+<pre class="line-numbers language-python"><code class="language-python"><span class="token comment" spellcheck="true"># the function of "birds-eye view"</span>
+<span class="token keyword">def</span> <span class="token function">birds_eye_warp</span><span class="token punctuation">(</span>img<span class="token punctuation">,</span> src<span class="token punctuation">,</span> dst<span class="token punctuation">)</span><span class="token punctuation">:</span> 
+    h<span class="token punctuation">,</span>w <span class="token operator">=</span> img<span class="token punctuation">.</span>shape<span class="token punctuation">[</span><span class="token punctuation">:</span><span class="token number">2</span><span class="token punctuation">]</span>
+    M <span class="token operator">=</span> cv2<span class="token punctuation">.</span>getPerspectiveTransform<span class="token punctuation">(</span>src<span class="token punctuation">,</span> dst<span class="token punctuation">)</span>
+    Minv <span class="token operator">=</span> cv2<span class="token punctuation">.</span>getPerspectiveTransform<span class="token punctuation">(</span>dst<span class="token punctuation">,</span> src<span class="token punctuation">)</span>
+    <span class="token comment" spellcheck="true"># use cv2.warpPerspective() to warp your image to a top-down view</span>
+    warped <span class="token operator">=</span> cv2<span class="token punctuation">.</span>warpPerspective<span class="token punctuation">(</span>img<span class="token punctuation">,</span> M<span class="token punctuation">,</span> <span class="token punctuation">(</span>w<span class="token punctuation">,</span>h<span class="token punctuation">)</span><span class="token punctuation">,</span> flags<span class="token operator">=</span>cv2<span class="token punctuation">.</span>INTER_LINEAR<span class="token punctuation">)</span>
+    <span class="token keyword">return</span> warped<span class="token punctuation">,</span> M<span class="token punctuation">,</span> Minv<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>最后，我将<code>src</code>和<code>dst</code>点绘制到测试图像及其翘曲的对应图像上，验证了透视图转换如预期的那样工作，以及这些车道线经过透视图转换后看起来是平行的。</p>
+<p><img src="http://suljaxm.com/5_warped.png" alt="Figure 4 鸟瞰图" title="Warp Example"></p>
+<h3 id="2-4-拟合车道线像素"><a href="#2-4-拟合车道线像素" class="headerlink" title="2.4 拟合车道线像素"></a>2.4 拟合车道线像素</h3><p>首先，通过代码<code>hist()</code>函数查找属于车道线的像素。我选择了两个最强的峰作为初始车道线的起点。其次，使用<code>Sliding Windows</code>策略，为每段选择车道线像素。</p>
+<pre class="line-numbers language-python"><code class="language-python"><span class="token keyword">def</span> <span class="token function">hist</span><span class="token punctuation">(</span>img<span class="token punctuation">)</span><span class="token punctuation">:</span>   <span class="token comment" spellcheck="true">#img是归一化处理的单通道图片</span>
+    <span class="token comment" spellcheck="true"># TO-DO: Grab only the bottom half of the image</span>
+    <span class="token comment" spellcheck="true"># Lane lines are likely to be mostly vertical nearest to the car</span>
+    bottom_half <span class="token operator">=</span> None
+    bottom_half <span class="token operator">=</span> img<span class="token punctuation">[</span>img<span class="token punctuation">.</span>shape<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token operator">//</span><span class="token number">2</span><span class="token punctuation">:</span><span class="token punctuation">,</span><span class="token punctuation">]</span>
+    <span class="token comment" spellcheck="true"># TO-DO: Sum across image pixels vertically - make sure to set `axis`</span>
+    <span class="token comment" spellcheck="true"># i.e. the highest areas of vertical lines should be larger values</span>
+    histogram <span class="token operator">=</span> None
+    histogram <span class="token operator">=</span> np<span class="token punctuation">.</span>sum<span class="token punctuation">(</span>bottom_half<span class="token punctuation">,</span> axis <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">)</span>
 
-<span class="token keyword">print</span><span class="token punctuation">(</span>kalman_filter<span class="token punctuation">(</span>x<span class="token punctuation">,</span> P<span class="token punctuation">)</span><span class="token punctuation">)</span>
-<span class="token comment" spellcheck="true"># output should be:</span>
-<span class="token comment" spellcheck="true"># x: [[3.9996664447958645], [0.9999998335552873]]</span>
-<span class="token comment" spellcheck="true"># P: [[2.3318904241194827, 0.9991676099921091], [0.9991676099921067, 0.49950058263974184]]</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<h3 id="2-4-实例（二维追踪）"><a href="#2-4-实例（二维追踪）" class="headerlink" title="2.4 实例（二维追踪）"></a>2.4 实例（二维追踪）</h3><p>假设传感器为激光雷达，可以提供二维测量数据，首先要定义状态转移矩阵$F$，来估算二维位置$(s_x, s_y)$和二维速度$(v_x,v_y)$，则当$\Delta t = 1s$时，$F$表示为$[[1, 0,1,0], [0, 1,0,0,1],[0,0,1,0],[0,0,0,1]]$，当前预测的状态$x^{‘}$为</p>
-<center><img width="400" height="80" src="http://suljaxm.com/9_get_x2%27.gif"></center>
-又因为激光雷达只能测量距离，则对应的测量矩阵$H=[[1,0,0,0],[0,1,0,0]]$，而只能测量距离不能测量速度的性质，体现在协方差矩阵上就是位置测量的不确定度较低，速度测量的不确定度较高，则$P = [[1,0,0,0],[0,1,0,0],[0,0,1000,0],[0,0,0,1000]]$。该处理方式和一维追踪中的相同。
+    <span class="token keyword">return</span> histogram<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p><img src="http://suljaxm.com/5_peaks.png" alt="Figure 5 统计频数直方图" title="Histogram Peaks Visual"></p>
+<p>最后，我借助函数<code>numpy.polyfit()</code>通过一个二阶多项式来拟合车道线像素。使用它们的x和y像素位置来拟合一个二阶多项式曲线$f(y) = Ay^2 + By + C$，</p>
+<p><img src="http://suljaxm.com/5_fit.png" alt="Figure 6 拟合曲线" title="Fit Visual"></p>
+<h3 id="2-5-车道曲率和车辆位置"><a href="#2-5-车道曲率和车辆位置" class="headerlink" title="2.5 车道曲率和车辆位置"></a>2.5 车道曲率和车辆位置</h3><p>通过<a href="https://www.intmath.com/applications-differentiation/8-radius-curvature.php" target="_blank" rel="noopener">曲率半径</a>的参考公式 $R_curve = \frac{ [1+ (\frac{dy} {dx})^{2} ] ^ {1.5} } {|\frac{d^2y} {dx^2}|}$，编写函数<code>measure re_ature_real()</code>计算曲线<code>x=f(y)</code>任意点x处曲率半径的直线</p>
+<pre class="line-numbers language-python"><code class="language-python"><span class="token keyword">def</span> <span class="token function">measure_curvature_real</span><span class="token punctuation">(</span>left_fitx<span class="token punctuation">,</span> right_fitx<span class="token punctuation">,</span> ploty<span class="token punctuation">,</span> left_fit<span class="token punctuation">,</span> right_fit<span class="token punctuation">)</span><span class="token punctuation">:</span>
 
-<h2 id="三、扩展卡尔曼滤波"><a href="#三、扩展卡尔曼滤波" class="headerlink" title="三、扩展卡尔曼滤波"></a>三、扩展卡尔曼滤波</h2><h3 id="3-1-介绍"><a href="#3-1-介绍" class="headerlink" title="3.1 介绍"></a>3.1 介绍</h3><p>扩展卡尔曼滤波是为了解决不同传感器融合时采集数据不统一的问题，比如激光雷达的观测值是在笛卡尔坐标系的，而毫米波雷达的观测值是在极坐标系的，在进行传感器融合时，需要统一坐标系，但是当坐标系转换时会引入非线性变化，于是这种非线性的卡尔曼滤波就称为扩展卡尔曼滤波。</p>
-<h3 id="3-2-毫米波雷达"><a href="#3-2-毫米波雷达" class="headerlink" title="3.2 毫米波雷达"></a>3.2 毫米波雷达</h3><p>毫米波雷达的原理是多普勒效应，其测量的数据都是在极坐标系下的，状态向量x为$[\rho ,\phi, \dot{\rho } ]^T$。$\rho$为目标在极坐标下离雷达的距离，$\phi$为方向角，$\dot{\rho }$为距离的变化率。<br>因为预测的状态向量${x}’$为$ [{s_x}’, {s_y}’, {v_x}’,{v_y}’]^T$，则观测值和与预测值的差值</p>
-<center><img width="300" height="100" src="http://suljaxm.com/9_h%28x%29.gif"></center>
+    <span class="token comment" spellcheck="true"># Define conversions in x and y from pixels space to meters</span>
+    ym_per_pix <span class="token operator">=</span> <span class="token number">16.0</span><span class="token operator">/</span><span class="token number">720</span> <span class="token comment" spellcheck="true"># meters per pixel in y dimension</span>
+    xm_per_pix <span class="token operator">=</span> <span class="token number">3.7</span><span class="token operator">/</span><span class="token number">1000</span> <span class="token comment" spellcheck="true"># meters per pixel in x dimension</span>
 
-<p>这种非线性的模型时，习惯于将计算差值$y=z-H{x}’$中的$H{x}’$用$h({x}’)$表示。此时$H{x}’$不在是常数矩阵，高斯分布在经过非线性函数的变换后，其结果将不再符合高斯分布，这直接导致卡尔曼滤波器失效。因此我们需要将$h({x}’)$先转化为近似的线性函数。$y=h(x)$可通过泰勒公式在点$(x_0,y_0)$处展开为泰勒级数，并忽略二次以上的高阶项，于是可以如下的式子，<br>$h(x)\approx h(x_0)+\dot{h}(x_0)(x-x_0)$<br>其中，$\dot{h}(x_0)$ 表示$h(x)$在$x_0$处对$x$的偏导，即$\dot{h}(x_0) =\frac{\partial h(x_0)}{\partial x}$，这一项被称为雅可比（Jacobian）式。<br>求得非线性函数$h(x’)$对${s_x}’$，${s_y}’$，${v_x}’$，${v_y}’$的一阶偏导数，并排列成的矩阵，最终得到雅克比（Jacobian）矩阵$H_{3\times 4 }$，</p>
-<center><img width="250" height="100" src="http://suljaxm.com/9_h34.gif"></center>
+    leftx <span class="token operator">=</span> left_fitx<span class="token operator">*</span>xm_per_pix
+    rightx <span class="token operator">=</span> right_fitx<span class="token operator">*</span>xm_per_pix
+    ploty <span class="token operator">=</span> ploty<span class="token operator">*</span>ym_per_pix
 
-<p>将$\rho ,\phi, \dot{\rho }$带入上述公式可得实际的测量矩阵$H_{3\times 4 }$，</p>
-<center><img width="450" height="200" src="http://suljaxm.com/9_h34_0.png"></center>
+    left_fit_cr <span class="token operator">=</span> np<span class="token punctuation">.</span>polyfit<span class="token punctuation">(</span>ploty<span class="token punctuation">,</span> leftx<span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">)</span>
+    right_fit_cr <span class="token operator">=</span> np<span class="token punctuation">.</span>polyfit<span class="token punctuation">(</span>ploty<span class="token punctuation">,</span> rightx<span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">)</span>
 
-<p>其余是卡尔曼滤波的标准步骤。</p>
-<h2 id="四、总结"><a href="#四、总结" class="headerlink" title="四、总结"></a>四、总结</h2><p>扩展卡尔曼滤波，只是增加了对非线性观察矩阵H的线性化处理，依此来满足高斯分布的性质，即高斯分布在经过预测和测量值更新后，还是符合高斯分布。<br>卡尔曼滤波器的这些性质适合融合多个传感器，以此减少单个传感器的误差，降低了单个传感器的精度成本。</p>
-<p>参考<br><a href="https://mp.weixin.qq.com/s/hZQFtHYt0S924JPUCCd7MA" target="_blank" rel="noopener"> 手把手教你写卡尔曼滤波器</a><br><a href="https://mp.weixin.qq.com/s/YO7FVJ1-7L9H2VwVO4NJ2A" target="_blank" rel="noopener">手把手教你写扩展卡尔曼滤波器</a></p>
+    <span class="token comment" spellcheck="true"># Define y-value where we want radius of curvature</span>
+    <span class="token comment" spellcheck="true"># We'll choose the maximum y-value, corresponding to the bottom of the image</span>
+    y_eval <span class="token operator">=</span> np<span class="token punctuation">.</span>max<span class="token punctuation">(</span>ploty<span class="token punctuation">)</span>
+
+    <span class="token comment" spellcheck="true"># Implement the calculation of R_curve (radius of curvature) </span>
+    left_curverad <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token number">1</span> <span class="token operator">+</span> <span class="token punctuation">(</span><span class="token number">2</span><span class="token operator">*</span>left_fit_cr<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token operator">*</span>y_eval<span class="token operator">*</span>ym_per_pix <span class="token operator">+</span> left_fit_cr<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token operator">**</span><span class="token number">2</span><span class="token punctuation">)</span><span class="token operator">**</span><span class="token number">1.5</span><span class="token punctuation">)</span> <span class="token operator">/</span> np<span class="token punctuation">.</span>absolute<span class="token punctuation">(</span><span class="token number">2</span><span class="token operator">*</span>left_fit_cr<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+    right_curverad <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token number">1</span> <span class="token operator">+</span> <span class="token punctuation">(</span><span class="token number">2</span><span class="token operator">*</span>right_fit_cr<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token operator">*</span>y_eval<span class="token operator">*</span>ym_per_pix <span class="token operator">+</span> right_fit_cr<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token operator">**</span><span class="token number">2</span><span class="token punctuation">)</span><span class="token operator">**</span><span class="token number">1.5</span><span class="token punctuation">)</span> <span class="token operator">/</span> np<span class="token punctuation">.</span>absolute<span class="token punctuation">(</span><span class="token number">2</span><span class="token operator">*</span>right_fit_cr<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+
+    <span class="token keyword">return</span> left_curverad<span class="token punctuation">,</span> right_curverad<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<ul>
+<li>$car_{p}$ 是汽车在图片中的位置，因为相机安装在汽车的中心，这就相当于取图像宽度的一半<code>car_position = img.shape[1]/2</code>。</li>
+<li>$xm_{pp}$ 是图像像素与实际距离之间的关系，即代码中的<code>xm_per_pix = 3.7/1000</code>，其中3.7是车道线实际宽度3.7米，1000是图片像素的像素距离。</li>
+<li>$lanecenter_{p}$ 是车道线中心，通过检测图片中沿x轴的车道线来计算的，即<code>lane_center_position = (r_fit_x_int + l_fit_x_int) /2</code>。</li>
+</ul>
+<p>最后，车辆相对于车道中心的位置$center_{d}$计算公式如下，<br>$center_{d} = (car_{p} - lanecenter_{p}) * xm_{pp}$</p>
+<h3 id="2-6-检测效果"><a href="#2-6-检测效果" class="headerlink" title="2.6 检测效果"></a>2.6 检测效果</h3><p><img src="http://suljaxm.com/5_Output.png" alt="Figure 6 检测结果" title="Output"></p>
+<hr>
+<h2 id="三、视频的Pipeline"><a href="#三、视频的Pipeline" class="headerlink" title="三、视频的Pipeline"></a>三、视频的Pipeline</h2><p>将图片的检测方法运用到车辆行驶的视频上，可以获得轻微抖动的检测效果，没有会导致汽车驶离道路的灾难性故障。</p>
+<p> <a href="https://github.com/suljaxm/CarND-Advanced-Lane-Lines/blob/master/project_video_output.mp4" target="_blank" rel="noopener">视频链接</a></p>
+<p><a href="https://github.com/suljaxm/CarND-Advanced-Lane-Lines" target="_blank" rel="noopener">参考代码</a></p>
 
             </div>
             <hr/>
@@ -674,9 +752,9 @@ I <span class="token operator">=</span> matrix<span class="token punctuation">(<
             <br/>
             <span xmlns:dct="http://purl.org/dc/terms/" href="http://purl.org/dc/dcmitype/Text"
                   property="dct:title" rel="dct:type">
-                    《卡尔曼滤波器》
+                    《车道线检测》
                 </span> 由
-            <a xmlns:cc="http://creativecommons.org/ns#" href="/2019/08/28/wu-ren-jia-shi/kalman-filter/" property="cc:attributionName"
+            <a xmlns:cc="http://creativecommons.org/ns#" href="/2019/05/16/sdcnd/advanced-lane-finding/" property="cc:attributionName"
                rel="cc:attributionURL">
                 kieranych
             </a> 采用
@@ -720,31 +798,31 @@ I <span class="token operator">=</span> matrix<span class="token punctuation">(<
             <div class="article-badge left-badge text-color">
                 <i class="fa fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2019/08/31/ros/slam/">
+                <a href="/2019/06/05/sdcnd/behavioral-cloning/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/15.jpg" class="responsive-img" alt="SLAM建图">
+                        <img src="/medias/featureimages/23.jpg" class="responsive-img" alt="车辆行为克隆">
                         
-                        <span class="card-title">SLAM建图</span>
+                        <span class="card-title">车辆行为克隆</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            借助SLAM功能包进行小车对周围环境的建图和自身的定位
+                            运用神经网络预测汽车运行时的转向角
                         
                     </div>
                     <div class="publish-info">
                         <span class="publish-date">
-                            <i class="fa fa-clock-o fa-fw icon-date"></i>2019-08-31
+                            <i class="fa fa-clock-o fa-fw icon-date"></i>2019-06-05
                         </span>
                         <span class="publish-author">
                             
                             <i class="fa fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/ROS/" class="post-category" target="_blank">
-                                    ROS
+                            <a href="/categories/无人驾驶/" class="post-category" target="_blank">
+                                    无人驾驶
                                 </a>
                             
                             
@@ -754,12 +832,16 @@ I <span class="token operator">=</span> matrix<span class="token punctuation">(<
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/机器人/" target="_blank">
-                        <span class="chip bg-color">机器人</span>
+                    <a href="/tags/Python/" target="_blank">
+                        <span class="chip bg-color">Python</span>
                     </a>
                     
-                    <a href="/tags/XML/" target="_blank">
-                        <span class="chip bg-color">XML</span>
+                    <a href="/tags/DL/" target="_blank">
+                        <span class="chip bg-color">DL</span>
+                    </a>
+                    
+                    <a href="/tags/无人车/" target="_blank">
+                        <span class="chip bg-color">无人车</span>
                     </a>
                     
                 </div>
@@ -770,57 +852,50 @@ I <span class="token operator">=</span> matrix<span class="token punctuation">(<
         
         <div class="article col s12 m6 overflow-policy" data-aos="fade-up">
             <div class="article-badge right-badge text-color">
-                下一篇&nbsp;<i class="fa fa-chevron-right"></i>
+                本篇&nbsp;<i class="fa fa-dot-circle-o"></i>
             </div>
             <div class="card">
-                <a href="/2019/08/24/ros/yao-kong-si-lun-che-voice/">
+                <a href="/2019/05/16/sdcnd/advanced-lane-finding/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/21.jpg" class="responsive-img" alt="遥控四轮车（语音控制）">
+                        <img src="/medias/featureimages/13.jpg" class="responsive-img" alt="车道线检测">
                         
-                        <span class="card-title">遥控四轮车（语音控制）</span>
+                        <span class="card-title">车道线检测</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            通过语音遥控四路车的前进后退，左右转弯。
+                            使用传统图像检测方式进行车道线的检测
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="fa fa-clock-o fa-fw icon-date"></i>2019-08-24
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2019-05-16
                             </span>
                         <span class="publish-author">
                             
                             <i class="fa fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/ROS/" class="post-category" target="_blank">
-                                    ROS
+                            <a href="/categories/无人驾驶/" class="post-category" target="_blank">
+                                    无人驾驶
                                 </a>
                             
                             
                         </span>
                     </div>
                 </div>
+
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/C/" target="_blank">
-                        <span class="chip bg-color">C++</span>
-                    </a>
-                    
-                    <a href="/tags/机器人/" target="_blank">
-                        <span class="chip bg-color">机器人</span>
-                    </a>
-                    
-                    <a href="/tags/XML/" target="_blank">
-                        <span class="chip bg-color">XML</span>
-                    </a>
-                    
                     <a href="/tags/Python/" target="_blank">
                         <span class="chip bg-color">Python</span>
+                    </a>
+                    
+                    <a href="/tags/无人车/" target="_blank">
+                        <span class="chip bg-color">无人车</span>
                     </a>
                     
                 </div>
@@ -982,7 +1057,7 @@ I <span class="token operator">=</span> matrix<span class="token punctuation">(<
            &copy;<a href="https://suljaxm.github.io/" target="_blank">2019 SULJAXM. All Rights Reserved.
             
                 &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
-                <span class="white-color">12.3k</span>
+                <span class="white-color">14.3k</span>
             
 
             <br>
