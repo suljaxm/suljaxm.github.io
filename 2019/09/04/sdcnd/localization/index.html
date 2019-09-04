@@ -442,7 +442,8 @@
             <div id="articleContent">
                 <h2 id="一、粒子滤波"><a href="#一、粒子滤波" class="headerlink" title="一、粒子滤波"></a>一、粒子滤波</h2><h3 id="1-1-介绍"><a href="#1-1-介绍" class="headerlink" title="1.1 介绍"></a>1.1 介绍</h3><p>粒子滤波器是一种基于蒙特卡罗的近似解法，由于计算机计算能力的不断提高和易于实现，粒子滤波器在机器人定位领域得到了广泛的应用，其优势在于对复杂问题的求解上，比如一些非线性、非高斯动态系统的状态递推估计或概率推理问题。粒子滤波器的本质是使用一组有限的加权随机样本（粒子）来近似表征任意状态的后验概率密度 $bel(x_t)$ 。</p>
 <h3 id="1-2-算法"><a href="#1-2-算法" class="headerlink" title="1.2 算法"></a>1.2 算法</h3><p>粒子滤波器的算法流程主要是对粒子集$X$的预测和更新，算法流程如下所示。</p>
-<center><img width="300" height="300" src="http://suljaxm.com/12_pf_algorithm.png">
+<center><img width="350" height="320" src="http://suljaxm.com/12_pf_algorithm.png">
+图1. 粒子滤波算法(基于重采样)
 </center>
 
 <p>该算法的输入是粒子集$X_{t-1}$，以及最新的控制$u_t$和测量$z_t$。算法首先构造一个暂时的粒子集 $\bar{X}$，表示置信度 $\bar {bel(x_t)} $。这通过系统地处理输入粒子集$X_{t-1}$中的每个粒子$x^{[1]}_{t-1}$完成。随后它将这些粒子转换为粒子集$X_t$，用于近似后验分布 $bel(x_t)$。值得注意的是，<strong>这里 $M$ 代表粒子集$x$,的粒子数量，$M$的要根据实际情况选取合适的值。$w^{[m]}_t=p(z_t|x^{[m]}_t)$是测量$z_t$在粒子$x^{[m]}_t$下的概率，是粒子滤波表征后验概率密度的由来，即通过当前的观测到的数据来预测当前状态的发生概率。还有就是算法的更新部分，采用了重采样（有一个版本是不进行重采样的）。</strong></p>
@@ -486,6 +487,7 @@ mw <span class="token operator">=</span> max<span class="token punctuation">(</s
     p3<span class="token punctuation">.</span>append<span class="token punctuation">(</span>p<span class="token punctuation">[</span>index<span class="token punctuation">]</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <h3 id="2-4-结果"><a href="#2-4-结果" class="headerlink" title="2.4 结果"></a>2.4 结果</h3><p>最终，经过不断的预测，重采样更新粒子集，把那些和机器人有着相似观测数据的粒子保留了下来。之后我们可能将权值最大的粒子的状态当作此时机器人的状态，完成了定位。粒子滤波定位的演示如下，绿色是机器人，红色是粒子，一开始这些粒子是均匀分布在地图的，随着机器人的不断运动，慢慢只剩下符合机器人状态的粒子。</p>
 <center><img width="500" height="250" src="http://suljaxm.com/12_pf_demo.gif">
+图2. 粒子滤波demo
 </center>
 
             </div>
@@ -780,16 +782,16 @@ mw <span class="token operator">=</span> max<span class="token punctuation">(</s
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/机器人/" target="_blank">
-                        <span class="chip bg-color">机器人</span>
-                    </a>
-                    
                     <a href="/tags/XML/" target="_blank">
                         <span class="chip bg-color">XML</span>
                     </a>
                     
                     <a href="/tags/Python/" target="_blank">
                         <span class="chip bg-color">Python</span>
+                    </a>
+                    
+                    <a href="/tags/机器人/" target="_blank">
+                        <span class="chip bg-color">机器人</span>
                     </a>
                     
                 </div>
