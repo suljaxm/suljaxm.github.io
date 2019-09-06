@@ -443,10 +443,10 @@
                 <h2 id="一、粒子滤波"><a href="#一、粒子滤波" class="headerlink" title="一、粒子滤波"></a>一、粒子滤波</h2><h3 id="1-1-介绍"><a href="#1-1-介绍" class="headerlink" title="1.1 介绍"></a>1.1 介绍</h3><p>粒子滤波器是一种基于蒙特卡罗的近似解法，由于计算机计算能力的不断提高和易于实现，粒子滤波器在机器人定位领域得到了广泛的应用，其优势在于对复杂问题的求解上，比如一些非线性、非高斯动态系统的状态递推估计或概率推理问题。粒子滤波器的本质是使用一组有限的加权随机样本（粒子）来近似表征任意状态的后验概率密度 $bel(x_t)$ 。</p>
 <h3 id="1-2-算法"><a href="#1-2-算法" class="headerlink" title="1.2 算法"></a>1.2 算法</h3><p>粒子滤波器的算法流程主要是对粒子集$X$的预测和更新，算法流程如下所示。</p>
 <center><img width="350" height="320" src="http://suljaxm.com/12_pf_algorithm.png">
-图1. 粒子滤波算法(基于重采样)
+图1. 粒子滤波算法（基于重采样）
 </center>
 
-<p>该算法的输入是粒子集$X_{t-1}$，以及最新的控制$u_t$和测量$z_t$。算法首先构造一个暂时的粒子集 $\bar{X}$，表示置信度 $\bar {bel(x_t)} $。这通过系统地处理输入粒子集$X_{t-1}$中的每个粒子$x^{[1]}_{t-1}$完成。随后它将这些粒子转换为粒子集$X_t$，用于近似后验分布 $bel(x_t)$。值得注意的是，<strong>这里 $M$ 代表粒子集$x$,的粒子数量，$M$的要根据实际情况选取合适的值。$w^{[m]}_t=p(z_t|x^{[m]}_t)$是测量$z_t$在粒子$x^{[m]}_t$下的概率，是粒子滤波表征后验概率密度的由来，即通过当前的观测到的数据来预测当前状态的发生概率。还有就是算法的更新部分，采用了重采样（有一个版本是不进行重采样的）。</strong></p>
+<p>该算法的输入是粒子集$X_{t-1}$，以及最新的控制$u_t$和测量$z_t$。算法首先构造一个暂时的粒子集 $\bar{X}$，表示置信度 $\bar {bel(x_t)} $。这通过系统地处理输入粒子集$X_{t-1}$中的每个粒子$x^{[1]}_{t-1}$完成。随后它将这些粒子转换为粒子集$X_t$，用于近似后验分布 $bel(x_t)$。值得注意的是，<strong>这里 $M$ 代表粒子集$X_t$的粒子数量，$M$的要根据实际情况选取合适的值。$w^{[m]}_t=p(z_t|x^{[m]}_t)$是测量$z_t$在粒子$x^{[m]}_t$下的概率，是粒子滤波表征后验概率密度的由来，即通过当前的观测到的数据来预测当前状态的发生概率。还有就是算法的更新部分，采用了重采样（有一个版本是不进行重采样的）。</strong></p>
 <h2 id="二、定位"><a href="#二、定位" class="headerlink" title="二、定位"></a>二、定位</h2><h3 id="2-1-初始化"><a href="#2-1-初始化" class="headerlink" title="2.1 初始化"></a>2.1 初始化</h3><p>假定机器人是在一个二维的世界中，在这个世界中可以被感知到的路标点有4个，分别是$L1(20.0, 20.0)$, $L2(80.0, 80.0)$, $L3(20.0, 80.0)$, $L4(80.0, 20.0)$，同时地图的大小是100X100。那么首先我们在地图上随机一个机器人的坐标(x,y)和运动方向orientation，设定粒子集的M为1000，每个粒子都初始化一个和机器人相同数据结构的状态。</p>
 <pre class="line-numbers language-python"><code class="language-python">N <span class="token operator">=</span> <span class="token number">1000</span> <span class="token comment" spellcheck="true">#初始粒子个数</span>
 p <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token comment" spellcheck="true">#粒子集</span>
@@ -689,30 +689,29 @@ mw <span class="token operator">=</span> max<span class="token punctuation">(</s
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6 overflow-policy" data-aos="fade-up" data-aos="fade-up">
+        <div class="article col s12 m6 overflow-policy" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fa fa-dot-circle-o"></i>&nbsp;本篇
-            </div>
+                <i class="fa fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2019/09/04/sdcnd/localization/">
+                <a href="/2019/09/06/sdcnd/path-planning/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/1.jpg" class="responsive-img" alt="无人车定位">
+                        <img src="/medias/featureimages/7.jpg" class="responsive-img" alt="轨迹规划">
                         
-                        <span class="card-title">无人车定位</span>
+                        <span class="card-title">轨迹规划</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            使用粒子滤波的二维地图定位
+                            在高速公路场景下的路径规划方法
                         
                     </div>
                     <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="fa fa-clock-o fa-fw icon-date"></i>2019-09-04
-                            </span>
+                        <span class="publish-date">
+                            <i class="fa fa-clock-o fa-fw icon-date"></i>2019-09-06
+                        </span>
                         <span class="publish-author">
                             
                             <i class="fa fa-bookmark fa-fw icon-category"></i>
@@ -725,13 +724,8 @@ mw <span class="token operator">=</span> max<span class="token punctuation">(</s
                         </span>
                     </div>
                 </div>
-
                 
                 <div class="card-action article-tags">
-                    
-                    <a href="/tags/Python/" target="_blank">
-                        <span class="chip bg-color">Python</span>
-                    </a>
                     
                     <a href="/tags/无人车/" target="_blank">
                         <span class="chip bg-color">无人车</span>
@@ -953,7 +947,7 @@ mw <span class="token operator">=</span> max<span class="token punctuation">(</s
            &copy;<a href="https://suljaxm.github.io/" target="_blank">2019 SULJAXM. All Rights Reserved.
             
                 &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
-                <span class="white-color">14.3k</span>
+                <span class="white-color">15.4k</span>
             
 
             <br>
