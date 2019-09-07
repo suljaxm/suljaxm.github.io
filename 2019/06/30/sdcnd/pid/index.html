@@ -5,10 +5,7 @@
 <head><meta name="generator" content="Hexo 3.9.0">
     <meta charset="utf-8">
     <meta name="keywords" content="PID控制, 木匠">
-    <meta name="description" content="1.PID
-P Controller尺度越大，控制器的放大倍数越小，被控参数曲线越稳定。尺度越小，控制器的放大倍数越大，被控参数曲线波动越大。
-
-D Controller微分作用主要用于克服被控对象的滞后，在温度控制系统中也经常使用。在使用">
+    <meta name="description" content="一、PID1. P ControllerPID控制是控制学中一个很广的领域。这里首先以 P Controller 的例子讲起，首先给定一条规划好的参考轨迹线，为x轴，小车一开始在预定线路的上方，如图1所示，我们需要让小车重新行驶回预先规划的">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -416,14 +413,14 @@ D Controller微分作用主要用于克服被控对象的滞后，在温度控�
                     
                     <div class="info-break-policy">
                         <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
-                        279
+                        1.6k
                     </div>
                     
 
                     
                     <div class="info-break-policy">
                         <i class="fa fa-clock-o fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                        1 分
+                        6 分
                     </div>
                     
                 
@@ -439,16 +436,146 @@ D Controller微分作用主要用于克服被控对象的滞后，在温度控�
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h3 id="1-PID"><a href="#1-PID" class="headerlink" title="1.PID"></a>1.PID</h3><ul>
-<li><p>P Controller<br>尺度越大，控制器的放大倍数越小，被控参数曲线越稳定。尺度越小，控制器的放大倍数越大，被控参数曲线波动越大。</p>
-</li>
-<li><p>D Controller<br>微分作用主要用于克服被控对象的滞后，在温度控制系统中也经常使用。在使用控制系统时，除了差动作用外，还应注意测量传动的滞后，如测温元件的选择、安装位置等。</p>
-</li>
-<li><p>I Controller<br>为消除自动控制系统的剩余误差，设置了控制器的积分函数。</p>
-</li>
-</ul>
-<h3 id="2-调参"><a href="#2-调参" class="headerlink" title="2.调参"></a>2.调参</h3><p>起初，我将所有PID系数设置为0.01。首先，我保持I和D的系数不变，只调整了P的参数，发现当P=1.5时，相对较好。<br>之后，我调整了D的参数，发现当D =6时，它是比较好的，我可以跑很长的距离。<br>最后，保持D的参数不变，调整P的参数，当P=0.25时，我可以顺利完成整个课程。所以我手动设置的PID系数是，</p>
-<pre><code>P = 0.25, I = 0.01, D = 6</code></pre>
+                <h2 id="一、PID"><a href="#一、PID" class="headerlink" title="一、PID"></a>一、PID</h2><h3 id="1-P-Controller"><a href="#1-P-Controller" class="headerlink" title="1. P Controller"></a>1. P Controller</h3><p>PID控制是控制学中一个很广的领域。这里首先以 P Controller 的例子讲起，首先给定一条规划好的参考轨迹线，为x轴，小车一开始在预定线路的上方，如图1所示，我们需要让小车重新行驶回预先规划的线路。</p>
+<center><img width="350" height="200" src="http://suljaxm.com/15_trajectors.png">
+图1. CTE
+</center>
+
+<p>转向与横切误差CTE是小车与参考轨迹线的垂直距离。因为我们参考的轨迹线是x轴，所以CTE就是小车的当前y位置。之后，通过规划线路的距离CTE获得调整的转向角度 $\alpha$，即<br>\begin{equation}<br>\alpha = -\tau_p \cdot CTE<br>\end{equation}</p>
+<p>这里的$\tau_p$是P Controller比例系数。然后我们调用move使得小车根据获得的转向角度开始移动。</p>
+<pre class="line-numbers language-python"><code class="language-python"><span class="token keyword">def</span> <span class="token function">run</span><span class="token punctuation">(</span>robot<span class="token punctuation">,</span> tau<span class="token punctuation">,</span> n<span class="token operator">=</span><span class="token number">100</span><span class="token punctuation">,</span> speed<span class="token operator">=</span><span class="token number">1.0</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    x_trajectory <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
+    y_trajectory <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
+    <span class="token comment" spellcheck="true"># steering = -tau * crosstrack_error</span>
+    <span class="token keyword">for</span> i <span class="token keyword">in</span> range<span class="token punctuation">(</span>n<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token comment" spellcheck="true"># move(self, steering, distance, tolerance=0.001, max_steering_angle=np.pi / 4.0)</span>
+        crosstrack_error <span class="token operator">=</span> robot<span class="token punctuation">.</span>y <span class="token operator">-</span> <span class="token number">0</span>
+        steering <span class="token operator">=</span> <span class="token operator">-</span>tau <span class="token operator">*</span> crosstrack_error
+        robot<span class="token punctuation">.</span>move<span class="token punctuation">(</span>steering<span class="token punctuation">,</span> speed<span class="token punctuation">)</span>
+        x_trajectory<span class="token punctuation">.</span>append<span class="token punctuation">(</span>robot<span class="token punctuation">.</span>x<span class="token punctuation">)</span>
+        y_trajectory<span class="token punctuation">.</span>append<span class="token punctuation">(</span>robot<span class="token punctuation">.</span>y<span class="token punctuation">)</span>
+
+    <span class="token keyword">return</span> x_trajectory<span class="token punctuation">,</span> y_trajectory
+
+robot <span class="token operator">=</span> Robot<span class="token punctuation">(</span><span class="token punctuation">)</span>
+robot<span class="token punctuation">.</span>set<span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">)</span>  <span class="token comment" spellcheck="true"># 初始的坐标(0,1)，方向角0</span>
+x_trajectory<span class="token punctuation">,</span> y_trajectory <span class="token operator">=</span> run<span class="token punctuation">(</span>robot<span class="token punctuation">,</span> <span class="token number">0.2</span><span class="token punctuation">)</span>  <span class="token comment" spellcheck="true"># tau = 0.2</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>最后的小车的运动曲线如图2所示。虽然小车会向参考轨迹线靠拢，但也没有预想的那样直接运行到参考线上,而是在参考线附近不停的震荡，且有失控的趋势。</p>
+<center><img width="450" height="240" src="http://suljaxm.com/15_P.png">
+图2. P Controller
+</center>
+
+
+<h3 id="2-PD-Controller"><a href="#2-PD-Controller" class="headerlink" title="2. PD Controller"></a>2. PD Controller</h3><p>如果单使用P Controller，会导致轨迹震荡，这是因为P Controller在小车在到达指定轨迹线路时，调整的转向角度的值没有立即变为0。为了使调整的转向角度能随着$|CTE|$的减少而减小角度，我们可以增加一个D Controller。微分的作用主要用于克服被控对象的滞后，在温度控制系统中也经常使用。在加入D Controller的功能后， $\alpha$的表达式如下</p>
+<p>\begin{equation}<br>\alpha = -\tau_p \cdot CTE - \tau_d \frac{d}{dt} CTE<br>\end{equation}</p>
+<p>这里的$\tau_d $是D Controller比例系数。然后我们调用move使得小车根据获得的转向角度开始移动。</p>
+<pre class="line-numbers language-python"><code class="language-python"><span class="token comment" spellcheck="true"># steering = -tau_p * CTE - tau_d * diff_CTE</span>
+<span class="token comment" spellcheck="true"># where differential crosstrack error (diff_CTE)</span>
+<span class="token comment" spellcheck="true"># is given by CTE(t) - CTE(t-1)</span>
+<span class="token keyword">def</span> <span class="token function">run</span><span class="token punctuation">(</span>robot<span class="token punctuation">,</span> tau_p<span class="token punctuation">,</span> tau_d<span class="token punctuation">,</span> n<span class="token operator">=</span><span class="token number">100</span><span class="token punctuation">,</span> speed<span class="token operator">=</span><span class="token number">1.0</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    x_trajectory <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
+    y_trajectory <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
+    pre_cte <span class="token operator">=</span> robot<span class="token punctuation">.</span>y
+    <span class="token keyword">for</span> i <span class="token keyword">in</span> range<span class="token punctuation">(</span>n<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        cte <span class="token operator">=</span> robot<span class="token punctuation">.</span>y
+        diff_CTE <span class="token operator">=</span> cte <span class="token operator">-</span> pre_cte
+        pre_cte <span class="token operator">=</span> robot<span class="token punctuation">.</span>y
+        steer <span class="token operator">=</span> <span class="token operator">-</span>tau_p <span class="token operator">*</span> cte <span class="token operator">-</span> tau_d <span class="token operator">*</span> diff_CTE
+        robot<span class="token punctuation">.</span>move<span class="token punctuation">(</span>steer<span class="token punctuation">,</span> speed<span class="token punctuation">)</span>
+        x_trajectory<span class="token punctuation">.</span>append<span class="token punctuation">(</span>robot<span class="token punctuation">.</span>x<span class="token punctuation">)</span>
+        y_trajectory<span class="token punctuation">.</span>append<span class="token punctuation">(</span>robot<span class="token punctuation">.</span>y<span class="token punctuation">)</span>
+    <span class="token keyword">return</span> x_trajectory<span class="token punctuation">,</span> y_trajectory
+
+robot <span class="token operator">=</span> Robot<span class="token punctuation">(</span><span class="token punctuation">)</span>
+robot<span class="token punctuation">.</span>set<span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token comment" spellcheck="true"># 初始的坐标(0,1)，方向角0</span>
+x_trajectory<span class="token punctuation">,</span> y_trajectory <span class="token operator">=</span> run<span class="token punctuation">(</span>robot<span class="token punctuation">,</span> <span class="token number">0.2</span><span class="token punctuation">,</span> <span class="token number">3.0</span><span class="token punctuation">)</span> <span class="token comment" spellcheck="true"># tau_p = 0.2 , tau_d = 3.0</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>最后的小车的运动曲线如图3所示。小车很快调整到规划的线路，且消除了震荡。</p>
+<center><img width="450" height="240" src="http://suljaxm.com/15_PD.png">
+图3. PD Controller
+</center>
+
+<h3 id="3-PID-Controller"><a href="#3-PID-Controller" class="headerlink" title="3. PID Controller"></a>3. PID Controller</h3><p>在现实的系统中，总会有一些意料之外的系统偏差引入，这部分累计误差的消除可以借助 I Controller。积分的作用主要用于消除自动控制系统的剩余误差，在加入 I Controller的功能后， $\alpha$的表达式如下</p>
+<p>\begin{equation}<br>\alpha = -\tau_p \cdot CTE - \tau_d \frac{d}{dt} CTE - \tau_i \sum CTE<br>\end{equation}</p>
+<p>这里的$\tau_i$是 I Controller比例系数。然后我们调用move使得小车根据获得的转向角度开始移动。</p>
+<pre class="line-numbers language-python"><code class="language-python"><span class="token comment" spellcheck="true"># steering = -tau_p * CTE - tau_d * diff_CTE - tau_i * int_CTE</span>
+<span class="token keyword">def</span> <span class="token function">run</span><span class="token punctuation">(</span>robot<span class="token punctuation">,</span> tau_p<span class="token punctuation">,</span> tau_d<span class="token punctuation">,</span> tau_i<span class="token punctuation">,</span> n<span class="token operator">=</span><span class="token number">100</span><span class="token punctuation">,</span> speed<span class="token operator">=</span><span class="token number">1.0</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    x_trajectory <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
+    y_trajectory <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
+    <span class="token comment" spellcheck="true"># TODO: your code here</span>
+    pre_cte <span class="token operator">=</span>robot<span class="token punctuation">.</span>y
+    int_CTE <span class="token operator">=</span> <span class="token number">0</span>
+    <span class="token keyword">for</span> i <span class="token keyword">in</span> range<span class="token punctuation">(</span>n<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        CTE <span class="token operator">=</span> robot<span class="token punctuation">.</span>y
+        diff_CTE <span class="token operator">=</span> CTE <span class="token operator">-</span> pre_cte
+        pre_cte <span class="token operator">=</span> CTE
+        int_CTE <span class="token operator">+=</span> CTE
+        steering <span class="token operator">=</span> <span class="token operator">-</span>tau_p <span class="token operator">*</span> CTE <span class="token operator">-</span> tau_d <span class="token operator">*</span> diff_CTE <span class="token operator">-</span> tau_i <span class="token operator">*</span> int_CTE
+        robot<span class="token punctuation">.</span>move<span class="token punctuation">(</span>steering<span class="token punctuation">,</span> speed<span class="token punctuation">)</span>
+
+        x_trajectory<span class="token punctuation">.</span>append<span class="token punctuation">(</span>robot<span class="token punctuation">.</span>x<span class="token punctuation">)</span>
+        y_trajectory<span class="token punctuation">.</span>append<span class="token punctuation">(</span>robot<span class="token punctuation">.</span>y<span class="token punctuation">)</span>
+    <span class="token keyword">return</span> x_trajectory<span class="token punctuation">,</span> y_trajectory
+
+robot <span class="token operator">=</span> Robot<span class="token punctuation">(</span><span class="token punctuation">)</span>
+robot<span class="token punctuation">.</span>set<span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">)</span>  <span class="token comment" spellcheck="true"># 初始的坐标(0,1)，方向角0</span>
+robot<span class="token punctuation">.</span>set_steering_drift<span class="token punctuation">(</span><span class="token number">10.0</span><span class="token operator">/</span><span class="token number">180.0</span><span class="token operator">*</span>np<span class="token punctuation">.</span>pi<span class="token punctuation">)</span> <span class="token comment" spellcheck="true"># 设定系统偏差</span>
+x_trajectory<span class="token punctuation">,</span> y_trajectory <span class="token operator">=</span> run<span class="token punctuation">(</span>robot<span class="token punctuation">,</span> <span class="token number">0.2</span><span class="token punctuation">,</span> <span class="token number">3.0</span><span class="token punctuation">,</span> <span class="token number">0.008</span><span class="token punctuation">)</span>   <span class="token comment" spellcheck="true"># tau_p = 0.2 , tau_d = 3.0 , tau_d = 0.008</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>最后的小车的运动曲线如图4所示。小车虽然一开始因为系统偏差导致越界，但是随着时间的累积，积分项会纠正系统误差。而积分项的加入会增加系统控制的鲁棒性。</p>
+<center><img width="450" height="240" src="http://suljaxm.com/15_PID.png">
+图4. PID Controller
+</center>
+
+<h2 id="二、Twiddle算法"><a href="#二、Twiddle算法" class="headerlink" title="二、Twiddle算法"></a>二、Twiddle算法</h2><p>Twiddle算法是一种局部爬山算法，其通过遍历$\tau_p$，$\tau_i$，$\tau_d$所有可能值，以获得较优的结果，这降低了PID调参的难度。</p>
+<pre class="line-numbers language-python"><code class="language-python"><span class="token keyword">def</span> <span class="token function">twiddle</span><span class="token punctuation">(</span>tol<span class="token operator">=</span><span class="token number">0.2</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token comment" spellcheck="true"># Don't forget to call `make_robot` before every call of `run`!</span>
+    p <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">]</span>
+    dp <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">]</span>
+    robot <span class="token operator">=</span> make_robot<span class="token punctuation">(</span><span class="token punctuation">)</span>
+    x_trajectory<span class="token punctuation">,</span> y_trajectory<span class="token punctuation">,</span> best_err <span class="token operator">=</span> run<span class="token punctuation">(</span>robot<span class="token punctuation">,</span> p<span class="token punctuation">)</span>
+    <span class="token comment" spellcheck="true">#  twiddle loop here</span>
+    it <span class="token operator">=</span> <span class="token number">0</span>
+    <span class="token keyword">while</span><span class="token punctuation">(</span>sum<span class="token punctuation">(</span>dp<span class="token punctuation">)</span> <span class="token operator">></span> tol<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"Iteration {}, best error = {}"</span><span class="token punctuation">.</span>format<span class="token punctuation">(</span>it<span class="token punctuation">,</span> best_err<span class="token punctuation">)</span><span class="token punctuation">)</span>
+        <span class="token keyword">for</span> i <span class="token keyword">in</span> range<span class="token punctuation">(</span>len<span class="token punctuation">(</span>p<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+            p<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">+=</span> dp<span class="token punctuation">[</span>i<span class="token punctuation">]</span>
+            robot <span class="token operator">=</span> make_robot<span class="token punctuation">(</span><span class="token punctuation">)</span>
+            x_trajectory<span class="token punctuation">,</span> y_trajectory<span class="token punctuation">,</span> err <span class="token operator">=</span> run<span class="token punctuation">(</span>robot<span class="token punctuation">,</span> p<span class="token punctuation">)</span>
+
+            <span class="token keyword">if</span> err <span class="token operator">&lt;</span> best_err<span class="token punctuation">:</span>
+                best_err <span class="token operator">=</span> err
+                dp<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">*=</span> <span class="token number">1.1</span>
+            <span class="token keyword">else</span><span class="token punctuation">:</span>
+                p<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">-=</span> <span class="token number">2</span> <span class="token operator">*</span> dp<span class="token punctuation">[</span>i<span class="token punctuation">]</span>
+                robot <span class="token operator">=</span> make_robot<span class="token punctuation">(</span><span class="token punctuation">)</span>
+                x_trajectory<span class="token punctuation">,</span> y_trajectory<span class="token punctuation">,</span> err <span class="token operator">=</span> run<span class="token punctuation">(</span>robot<span class="token punctuation">,</span> p<span class="token punctuation">)</span>
+
+                <span class="token keyword">if</span> err <span class="token operator">&lt;</span> best_err<span class="token punctuation">:</span>
+                    best_err <span class="token operator">=</span> err
+                    dp<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">*=</span> <span class="token number">1.1</span>
+                <span class="token keyword">else</span><span class="token punctuation">:</span>
+                    p<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">+=</span> dp<span class="token punctuation">[</span>i<span class="token punctuation">]</span>
+                    dp<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">*=</span> <span class="token number">0.9</span>
+        it <span class="token operator">+=</span> <span class="token number">1</span>
+
+    <span class="token keyword">return</span> p<span class="token punctuation">,</span> best_err
+
+params<span class="token punctuation">,</span> err <span class="token operator">=</span> twiddle<span class="token punctuation">(</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>twiddle算法与其他控制器的区别比较，如图5所示。</p>
+<center><img width="450" height="240" src="http://suljaxm.com/15_twiddle.png">
+图5. 控制器比较图
+</center>
+
+<h2 id="三、调参体验"><a href="#三、调参体验" class="headerlink" title="三、调参体验"></a>三、调参体验</h2><h3 id="3-1-口诀"><a href="#3-1-口诀" class="headerlink" title="3.1 口诀"></a>3.1 口诀</h3><p>业界有个整定口诀：参数整定找最佳， 从小到大顺序查。先是比例后积分， 最后再把微分加。曲线振荡很频繁， 比例度盘要放大。曲线漂浮绕大弯， 比例度盘往小扳。曲线偏离回复慢， 积分时间往下降。曲线波动周期长， 积分时间再加长。曲线振荡频率快， 先把微分降下来。动差大来波动慢， 微分时间应加长。理想曲线两个波， 前高后低四比一。一看二调多分析， 调节质量不会低。 </p>
+<p>整定步骤：先比例，后积分，再微分。</p>
+<h3 id="3-2-实例"><a href="#3-2-实例" class="headerlink" title="3.2 实例"></a>3.2 实例</h3><p>经验凑试法在实践中最为实用。在调节参数时，必须认真观察系统响应情况，根据系统的响应情况决定调整那些参数。 以小车为例，首先调节$\tau_p$，因为$\tau_p$与问题建立线性关系，所以$\tau_p$越大,响应越快。然后考虑怎么用积分项消除系统的偏差。最后再调节$\tau_d$，以此来减小系统震荡。</p>
+<ol>
+<li>起初，我将所有PID系数设置为0.01。</li>
+<li>首先，我保持I和D的系数不变，只调整了P的参数，发现当P=1.5时，相对较好。</li>
+<li>之后，我调整了D的参数，发现当D =6时，它是比较好的，我可以跑很长的距离。</li>
+<li>最后，保持D的参数不变，调整P的参数，当P=0.25时，顺利跑完整个路程。</li>
+</ol>
+<pre class="line-numbers language-python"><code class="language-python">P <span class="token operator">=</span> <span class="token number">0.25</span><span class="token punctuation">,</span> I <span class="token operator">=</span> <span class="token number">0.01</span><span class="token punctuation">,</span> D <span class="token operator">=</span> <span class="token number">6</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
             </div>
             <hr/>
 
@@ -686,12 +813,12 @@ D Controller微分作用主要用于克服被控对象的滞后，在温度控�
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/机器人/" target="_blank">
-                        <span class="chip bg-color">机器人</span>
-                    </a>
-                    
                     <a href="/tags/C/" target="_blank">
                         <span class="chip bg-color">C++</span>
+                    </a>
+                    
+                    <a href="/tags/机器人/" target="_blank">
+                        <span class="chip bg-color">机器人</span>
                     </a>
                     
                 </div>
@@ -910,7 +1037,7 @@ D Controller微分作用主要用于克服被控对象的滞后，在温度控�
            &copy;<a href="https://suljaxm.github.io/" target="_blank">2019 SULJAXM. All Rights Reserved.
             
                 &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
-                <span class="white-color">15.4k</span>
+                <span class="white-color">16.7k</span>
             
 
             <br>
