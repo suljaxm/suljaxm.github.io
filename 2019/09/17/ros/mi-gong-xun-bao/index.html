@@ -4,8 +4,12 @@
 
 <head><meta name="generator" content="Hexo 3.9.0">
     <meta charset="utf-8">
-    <meta name="keywords" content="ROS通信(海龟模拟器), 木匠">
-    <meta name="description" content="一、发布指令1.1 发布海龟速度指令，让海龟圆周运动创建一个Publisher，发布名为turtle1/cmd_vel的topic，其消息类型为geometry_msgs::Twist，通过控制cmd_vel中linear下的x和angul">
+    <meta name="keywords" content="迷宫寻宝, 木匠">
+    <meta name="description" content="一、迷宫寻宝1.1 游戏规则已知一个红色小球藏在地图的某处，机器人在环境未知的情况下从起点出发，自主寻找宝藏，寻找宝藏后回到起点。
+1.2 任务实现流程
+地图预先导入Gazebo
+机器人搭载激光雷达和相机
+机器人通过slam进行未知环境探索">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -13,7 +17,7 @@
     <meta name="format-detection" content="telephone=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>ROS通信(海龟模拟器) | 木匠</title>
+    <title>迷宫寻宝 | 木匠</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/font-awesome.min.css">
@@ -265,13 +269,13 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/22.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/6.jpg')">
     <div class="container">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
                     <div class="description center-align post-title">
-                        ROS通信(海龟模拟器)
+                        迷宫寻宝
                     </div>
                 </div>
             </div>
@@ -382,6 +386,10 @@
                     
                     <div class="article-tag">
                         
+                            <a href="/tags/Python/" target="_blank">
+                                <span class="chip bg-color">Python</span>
+                            </a>
+                        
                             <a href="/tags/机器人/" target="_blank">
                                 <span class="chip bg-color">机器人</span>
                             </a>
@@ -410,21 +418,21 @@
             <div class="post-info">
                 <div class="post-date info-break-policy">
                     <i class="fa fa-calendar-minus-o fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2019-07-29
+                    2019-09-17
                 </div>
 
                 
                     
                     <div class="info-break-policy">
                         <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
-                        799
+                        940
                     </div>
                     
 
                     
                     <div class="info-break-policy">
                         <i class="fa fa-clock-o fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                        3 分
+                        4 分
                     </div>
                     
                 
@@ -440,144 +448,144 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h2 id="一、发布指令"><a href="#一、发布指令" class="headerlink" title="一、发布指令"></a>一、发布指令</h2><h3 id="1-1-发布海龟速度指令，让海龟圆周运动"><a href="#1-1-发布海龟速度指令，让海龟圆周运动" class="headerlink" title="1.1 发布海龟速度指令，让海龟圆周运动"></a>1.1 发布海龟速度指令，让海龟圆周运动</h3><p>创建一个<strong>Publisher</strong>，发布名为<strong>turtle1/cmd_vel</strong>的<strong>topic</strong>，其消息类型为<strong>geometry_msgs::Twist</strong>，通过控制<strong>cmd_vel</strong>中<strong>linear</strong>下的<strong>x</strong>和<strong>angular</strong>下的<strong>z</strong>。</p>
-<pre class="line-numbers language-cpp"><code class="language-cpp">geometry_msgs<span class="token operator">/</span>Vector3 linear
-  float64 x
-  float64 y
-  float64 z
-geometry_msgs<span class="token operator">/</span>Vector3 angular
-  float64 x
-  float64 y
-  float64 z<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<h3 id="1-2-参考代码"><a href="#1-2-参考代码" class="headerlink" title="1.2 参考代码"></a>1.2 参考代码</h3><pre class="line-numbers language-cpp"><code class="language-cpp"><span class="token macro property">#<span class="token directive keyword">include</span> <span class="token string">&lt;sstream></span></span>
-<span class="token macro property">#<span class="token directive keyword">include</span> <span class="token string">"ros/ros.h"</span></span>
-<span class="token macro property">#<span class="token directive keyword">include</span> <span class="token string">"std_msgs/String.h"</span></span>
-<span class="token macro property">#<span class="token directive keyword">include</span> <span class="token string">"geometry_msgs/Twist.h"</span></span>
-<span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token keyword">int</span> argc<span class="token punctuation">,</span> <span class="token keyword">char</span> <span class="token operator">*</span><span class="token operator">*</span>argv<span class="token punctuation">)</span>
+                <h2 id="一、迷宫寻宝"><a href="#一、迷宫寻宝" class="headerlink" title="一、迷宫寻宝"></a>一、迷宫寻宝</h2><h3 id="1-1-游戏规则"><a href="#1-1-游戏规则" class="headerlink" title="1.1 游戏规则"></a>1.1 游戏规则</h3><p>已知一个红色小球藏在地图的某处，机器人在环境未知的情况下从起点出发，自主寻找宝藏，寻找宝藏后回到起点。</p>
+<h3 id="1-2-任务实现流程"><a href="#1-2-任务实现流程" class="headerlink" title="1.2 任务实现流程"></a>1.2 任务实现流程</h3><ul>
+<li>地图预先导入Gazebo</li>
+<li>机器人搭载激光雷达和相机</li>
+<li>机器人通过slam进行未知环境探索</li>
+<li>机器人寻找到宝藏后语音播报状态</li>
+<li>宝藏获得后，在已知的部分地图上导航回出发点</li>
+</ul>
+<h3 id="1-3-实现框架"><a href="#1-3-实现框架" class="headerlink" title="1.3 实现框架"></a>1.3 实现框架</h3><p><img src="http://suljaxm.com/17_maze_kuangjia.png" alt></p>
+<h2 id="二、功能模块"><a href="#二、功能模块" class="headerlink" title="二、功能模块"></a>二、功能模块</h2><h3 id="2-1-导航-amp-SLAM"><a href="#2-1-导航-amp-SLAM" class="headerlink" title="2.1 导航&amp;SLAM"></a>2.1 导航&amp;SLAM</h3><p>导航&amp;SLAM模块是exploring_maze节点，通过随机在地图上设定导航点，然后由机器人进行自主导航，并通过视觉寻找小圆球，最后再输出寻宝导航过程的时间。</p>
+<pre class="line-numbers language-python"><code class="language-python"><span class="token comment" spellcheck="true"># 开始主循环，随机导航  </span>
+<span class="token keyword">while</span> <span class="token operator">not</span> rospy<span class="token punctuation">.</span>is_shutdown<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token comment" spellcheck="true"># 设定下一个随机目标点  </span>
+    self<span class="token punctuation">.</span>goal <span class="token operator">=</span> MoveBaseGoal<span class="token punctuation">(</span><span class="token punctuation">)</span>  
+    self<span class="token punctuation">.</span>goal<span class="token punctuation">.</span>target_pose<span class="token punctuation">.</span>pose <span class="token operator">=</span> start_location  
+    self<span class="token punctuation">.</span>goal<span class="token punctuation">.</span>target_pose<span class="token punctuation">.</span>header<span class="token punctuation">.</span>frame_id <span class="token operator">=</span> <span class="token string">'map'</span>  
+    self<span class="token punctuation">.</span>goal<span class="token punctuation">.</span>target_pose<span class="token punctuation">.</span>header<span class="token punctuation">.</span>stamp <span class="token operator">=</span> rospy<span class="token punctuation">.</span>Time<span class="token punctuation">.</span>now<span class="token punctuation">(</span><span class="token punctuation">)</span>  
+
+    <span class="token keyword">if</span> self<span class="token punctuation">.</span>exploring_cmd <span class="token keyword">is</span> STATUS_EXPLORING<span class="token punctuation">:</span>
+        self<span class="token punctuation">.</span>goal<span class="token punctuation">.</span>target_pose<span class="token punctuation">.</span>pose<span class="token punctuation">.</span>position<span class="token punctuation">.</span>x <span class="token operator">=</span> random<span class="token punctuation">.</span>randint<span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">8</span><span class="token punctuation">)</span>
+        self<span class="token punctuation">.</span>goal<span class="token punctuation">.</span>target_pose<span class="token punctuation">.</span>pose<span class="token punctuation">.</span>position<span class="token punctuation">.</span>y <span class="token operator">=</span> random<span class="token punctuation">.</span>randint<span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">9</span><span class="token punctuation">)</span>
+    <span class="token keyword">elif</span> self<span class="token punctuation">.</span>exploring_cmd <span class="token keyword">is</span> STATUS_CLOSE_TARGET<span class="token punctuation">:</span>
+        rospy<span class="token punctuation">.</span>sleep<span class="token punctuation">(</span><span class="token number">0.1</span><span class="token punctuation">)</span>  
+        <span class="token keyword">continue</span>     
+    <span class="token keyword">elif</span> self<span class="token punctuation">.</span>exploring_cmd <span class="token keyword">is</span> STATUS_GO_HOME<span class="token punctuation">:</span>
+        self<span class="token punctuation">.</span>goal<span class="token punctuation">.</span>target_pose<span class="token punctuation">.</span>pose<span class="token punctuation">.</span>position<span class="token punctuation">.</span>x <span class="token operator">=</span> <span class="token number">0</span>
+        self<span class="token punctuation">.</span>goal<span class="token punctuation">.</span>target_pose<span class="token punctuation">.</span>pose<span class="token punctuation">.</span>position<span class="token punctuation">.</span>y <span class="token operator">=</span> <span class="token number">0</span>
+
+    <span class="token comment" spellcheck="true"># 让用户知道下一个位置  </span>
+    rospy<span class="token punctuation">.</span>loginfo<span class="token punctuation">(</span><span class="token string">"Going to: "</span> <span class="token operator">+</span> str<span class="token punctuation">(</span>self<span class="token punctuation">.</span>goal<span class="token punctuation">.</span>target_pose<span class="token punctuation">.</span>pose<span class="token punctuation">)</span><span class="token punctuation">)</span>  
+
+    <span class="token comment" spellcheck="true"># 向下一个位置进发  </span>
+    self<span class="token punctuation">.</span>move_base<span class="token punctuation">.</span>send_goal<span class="token punctuation">(</span>self<span class="token punctuation">.</span>goal<span class="token punctuation">)</span>  
+
+    <span class="token comment" spellcheck="true"># 五分钟时间限制  </span>
+    finished_within_time <span class="token operator">=</span> self<span class="token punctuation">.</span>move_base<span class="token punctuation">.</span>wait_for_result<span class="token punctuation">(</span>rospy<span class="token punctuation">.</span>Duration<span class="token punctuation">(</span><span class="token number">300</span><span class="token punctuation">)</span><span class="token punctuation">)</span>   
+
+    <span class="token comment" spellcheck="true"># 查看是否成功到达  </span>
+    <span class="token keyword">if</span> <span class="token operator">not</span> finished_within_time<span class="token punctuation">:</span>  
+        self<span class="token punctuation">.</span>move_base<span class="token punctuation">.</span>cancel_goal<span class="token punctuation">(</span><span class="token punctuation">)</span>  
+        rospy<span class="token punctuation">.</span>loginfo<span class="token punctuation">(</span><span class="token string">"Timed out achieving goal"</span><span class="token punctuation">)</span>  
+    <span class="token keyword">else</span><span class="token punctuation">:</span>  
+        state <span class="token operator">=</span> self<span class="token punctuation">.</span>move_base<span class="token punctuation">.</span>get_state<span class="token punctuation">(</span><span class="token punctuation">)</span>  
+        <span class="token keyword">if</span> state <span class="token operator">==</span> GoalStatus<span class="token punctuation">.</span>SUCCEEDED<span class="token punctuation">:</span>  
+            rospy<span class="token punctuation">.</span>loginfo<span class="token punctuation">(</span><span class="token string">"Goal succeeded!"</span><span class="token punctuation">)</span>  
+        <span class="token keyword">else</span><span class="token punctuation">:</span>  
+          rospy<span class="token punctuation">.</span>loginfo<span class="token punctuation">(</span><span class="token string">"Goal failed!"</span><span class="token punctuation">)</span>
+
+    <span class="token comment" spellcheck="true"># 运行所用时间  </span>
+    running_time <span class="token operator">=</span> rospy<span class="token punctuation">.</span>Time<span class="token punctuation">.</span>now<span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">-</span> start_time  
+    running_time <span class="token operator">=</span> running_time<span class="token punctuation">.</span>secs <span class="token operator">/</span> <span class="token number">60.0</span>  
+
+    <span class="token comment" spellcheck="true"># 输出本次导航的所有信息  </span>
+    rospy<span class="token punctuation">.</span>loginfo<span class="token punctuation">(</span><span class="token string">"Current time: "</span> <span class="token operator">+</span> str<span class="token punctuation">(</span>trunc<span class="token punctuation">(</span>running_time<span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token string">" min"</span><span class="token punctuation">)</span>  
+
+    <span class="token keyword">if</span> self<span class="token punctuation">.</span>exploring_cmd <span class="token keyword">is</span> STATUS_GO_HOME<span class="token punctuation">:</span>
+        <span class="token keyword">break</span>
+    <span class="token keyword">else</span><span class="token punctuation">:</span>
+        rospy<span class="token punctuation">.</span>sleep<span class="token punctuation">(</span>self<span class="token punctuation">.</span>rest_time<span class="token punctuation">)</span>  
+
+self<span class="token punctuation">.</span>shutdown<span class="token punctuation">(</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="2-2-目标识别"><a href="#2-2-目标识别" class="headerlink" title="2.2 目标识别"></a>2.2 目标识别</h3><p>目标识别模块是object_detect节点，通过RGB颜色识别小圆球，一旦识别到小圆球后就靠近小圆球。</p>
+<pre class="line-numbers language-python"><code class="language-python"><span class="token comment" spellcheck="true"># 定义目标物体的颜色范围边界</span>
+boundaries <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">(</span><span class="token punctuation">[</span>BLUE_LOW<span class="token punctuation">,</span> GREEN_LOW<span class="token punctuation">,</span> RED_LOW<span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token punctuation">[</span>BLUE_HIGH<span class="token punctuation">,</span> GREEN_HIGH<span class="token punctuation">,</span> RED_HIGH<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">]</span>
+
+<span class="token keyword">for</span> <span class="token punctuation">(</span>lower<span class="token punctuation">,</span> upper<span class="token punctuation">)</span> <span class="token keyword">in</span> boundaries<span class="token punctuation">:</span>
+    <span class="token comment" spellcheck="true"># 从边界创建NumPy数组</span>
+    lower <span class="token operator">=</span> np<span class="token punctuation">.</span>array<span class="token punctuation">(</span>lower<span class="token punctuation">,</span> dtype <span class="token operator">=</span> <span class="token string">"uint8"</span><span class="token punctuation">)</span>
+    upper <span class="token operator">=</span> np<span class="token punctuation">.</span>array<span class="token punctuation">(</span>upper<span class="token punctuation">,</span> dtype <span class="token operator">=</span> <span class="token string">"uint8"</span><span class="token punctuation">)</span>
+
+<span class="token comment" spellcheck="true"># 找到指定边界内的颜色并使用掩码</span>
+mask <span class="token operator">=</span> cv2<span class="token punctuation">.</span>inRange<span class="token punctuation">(</span>cv_image<span class="token punctuation">,</span> lower<span class="token punctuation">,</span> upper<span class="token punctuation">)</span>
+output <span class="token operator">=</span> cv2<span class="token punctuation">.</span>bitwise_and<span class="token punctuation">(</span>cv_image<span class="token punctuation">,</span> cv_image<span class="token punctuation">,</span> mask <span class="token operator">=</span> mask<span class="token punctuation">)</span>
+
+cvImg <span class="token operator">=</span> cv2<span class="token punctuation">.</span>cvtColor<span class="token punctuation">(</span>output<span class="token punctuation">,</span> <span class="token number">6</span><span class="token punctuation">)</span> <span class="token comment" spellcheck="true">#cv2.COLOR_BGR2GRAY</span>
+npImg <span class="token operator">=</span> np<span class="token punctuation">.</span>asarray<span class="token punctuation">(</span> cvImg <span class="token punctuation">)</span>
+thresh <span class="token operator">=</span> cv2<span class="token punctuation">.</span>threshold<span class="token punctuation">(</span>npImg<span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">255</span><span class="token punctuation">,</span> cv2<span class="token punctuation">.</span>THRESH_BINARY<span class="token punctuation">)</span><span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span>
+
+<span class="token comment" spellcheck="true"># 找到阈值图像中的轮廓</span>
+img<span class="token punctuation">,</span> cnts<span class="token punctuation">,</span> hierarchy <span class="token operator">=</span> cv2<span class="token punctuation">.</span>findContours<span class="token punctuation">(</span>thresh<span class="token punctuation">,</span> cv2<span class="token punctuation">.</span>RETR_LIST<span class="token punctuation">,</span> cv2<span class="token punctuation">.</span>CHAIN_APPROX_SIMPLE<span class="token punctuation">)</span>
+
+<span class="token comment" spellcheck="true"># 循环找到的轮廓</span>
+<span class="token keyword">for</span> c <span class="token keyword">in</span> cnts<span class="token punctuation">:</span>
+    <span class="token comment" spellcheck="true"># 计算轮廓的中心</span>
+    M <span class="token operator">=</span> cv2<span class="token punctuation">.</span>moments<span class="token punctuation">(</span>c<span class="token punctuation">)</span>
+
+    <span class="token keyword">if</span> int<span class="token punctuation">(</span>M<span class="token punctuation">[</span><span class="token string">"m00"</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token operator">not</span> <span class="token keyword">in</span> range<span class="token punctuation">(</span><span class="token number">20000</span><span class="token punctuation">,</span> <span class="token number">250000</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token keyword">continue</span>
+
+    cX <span class="token operator">=</span> int<span class="token punctuation">(</span>M<span class="token punctuation">[</span><span class="token string">"m10"</span><span class="token punctuation">]</span> <span class="token operator">/</span> M<span class="token punctuation">[</span><span class="token string">"m00"</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+    cY <span class="token operator">=</span> int<span class="token punctuation">(</span>M<span class="token punctuation">[</span><span class="token string">"m01"</span><span class="token punctuation">]</span> <span class="token operator">/</span> M<span class="token punctuation">[</span><span class="token string">"m00"</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+
+    cv2<span class="token punctuation">.</span>drawContours<span class="token punctuation">(</span>cv_image<span class="token punctuation">,</span> <span class="token punctuation">[</span>c<span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">255</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">)</span>
+    cv2<span class="token punctuation">.</span>circle<span class="token punctuation">(</span>cv_image<span class="token punctuation">,</span> <span class="token punctuation">(</span>cX<span class="token punctuation">,</span> cY<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">255</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">)</span>
+    objPose <span class="token operator">=</span> Pose<span class="token punctuation">(</span><span class="token punctuation">)</span>
+    objPose<span class="token punctuation">.</span>position<span class="token punctuation">.</span>x <span class="token operator">=</span> cX<span class="token punctuation">;</span>
+    objPose<span class="token punctuation">.</span>position<span class="token punctuation">.</span>y <span class="token operator">=</span> cY<span class="token punctuation">;</span>
+    objPose<span class="token punctuation">.</span>position<span class="token punctuation">.</span>z <span class="token operator">=</span> M<span class="token punctuation">[</span><span class="token string">"m00"</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+    self<span class="token punctuation">.</span>target_pub<span class="token punctuation">.</span>publish<span class="token punctuation">(</span>objPose<span class="token punctuation">)</span> <span class="token comment" spellcheck="true">#不断靠近小圆球</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="2-3-视觉伺服"><a href="#2-3-视觉伺服" class="headerlink" title="2.3 视觉伺服"></a>2.3 视觉伺服</h3><p>视觉伺服木块是move_to_target节点，订阅图像识别的结果，根据目标像素位置调整速度指令。</p>
+<pre class="line-numbers language-cpp"><code class="language-cpp"><span class="token comment" spellcheck="true">// 将接收到的消息打印出来</span>
+<span class="token function">ROS_INFO</span><span class="token punctuation">(</span><span class="token string">"Target pose: x:%0.6f, y:%0.6f, z:%0.6f"</span><span class="token punctuation">,</span> msg<span class="token operator">-</span><span class="token operator">></span>position<span class="token punctuation">.</span>x<span class="token punctuation">,</span> msg<span class="token operator">-</span><span class="token operator">></span>position<span class="token punctuation">.</span>y<span class="token punctuation">,</span> msg<span class="token operator">-</span><span class="token operator">></span>position<span class="token punctuation">.</span>z<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment" spellcheck="true">// 停止机器人导航</span>
+<span class="token keyword">if</span><span class="token punctuation">(</span>status_flag <span class="token operator">==</span> STATUS_EXPLORING<span class="token punctuation">)</span>
 <span class="token punctuation">{</span>
-    <span class="token comment" spellcheck="true">// ROS节点初始化</span>
-    ros<span class="token operator">::</span><span class="token function">init</span><span class="token punctuation">(</span>argc<span class="token punctuation">,</span> argv<span class="token punctuation">,</span> <span class="token string">"turtle_publisher"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    status_flag <span class="token operator">=</span> STATUS_CLOSE_TARGET<span class="token punctuation">;</span>
+    std_msgs<span class="token operator">::</span>Int8 cmd<span class="token punctuation">;</span>
+    cmd<span class="token punctuation">.</span>data <span class="token operator">=</span> STATUS_CLOSE_TARGET<span class="token punctuation">;</span>
+    cmd_pub<span class="token punctuation">.</span><span class="token function">publish</span><span class="token punctuation">(</span>cmd<span class="token punctuation">)</span><span class="token punctuation">;</span>
 
-    <span class="token comment" spellcheck="true">// 创建节点句柄</span>
-    ros<span class="token operator">::</span>NodeHandle n<span class="token punctuation">;</span>
-
-    <span class="token comment" spellcheck="true">// 创建一个Publisher，发布名为turtle1/cmd_vel的topic，消息类型为geometry_msgs::Twist，传输空间大小1000</span>
-    ros<span class="token operator">::</span>Publisher chatter_pub <span class="token operator">=</span> n<span class="token punctuation">.</span>advertise<span class="token operator">&lt;</span>geometry_msgs<span class="token operator">::</span>Twist<span class="token operator">></span><span class="token punctuation">(</span><span class="token string">"turtle1/cmd_vel"</span><span class="token punctuation">,</span> <span class="token number">1000</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-
-    <span class="token comment" spellcheck="true">// 设置循环的频率</span>
-    ros<span class="token operator">::</span>Rate <span class="token function">loop_rate</span><span class="token punctuation">(</span><span class="token number">10</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-
-    <span class="token keyword">int</span> count <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
-    <span class="token keyword">while</span> <span class="token punctuation">(</span>ros<span class="token operator">::</span><span class="token function">ok</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
-    <span class="token punctuation">{</span>
-        <span class="token comment" spellcheck="true">// 初始化geometry_msgs::Twist类型的消息</span>
-        geometry_msgs<span class="token operator">::</span>Twist Twist_msg<span class="token punctuation">;</span>
-
-        <span class="token keyword">float</span> linear_x<span class="token punctuation">,</span> linear_y<span class="token punctuation">,</span> angular_z<span class="token punctuation">;</span>
-        linear_x <span class="token operator">=</span> <span class="token number">2</span><span class="token punctuation">;</span>
-        linear_y <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
-        angular_z <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span>
-        Twist_msg<span class="token punctuation">.</span>linear<span class="token punctuation">.</span>x <span class="token operator">=</span> linear_x<span class="token punctuation">;</span>
-        Twist_msg<span class="token punctuation">.</span>linear<span class="token punctuation">.</span>y <span class="token operator">=</span> linear_y<span class="token punctuation">;</span>
-        Twist_msg<span class="token punctuation">.</span>angular<span class="token punctuation">.</span>z <span class="token operator">=</span> angular_z<span class="token punctuation">;</span>
-
-        <span class="token comment" spellcheck="true">// 发布消息</span>
-        <span class="token function">ROS_INFO</span><span class="token punctuation">(</span><span class="token string">"I heard cmd_vel linear.x:[%f] linear.y:[%f] angular.z:[%f]"</span><span class="token punctuation">,</span>linear_x<span class="token punctuation">,</span> linear_y<span class="token punctuation">,</span> angular_z<span class="token punctuation">)</span><span class="token punctuation">;</span>
-        chatter_pub<span class="token punctuation">.</span><span class="token function">publish</span><span class="token punctuation">(</span>Twist_msg<span class="token punctuation">)</span><span class="token punctuation">;</span>
-
-        <span class="token comment" spellcheck="true">// 按照循环频率延时</span>
-        loop_rate<span class="token punctuation">.</span><span class="token function">sleep</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-        <span class="token operator">++</span>count<span class="token punctuation">;</span>
-    <span class="token punctuation">}</span>
-
-    <span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
-<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<h2 id="二、定阅"><a href="#二、定阅" class="headerlink" title="二、定阅"></a>二、定阅</h2><h3 id="2-1-海龟的位置，并在终端中周期打印输出"><a href="#2-1-海龟的位置，并在终端中周期打印输出" class="headerlink" title="2.1 海龟的位置，并在终端中周期打印输出"></a>2.1 海龟的位置，并在终端中周期打印输出</h3><p>创建一个<strong>Subscriber</strong>，订阅名为<strong>turtle1/pose</strong>的<strong>topic</strong>，其消息类型为<strong>turtlesim::Pose</strong>，注册回调函数<strong>chatterCallback_pose</strong>，而输出<strong>turtle1/pose</strong>中<strong>x</strong>， <strong>y</strong>，<strong>theta</strong>就是海龟<strong>turtle1</strong>的位置。</p>
-<pre class="line-numbers language-cpp"><code class="language-cpp">float32 x
-float32 y
-float32 theta
-float32 linear_velocity
-float32 angular_velocity<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<h3 id="2-2-参考代码："><a href="#2-2-参考代码：" class="headerlink" title="2.2 参考代码："></a>2.2 参考代码：</h3><pre class="line-numbers language-cpp"><code class="language-cpp"><span class="token macro property">#<span class="token directive keyword">include</span> <span class="token string">"ros/ros.h"</span></span>
-<span class="token macro property">#<span class="token directive keyword">include</span> <span class="token string">"std_msgs/String.h"</span></span>
-<span class="token macro property">#<span class="token directive keyword">include</span> <span class="token string">"turtlesim/Pose.h"</span></span>
-<span class="token comment" spellcheck="true">// 接收到订阅的消息后，会进入消息回调函数</span>
-<span class="token keyword">void</span> <span class="token function">chatterCallback_pose</span><span class="token punctuation">(</span><span class="token keyword">const</span> turtlesim<span class="token operator">::</span>Pose<span class="token operator">::</span>ConstPtr<span class="token operator">&amp;</span> Pose_msg<span class="token punctuation">)</span>
-<span class="token punctuation">{</span>
-    <span class="token comment" spellcheck="true">// 将接收到的消息打印出来</span>
-    <span class="token keyword">float</span> x<span class="token punctuation">,</span> y<span class="token punctuation">,</span> theta<span class="token punctuation">;</span>
-    x<span class="token operator">=</span>Pose_msg<span class="token operator">-</span><span class="token operator">></span>x<span class="token punctuation">;</span>
-    y<span class="token operator">=</span>Pose_msg<span class="token operator">-</span><span class="token operator">></span>y<span class="token punctuation">;</span>
-    theta<span class="token operator">=</span>Pose_msg<span class="token operator">-</span><span class="token operator">></span>theta<span class="token punctuation">;</span>
-    <span class="token function">ROS_INFO</span><span class="token punctuation">(</span><span class="token string">"I heard pose x:[%f] y:[%f] z:[%f]"</span><span class="token punctuation">,</span>x<span class="token punctuation">,</span> y<span class="token punctuation">,</span> theta<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    std_msgs<span class="token operator">::</span>String msg<span class="token punctuation">;</span>
+    msg<span class="token punctuation">.</span>data <span class="token operator">=</span> <span class="token string">"发现宝藏，向宝藏进发"</span><span class="token punctuation">;</span>
+    voice_pub<span class="token punctuation">.</span><span class="token function">publish</span><span class="token punctuation">(</span>msg<span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span>
-
-<span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token keyword">int</span> argc<span class="token punctuation">,</span> <span class="token keyword">char</span> <span class="token operator">*</span><span class="token operator">*</span>argv<span class="token punctuation">)</span>
+<span class="token keyword">else</span> <span class="token keyword">if</span><span class="token punctuation">(</span>status_flag <span class="token operator">==</span> STATUS_CLOSE_TARGET <span class="token operator">&amp;&amp;</span> msg<span class="token operator">-</span><span class="token operator">></span>position<span class="token punctuation">.</span>z <span class="token operator">></span> GET_TARGET_SIZE<span class="token punctuation">)</span>
 <span class="token punctuation">{</span>
-    <span class="token comment" spellcheck="true">// 初始化ROS节点</span>
-    ros<span class="token operator">::</span><span class="token function">init</span><span class="token punctuation">(</span>argc<span class="token punctuation">,</span> argv<span class="token punctuation">,</span> <span class="token string">"turtle_subscriber"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    status_flag <span class="token operator">=</span> STATUS_GO_HOME<span class="token punctuation">;</span>
+    std_msgs<span class="token operator">::</span>Int8 cmd<span class="token punctuation">;</span>
+    cmd<span class="token punctuation">.</span>data <span class="token operator">=</span> STATUS_GO_HOME<span class="token punctuation">;</span>
+    cmd_pub<span class="token punctuation">.</span><span class="token function">publish</span><span class="token punctuation">(</span>cmd<span class="token punctuation">)</span><span class="token punctuation">;</span>   
 
-    <span class="token comment" spellcheck="true">// 创建节点句柄     </span>
-    ros<span class="token operator">::</span>NodeHandle n<span class="token punctuation">;</span>
-
-    <span class="token comment" spellcheck="true">// 创建一个Subscriber，订阅名为turtle1/pose的topic，注册回调函数chatterCallback_pose</span>
-    ros<span class="token operator">::</span>Subscriber sub <span class="token operator">=</span> n<span class="token punctuation">.</span><span class="token function">subscribe</span><span class="token punctuation">(</span><span class="token string">"turtle1/pose"</span><span class="token punctuation">,</span> <span class="token number">1000</span><span class="token punctuation">,</span> chatterCallback_pose<span class="token punctuation">)</span><span class="token punctuation">;</span>
-
-    <span class="token comment" spellcheck="true">// 循环等待回调函数</span>
-    ros<span class="token operator">::</span><span class="token function">spin</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-
-    <span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
-<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<h2 id="三、-创建新服务"><a href="#三、-创建新服务" class="headerlink" title="三、 创建新服务"></a>三、 创建新服务</h2><h3 id="3-1-创建新海龟的服务，在仿真器中产生一只新海龟"><a href="#3-1-创建新海龟的服务，在仿真器中产生一只新海龟" class="headerlink" title="3.1 创建新海龟的服务，在仿真器中产生一只新海龟"></a>3.1 创建新海龟的服务，在仿真器中产生一只新海龟</h3><p>创建一个<strong>client</strong>，<strong>service</strong>消息类型是<strong>turtlesim::Spawn</strong>，向服务端传入设置好的海龟位置和名称(<strong>x y theta name</strong>)。</p>
-<pre class="line-numbers language-cpp"><code class="language-cpp">Node<span class="token operator">:</span> <span class="token operator">/</span>turtlesim
-URI<span class="token operator">:</span> rosrpc<span class="token operator">:</span><span class="token operator">/</span><span class="token operator">/</span><span class="token number">10.0</span><span class="token punctuation">.</span><span class="token number">2.15</span><span class="token operator">:</span><span class="token number">60487</span>
-Type<span class="token operator">:</span> turtlesim<span class="token operator">/</span>Spawn
-Args<span class="token operator">:</span> x y theta name<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
-<h3 id="3-2-参考代码："><a href="#3-2-参考代码：" class="headerlink" title="3.2 参考代码："></a>3.2 参考代码：</h3><pre class="line-numbers language-cpp"><code class="language-cpp"><span class="token macro property">#<span class="token directive keyword">include</span> <span class="token string">"ros/ros.h"</span></span>
-<span class="token macro property">#<span class="token directive keyword">include</span> <span class="token string">"std_srvs/SetBool.h"</span></span>
-<span class="token macro property">#<span class="token directive keyword">include</span> <span class="token string">"turtlesim/Spawn.h"</span></span>
-<span class="token macro property">#<span class="token directive keyword">include</span> <span class="token string">&lt;stdlib.h></span>             </span><span class="token comment" spellcheck="true">/* srand, rand */</span>
-<span class="token macro property">#<span class="token directive keyword">include</span> <span class="token string">&lt;time.h></span>               </span><span class="token comment" spellcheck="true">/* time */</span>
-<span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token keyword">int</span> argc<span class="token punctuation">,</span> <span class="token keyword">char</span> <span class="token operator">*</span><span class="token operator">*</span>argv<span class="token punctuation">)</span>
+    std_msgs<span class="token operator">::</span>String msg<span class="token punctuation">;</span>
+    msg<span class="token punctuation">.</span>data <span class="token operator">=</span> <span class="token string">"拿到宝藏，撤退"</span><span class="token punctuation">;</span>
+    voice_pub<span class="token punctuation">.</span><span class="token function">publish</span><span class="token punctuation">(</span>msg<span class="token punctuation">)</span><span class="token punctuation">;</span>     
+<span class="token punctuation">}</span>
+<span class="token keyword">else</span> <span class="token keyword">if</span><span class="token punctuation">(</span>status_flag <span class="token operator">==</span> STATUS_CLOSE_TARGET<span class="token punctuation">)</span>
 <span class="token punctuation">{</span>
-    <span class="token comment" spellcheck="true">// ROS节点初始化</span>
-    ros<span class="token operator">::</span><span class="token function">init</span><span class="token punctuation">(</span>argc<span class="token punctuation">,</span> argv<span class="token punctuation">,</span> <span class="token string">"turtle_client"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token comment" spellcheck="true">// 初始化geometry_msgs::Twist类型的消息</span>
+    geometry_msgs<span class="token operator">::</span>Twist vel_msg<span class="token punctuation">;</span>
+    vel_msg<span class="token punctuation">.</span>linear<span class="token punctuation">.</span>x  <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token number">150000</span> <span class="token operator">-</span> msg<span class="token operator">-</span><span class="token operator">></span>position<span class="token punctuation">.</span>z<span class="token punctuation">)</span> <span class="token operator">/</span> <span class="token number">150000</span> <span class="token operator">*</span> <span class="token number">0.3</span><span class="token punctuation">;</span>
+    vel_msg<span class="token punctuation">.</span>angular<span class="token punctuation">.</span>z <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token number">640</span> <span class="token operator">-</span> msg<span class="token operator">-</span><span class="token operator">></span>position<span class="token punctuation">.</span>x<span class="token punctuation">)</span> <span class="token operator">/</span> <span class="token number">640</span> <span class="token operator">*</span> <span class="token number">0.3</span><span class="token punctuation">;</span>
 
-    <span class="token comment" spellcheck="true">// set argv[1] not null</span>
-    <span class="token keyword">if</span><span class="token punctuation">(</span>argv<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span> <span class="token operator">==</span> <span class="token constant">NULL</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
-        argv<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token string">""</span><span class="token punctuation">;</span>
-    <span class="token punctuation">}</span>
-    <span class="token function">ROS_INFO</span><span class="token punctuation">(</span><span class="token string">"argv: %s"</span><span class="token punctuation">,</span> argv<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token comment" spellcheck="true">// 创建节点句柄</span>
-    ros<span class="token operator">::</span>NodeHandle n<span class="token punctuation">;</span>
-
-    <span class="token comment" spellcheck="true">// 创建一个client，service消息类型是turtlesim::Spawn  turtlesim/Spawn</span>
-    ros<span class="token operator">::</span>service<span class="token operator">::</span><span class="token function">waitForService</span><span class="token punctuation">(</span><span class="token string">"/spawn"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    ros<span class="token operator">::</span>ServiceClient client <span class="token operator">=</span> n<span class="token punctuation">.</span>serviceClient<span class="token operator">&lt;</span>turtlesim<span class="token operator">::</span>Spawn<span class="token operator">></span><span class="token punctuation">(</span><span class="token string">"/spawn"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-
-    <span class="token comment" spellcheck="true">// 创建turtlesim::Spawn类型的service消息</span>
-    turtlesim<span class="token operator">::</span>Spawn srv<span class="token punctuation">;</span>
-    <span class="token function">srand</span> <span class="token punctuation">(</span><span class="token function">time</span><span class="token punctuation">(</span><span class="token constant">NULL</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    srv<span class="token punctuation">.</span>request<span class="token punctuation">.</span>x <span class="token operator">=</span> <span class="token function">rand</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">%</span><span class="token number">10</span><span class="token punctuation">;</span>
-    srv<span class="token punctuation">.</span>request<span class="token punctuation">.</span>y <span class="token operator">=</span> <span class="token function">rand</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">%</span><span class="token number">10</span><span class="token punctuation">;</span>
-    srv<span class="token punctuation">.</span>request<span class="token punctuation">.</span>theta <span class="token operator">=</span> <span class="token function">rand</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">%</span><span class="token number">10</span><span class="token operator">*</span><span class="token number">0.5</span><span class="token punctuation">;</span>
-    srv<span class="token punctuation">.</span>request<span class="token punctuation">.</span>name <span class="token operator">=</span> argv<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
-
-    <span class="token comment" spellcheck="true">// 发布service请求，等待应答结果</span>
-    <span class="token keyword">if</span> <span class="token punctuation">(</span>client<span class="token punctuation">.</span><span class="token function">call</span><span class="token punctuation">(</span>srv<span class="token punctuation">)</span><span class="token punctuation">)</span>
-    <span class="token punctuation">{</span>
-        <span class="token function">ROS_INFO</span><span class="token punctuation">(</span><span class="token string">"Response : ok"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token punctuation">}</span>
-    <span class="token keyword">else</span>
-    <span class="token punctuation">{</span>
-        <span class="token function">ROS_ERROR</span><span class="token punctuation">(</span><span class="token string">"Failed to call service spawn"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-        <span class="token keyword">return</span> <span class="token number">1</span><span class="token punctuation">;</span>
-    <span class="token punctuation">}</span>
-    <span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
-<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<h2 id="四、控制"><a href="#四、控制" class="headerlink" title="四、控制"></a>四、控制</h2><h3 id="控制特定海龟的速度大小"><a href="#控制特定海龟的速度大小" class="headerlink" title="控制特定海龟的速度大小"></a>控制特定海龟的速度大小</h3><p>这里和1中的实现方式相似，可以在终端输入控制的参数<strong>argv</strong>，然后由这些参数控制海龟状态。</p>
-<p>ps:有时候在编译时会出现<strong>warning:  Clock skew detected.  Your build may be incomplete.</strong>这样的警告。这是时钟同步问题，可以</p>
-<pre class="line-numbers language-cpp"><code class="language-cpp">find <span class="token punctuation">.</span> <span class="token operator">-</span>type f <span class="token operator">|</span> xargs <span class="token operator">-</span>n <span class="token number">5</span> touch<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+    <span class="token comment" spellcheck="true">// 发布消息</span>
+    vel_pub<span class="token punctuation">.</span><span class="token function">publish</span><span class="token punctuation">(</span>vel_msg<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token function">ROS_INFO</span><span class="token punctuation">(</span><span class="token string">"Publsh velocity command[%0.2f m/s, %0.2f rad/s]"</span><span class="token punctuation">,</span> vel_msg<span class="token punctuation">.</span>linear<span class="token punctuation">.</span>x<span class="token punctuation">,</span> vel_msg<span class="token punctuation">.</span>angular<span class="token punctuation">.</span>z<span class="token punctuation">)</span><span class="token punctuation">;</span>       
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="三、运行结果"><a href="#三、运行结果" class="headerlink" title="三、运行结果"></a>三、运行结果</h2><p>该机器人寻宝使用的技术点有机器人建模仿真，图像识别，语音交互，自主导航，SLAM，ROS通信机制，系统设计与集成。<br><img src="http://suljaxm.com/17_object_find.png" alt></p>
 
             </div>
             <hr/>
@@ -736,9 +744,9 @@ Args<span class="token operator">:</span> x y theta name<span aria-hidden="true"
             <br/>
             <span xmlns:dct="http://purl.org/dc/terms/" href="http://purl.org/dc/dcmitype/Text"
                   property="dct:title" rel="dct:type">
-                    《ROS通信(海龟模拟器)》
+                    《迷宫寻宝》
                 </span> 由
-            <a xmlns:cc="http://creativecommons.org/ns#" href="/2019/07/29/ros/ros-tong-xin-hai-gui-mo-ni-qi/" property="cc:attributionName"
+            <a xmlns:cc="http://creativecommons.org/ns#" href="/2019/09/17/ros/mi-gong-xun-bao/" property="cc:attributionName"
                rel="cc:attributionURL">
                 kieranych
             </a> 采用
@@ -778,29 +786,30 @@ Args<span class="token operator">:</span> x y theta name<span aria-hidden="true"
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6 overflow-policy" data-aos="fade-up">
+        <div class="article col s12 m6 overflow-policy" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fa fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="fa fa-dot-circle-o"></i>&nbsp;本篇
+            </div>
             <div class="card">
-                <a href="/2019/08/09/ros/ros-ji-qi-ren-de-tf-bian-huan/">
+                <a href="/2019/09/17/ros/mi-gong-xun-bao/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/22.jpg" class="responsive-img" alt="ROS机器人的tf变换">
+                        <img src="/medias/featureimages/6.jpg" class="responsive-img" alt="迷宫寻宝">
                         
-                        <span class="card-title">ROS机器人的tf变换</span>
+                        <span class="card-title">迷宫寻宝</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            ROS中机器人各个部件间的坐标系转换关系
+                            机器人在未知地图上寻找特定物体
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="fa fa-clock-o fa-fw icon-date"></i>2019-08-09
-                        </span>
+                            <span class="publish-date">
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2019-09-17
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fa fa-bookmark fa-fw icon-category"></i>
@@ -813,8 +822,13 @@ Args<span class="token operator">:</span> x y theta name<span aria-hidden="true"
                         </span>
                     </div>
                 </div>
+
                 
                 <div class="card-action article-tags">
+                    
+                    <a href="/tags/Python/" target="_blank">
+                        <span class="chip bg-color">Python</span>
+                    </a>
                     
                     <a href="/tags/机器人/" target="_blank">
                         <span class="chip bg-color">机器人</span>
@@ -835,31 +849,31 @@ Args<span class="token operator">:</span> x y theta name<span aria-hidden="true"
                 下一篇&nbsp;<i class="fa fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2019/07/24/ros/ros-chu-shi/">
+                <a href="/2019/09/12/pgm/bayesian-network/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/23.jpg" class="responsive-img" alt="ROS初识">
+                        <img src="/medias/featureimages/23.jpg" class="responsive-img" alt="贝叶斯网络">
                         
-                        <span class="card-title">ROS初识</span>
+                        <span class="card-title">贝叶斯网络</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            ROS海龟的基本操作
+                            介绍贝叶斯网络和基于贝叶斯的定位
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="fa fa-clock-o fa-fw icon-date"></i>2019-07-24
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2019-09-12
                             </span>
                         <span class="publish-author">
                             
                             <i class="fa fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/ROS/" class="post-category" target="_blank">
-                                    ROS
+                            <a href="/categories/概率图模型/" class="post-category" target="_blank">
+                                    概率图模型
                                 </a>
                             
                             
@@ -869,12 +883,8 @@ Args<span class="token operator">:</span> x y theta name<span aria-hidden="true"
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/机器人/" target="_blank">
-                        <span class="chip bg-color">机器人</span>
-                    </a>
-                    
-                    <a href="/tags/C/" target="_blank">
-                        <span class="chip bg-color">C++</span>
+                    <a href="/tags/PGM/" target="_blank">
+                        <span class="chip bg-color">PGM</span>
                     </a>
                     
                 </div>
