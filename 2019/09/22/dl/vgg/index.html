@@ -4,9 +4,8 @@
 
 <head><meta name="generator" content="Hexo 3.9.0">
     <meta charset="utf-8">
-    <meta name="keywords" content="轨迹规划, 木匠">
-    <meta name="description" content="1. 介绍运动规划是无人车导航的和核心技术之一，在不同场景会有不同的应对算法。本文主要介绍在高速公路场景下的轨迹规划算法。
-2. Frenet坐标系无人车在运行中会交替使用笛卡尔坐标系和 Frenet坐标系，在进行运动路径规划时，普遍采用F">
+    <meta name="keywords" content="感受野, 木匠">
+    <meta name="description" content="感受野概念感受野（Receptive Field）的定义是卷积神经网络每一层输出的特征图（feature map）上的像素点在输入图片上映射的区域大小。即特征图上的一个点跟原图上有关系的点的区域。感受野被称作是CNN中最重要的概念之一，目标">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -14,7 +13,7 @@
     <meta name="format-detection" content="telephone=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>轨迹规划 | 木匠</title>
+    <title>感受野 | 木匠</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/font-awesome.min.css">
@@ -266,13 +265,13 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/7.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/6.jpg')">
     <div class="container">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
                     <div class="description center-align post-title">
-                        轨迹规划
+                        感受野
                     </div>
                 </div>
             </div>
@@ -383,8 +382,8 @@
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/无人车/" target="_blank">
-                                <span class="chip bg-color">无人车</span>
+                            <a href="/tags/基础知识/" target="_blank">
+                                <span class="chip bg-color">基础知识</span>
                             </a>
                         
                     </div>
@@ -395,8 +394,8 @@
                     <div class="post-cate">
                         <i class="fa fa-bookmark fa-fw icon-category"></i>
                         
-                            <a href="/categories/无人驾驶/" class="post-category" target="_blank">
-                                无人驾驶
+                            <a href="/categories/DL/" class="post-category" target="_blank">
+                                DL
                             </a>
                         
                     </div>
@@ -407,21 +406,21 @@
             <div class="post-info">
                 <div class="post-date info-break-policy">
                     <i class="fa fa-calendar-minus-o fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2019-09-06
+                    2019-09-22
                 </div>
 
                 
                     
                     <div class="info-break-policy">
                         <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
-                        816
+                        421
                     </div>
                     
 
                     
                     <div class="info-break-policy">
                         <i class="fa fa-clock-o fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                        3 分
+                        1 分
                     </div>
                     
                 
@@ -437,29 +436,47 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h3 id="1-介绍"><a href="#1-介绍" class="headerlink" title="1. 介绍"></a>1. 介绍</h3><p>运动规划是无人车导航的和核心技术之一，在不同场景会有不同的应对算法。本文主要介绍在高速公路场景下的轨迹规划算法。</p>
-<h3 id="2-Frenet坐标系"><a href="#2-Frenet坐标系" class="headerlink" title="2. Frenet坐标系"></a>2. Frenet坐标系</h3><p>无人车在运行中会交替使用笛卡尔坐标系和 Frenet坐标系，在进行运动路径规划时，普遍采用Frenet坐标系。 如图1 左图所示，以道路的中心线作为参考线，沿着参考线的方向为S轴，垂直参考线向外的为D轴，相比于右边的笛卡尔坐标系，Frenet 坐标系可以降低汽车的运动状态描述难度，因为参考线一直是道路的中心线，根据道路中线可以根据纵向距离s，横向距离d来表示汽车的当前位置。s和d，再加上运行的时间 t，就是汽车在轨迹规划时的参考依据。</p>
-<center><img width="350" height="240" src="http://suljaxm.com/14_frenet.png">
-图1. 无人车坐标系
-</center>
-
-<h3 id="3-Jerk最小化"><a href="#3-Jerk最小化" class="headerlink" title="3. Jerk最小化"></a>3. Jerk最小化</h3><p> Jerk最小化体现了关于物体运动过程中的颠簸程度，颠簸程度越小，乘车体验越好。 Jerk最小化这需要在运动过程中累计的加速度的变化总和尽可能小。以纵向距离s为例，如图2所示汽车要从A位置到B位置，已知两个时刻汽车的位置$s$，速度$\dot{s}$，加速度$ \ddot{s}$和所运行的时间$\Delta t$，我们需要刻画$\Delta t$时间内的轨迹形式过程$s(t)$。</p>
-<center><img width="450" height="240" src="http://suljaxm.com/14_s_d.png">
-图2. 汽车运动状态参数
-</center>
-
-<p>因为颠簸程度是与加速度的变化$\dddot{s}$相关，所以沿着这条轨迹行驶过程中累计的总颠簸量$Jerk_{sum}=\int_{0}^{t_f}\dddot{s}(t)^2dt$。如果要最小化这个$Jerk_{sum}$，就必须将$s(t)$的所有时间导数为0，即</p>
-<p>\begin{equation}<br>\frac{d^ms}{dt^m}=0, \forall m\geqslant 6<br>\end{equation}</p>
-<p>通过这个性质，我们可以把$s(t)$表示为含有6个系数的5次多项式，即</p>
-<p>\begin{equation}<br>s(t) = \alpha _0 + \alpha _1t+ \alpha _2t^2 + \alpha _3t^3+\alpha_4t^4+\alpha_5t^5<br>\end{equation}</p>
-<p>这只是纵向移动的s，同理横向移动的d也适用。</p>
-<h3 id="4-多项式求解"><a href="#4-多项式求解" class="headerlink" title="4. 多项式求解"></a>4. 多项式求解</h3><p>为了使$Jerk_{sum}$最小化，我们获得了一个含有6个系数的一维Jerk轨迹。关于求解这6个参数，我们可以借助已知的汽车状态，即在两个时刻的位置$s$，速度$\dot{s}$和加速度$ \ddot{s}$。通过已知的$[s_i,\dot{s_i},\ddot{s_i},s_f,\dot{s_f},\ddot{s_f}, \Delta t]$，可求解方程组</p>
-<p>$s(t) = \alpha _0 + \alpha _1t+ \alpha _2t^2 + \alpha _3t^3+\alpha_4t^4+\alpha_5t^5$<br>$\dot{s(t)} = \alpha _1+ 2\alpha _2t + 3\alpha _3t^2+ 4\alpha_4t^3+ 5\alpha_5t^4 $<br>$\ddot{s(t)} = 2\alpha _2 + 6\alpha _3t+ 12\alpha_4t^2+20\alpha_5t^3$</p>
-<p>令$t=0$，可以直接得到$[\alpha _0, \alpha _1,\alpha _2]=[s_i,\dot{s_i},\frac{1}{2}\ddot{s_i}]$，将$\alpha _0$, $\alpha _1$,$\alpha _2$的值带入后，得</p>
-<p>$s(t) = s_i + \dot{s_i}t+ \frac{1}{2}\ddot{s_i}t^2 + \alpha _3t^3+\alpha_4t^4+\alpha_5t^5$<br>$\dot{s(t)} = \dot{s_i}+ \ddot{s_i}t + 3\alpha _3t^2+ 4\alpha_4t^3+ 5\alpha_5t^4 $<br>$\ddot{s(t)} = \ddot{s_i} + 6\alpha _3t+ 12\alpha_4t^2+20\alpha_5t^3$</p>
-<p>接着再将$[s_f,\dot{s_f},\ddot{s_f}, \Delta t]$带入，即</p>
-<p><img src="http://suljaxm.com/14_solve.gif" alt></p>
-<p>最终获得该Jerk轨迹的具体参数。</p>
+                <h2 id="感受野"><a href="#感受野" class="headerlink" title="感受野"></a>感受野</h2><h3 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h3><p>感受野（Receptive Field）的定义是卷积神经网络每一层输出的特征图（feature map）上的像素点在输入图片上映射的区域大小。即特征图上的一个点跟原图上有关系的点的区域。<br>感受野被称作是CNN中最重要的概念之一，目标检测流行的算法比如SSD，Faster RCNN等中的 prior box 和 anchor box的设计都是以感受野为依据做的设计。</p>
+<h3 id="计算"><a href="#计算" class="headerlink" title="计算"></a>计算</h3><p><img src="http://suljaxm.com/20_pf.png" alt></p>
+<p>原始输入图大小为 $7 \times 7$</p>
+<table>
+<thead>
+<tr>
+<th align="center">网络层</th>
+<th align="center">kernel</th>
+<th align="center">deepth</th>
+<th align="center">strids</th>
+<th align="center">padding</th>
+<th align="center">input</th>
+<th align="center">output</th>
+<th align="center">feature</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">conv1</td>
+<td align="center">[3,3]</td>
+<td align="center">1</td>
+<td align="center">1</td>
+<td align="center">VALID</td>
+<td align="center">[7,7,1]</td>
+<td align="center">[5,5,1]</td>
+<td align="center">$(7-3+1)/1=5$</td>
+</tr>
+<tr>
+<td align="center">conv2</td>
+<td align="center">[3,3]</td>
+<td align="center">1</td>
+<td align="center">1</td>
+<td align="center">VALID</td>
+<td align="center">[7,7,1]</td>
+<td align="center">[5,5,1]</td>
+<td align="center">$(5-3+1)/1=3$</td>
+</tr>
+</tbody></table>
+<p>可以知道原始输入的感受野是1，conv1层感受野是3，conv2层感受野5。</p>
+<p>最终我们可以得出，一个[5,5]卷积核感受野与两个[3,3]卷积核的感受野等效。一个[7,7]卷积核的感受野和3个[3,3]卷积核的感受野等效。</p>
+<p>感受野的计算公式为<br>\begin{equation}<br>r_n = r_{n-1}+(k_n - 1)\prod_{i=1}^{n-1}s_i<br>\end{equation}<br>其中$r_{n-1}$表示上一层感受野大小，$k_n$表示本层卷积核尺寸，而$S_i$表示卷积步幅大小<br>例如，<br>conv1：$3 \times 3$  strides = 1 valid<br>conv2：$3 \times 3$  strides = 1 valid<br>conv3：$3 \times 3$  strides = 1 valid<br>conv4：$3 \times 3$  strides = 1 valid<br>maxp：$2 \times 2$  strides = 2<br>$(计算感受野时，maxp 看做 conv：2 \times 2, strides = 2)$</p>
+<p>感受野：<br>原图：1<br>conv1：$1+(3-1)=3$<br>conv2：$3+(3-1) \times 1 = 5$<br>conv3：$5+(3-1) \times 1 \times 1 = 7$<br>conv4：$7+(3-1) \times 1 \times 1 \times 2 = 11$<br>maxp：$11+(2-1) \times 1 \times 1 \times 2 \times 1 = 13$</p>
 
             </div>
             <hr/>
@@ -618,9 +635,9 @@
             <br/>
             <span xmlns:dct="http://purl.org/dc/terms/" href="http://purl.org/dc/dcmitype/Text"
                   property="dct:title" rel="dct:type">
-                    《轨迹规划》
+                    《感受野》
                 </span> 由
-            <a xmlns:cc="http://creativecommons.org/ns#" href="/2019/09/06/sdcnd/path-planning/" property="cc:attributionName"
+            <a xmlns:cc="http://creativecommons.org/ns#" href="/2019/09/22/dl/vgg/" property="cc:attributionName"
                rel="cc:attributionURL">
                 kieranych
             </a> 采用
@@ -660,46 +677,48 @@
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6 overflow-policy" data-aos="fade-up">
+        <div class="article col s12 m6 overflow-policy" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fa fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="fa fa-dot-circle-o"></i>&nbsp;本篇
+            </div>
             <div class="card">
-                <a href="/2019/09/12/pgm/bayesian-network/">
+                <a href="/2019/09/22/dl/vgg/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/23.jpg" class="responsive-img" alt="贝叶斯网络">
+                        <img src="/medias/featureimages/6.jpg" class="responsive-img" alt="感受野">
                         
-                        <span class="card-title">贝叶斯网络</span>
+                        <span class="card-title">感受野</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            介绍贝叶斯网络和基于贝叶斯的定位
+                            感受野
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="fa fa-clock-o fa-fw icon-date"></i>2019-09-12
-                        </span>
+                            <span class="publish-date">
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2019-09-22
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fa fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/概率图模型/" class="post-category" target="_blank">
-                                    概率图模型
+                            <a href="/categories/DL/" class="post-category" target="_blank">
+                                    DL
                                 </a>
                             
                             
                         </span>
                     </div>
                 </div>
+
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/PGM/" target="_blank">
-                        <span class="chip bg-color">PGM</span>
+                    <a href="/tags/基础知识/" target="_blank">
+                        <span class="chip bg-color">基础知识</span>
                     </a>
                     
                 </div>
@@ -713,31 +732,31 @@
                 下一篇&nbsp;<i class="fa fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2019/09/04/sdcnd/localization/">
+                <a href="/2019/09/22/dl/alexnet/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/1.jpg" class="responsive-img" alt="无人车定位">
+                        <img src="/medias/featureimages/15.jpg" class="responsive-img" alt="AlexNet">
                         
-                        <span class="card-title">无人车定位</span>
+                        <span class="card-title">AlexNet</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            使用粒子滤波的二维地图定位
+                            AlexNet的改进点
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="fa fa-clock-o fa-fw icon-date"></i>2019-09-04
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2019-09-22
                             </span>
                         <span class="publish-author">
                             
                             <i class="fa fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/无人驾驶/" class="post-category" target="_blank">
-                                    无人驾驶
+                            <a href="/categories/DL/" class="post-category" target="_blank">
+                                    DL
                                 </a>
                             
                             
@@ -747,12 +766,8 @@
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/Python/" target="_blank">
-                        <span class="chip bg-color">Python</span>
-                    </a>
-                    
-                    <a href="/tags/无人车/" target="_blank">
-                        <span class="chip bg-color">无人车</span>
+                    <a href="/tags/基础知识/" target="_blank">
+                        <span class="chip bg-color">基础知识</span>
                     </a>
                     
                 </div>
