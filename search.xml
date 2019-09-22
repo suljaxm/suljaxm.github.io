@@ -4,6 +4,31 @@
   
     
     <entry>
+      <title>坐标系变化</title>
+      <link href="/2019/09/22/geometry/coordinate-transformation/"/>
+      <url>/2019/09/22/geometry/coordinate-transformation/</url>
+      
+        <content type="html"><![CDATA[<h2 id="一、旋转矩阵"><a href="#一、旋转矩阵" class="headerlink" title="一、旋转矩阵"></a>一、旋转矩阵</h2><h3 id="1-1-三维空间变换"><a href="#1-1-三维空间变换" class="headerlink" title="1.1 三维空间变换"></a>1.1 三维空间变换</h3><p>$F_0$ 的坐标系，上有一点$a=[x,y,z]^T$，则当$F_0$ 坐标系开始旋转变化时，有如下的变换关系</p><ul><li><p>绕X轴逆时针旋转θ角<br><img src="http://suljaxm.com/18_Rxtheta.gif" alt><br>经过变换后的新空间坐标点为$a’=[x,y,z]^TR_x(\theta)$</p></li><li><p>绕Y轴逆时针旋转θ角<br><img src="http://suljaxm.com/18_Rytheta.gif" alt></p></li><li><p>绕Z轴逆时针旋转θ角<br><img src="http://suljaxm.com/18_Rztheta.gif" alt></p></li></ul><p>则旋转矩阵为$M=R_x(\theta)R_y(\theta)R_z(\theta)$</p><h3 id="1-2-二维空间变换"><a href="#1-2-二维空间变换" class="headerlink" title="1.2 二维空间变换"></a>1.2 二维空间变换</h3><p>$a=[x,y,1]^T$</p><h3 id="1-3-一维空间变换"><a href="#1-3-一维空间变换" class="headerlink" title="1.3 一维空间变换"></a>1.3 一维空间变换</h3><p>$a=[x,1,1]^T$</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 几何 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 几何 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>感受野</title>
       <link href="/2019/09/22/dl/vgg/"/>
       <url>/2019/09/22/dl/vgg/</url>
@@ -46,31 +71,6 @@
         <tags>
             
             <tag> 基础知识 </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>坐标系变化</title>
-      <link href="/2019/09/22/geometry/coordinate-transformation/"/>
-      <url>/2019/09/22/geometry/coordinate-transformation/</url>
-      
-        <content type="html"><![CDATA[<h2 id="一、旋转矩阵"><a href="#一、旋转矩阵" class="headerlink" title="一、旋转矩阵"></a>一、旋转矩阵</h2><h3 id="1-1-三维空间变换"><a href="#1-1-三维空间变换" class="headerlink" title="1.1 三维空间变换"></a>1.1 三维空间变换</h3><p>$F_0$ 的坐标系，上有一点$a=[x,y,z]^T$，则当$F_0$ 坐标系开始旋转变化时，有如下的变换关系</p><ul><li><p>绕X轴逆时针旋转θ角<br><img src="http://suljaxm.com/18_Rxtheta.gif" alt><br>经过变换后的新空间坐标点为$a’=[x,y,z]^TR_x(\theta)$</p></li><li><p>绕Y轴逆时针旋转θ角<br><img src="http://suljaxm.com/18_Rytheta.gif" alt></p></li><li><p>绕Z轴逆时针旋转θ角<br><img src="http://suljaxm.com/18_Rztheta.gif" alt></p></li></ul><p>则旋转矩阵为$M=R_x(\theta)R_y(\theta)R_z(\theta)$</p><h3 id="1-2-二维空间变换"><a href="#1-2-二维空间变换" class="headerlink" title="1.2 二维空间变换"></a>1.2 二维空间变换</h3><p>$a=[x,y,1]^T$</p><h3 id="1-3-一维空间变换"><a href="#1-3-一维空间变换" class="headerlink" title="1.3 一维空间变换"></a>1.3 一维空间变换</h3><p>$a=[x,1,1]^T$</p>]]></content>
-      
-      
-      <categories>
-          
-          <category> 几何 </category>
-          
-      </categories>
-      
-      
-        <tags>
-            
-            <tag> 几何 </tag>
             
         </tags>
       
