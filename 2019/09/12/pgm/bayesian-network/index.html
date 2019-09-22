@@ -413,14 +413,14 @@
                     
                     <div class="info-break-policy">
                         <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
-                        1.4k
+                        1.9k
                     </div>
                     
 
                     
                     <div class="info-break-policy">
                         <i class="fa fa-clock-o fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                        6 分
+                        8 分
                     </div>
                     
                 
@@ -565,6 +565,12 @@ pUndershoot <span class="token operator">=</span> <span class="token number">0.1
 <span class="token keyword">print</span> p  
 <span class="token comment" spellcheck="true">#[0.07882352941176471, 0.07529411764705884, 0.22470588235294123, 0.4329411764705882, 0.18823529411764706]</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <p>最后小车在运动两次最可能出现在第4个格子。由此可知贝叶斯滤波是一种在迭代中进行状态估计的框架。通过sense和move的不断更新预测，从而使得小车获得更精准的定位。</p>
+<h2 id="三、面试题"><a href="#三、面试题" class="headerlink" title="三、面试题"></a>三、面试题</h2><h3 id="3-1-癌症检测"><a href="#3-1-癌症检测" class="headerlink" title="3.1 癌症检测"></a>3.1 癌症检测</h3><p>假设这里存在一种特定的癌症，但是这个癌症很罕见——1000个人里面仅仅只有1个人得这种癌症，也就是说1000个人其中999人不会得这种病，这可以被得癌症的概率和不得癌症的概率来阐明。假设我们有一个测试，这个测试可以得出结果阳性或者阴性，如果你得癌症，测出结果阳性的概率是0.8，假设我没有得癌症，测试出结果为阳性的概率仅仅只有0.1，显然这个测试有着很强的相关性对于我是否患有癌症。问：假设我得到一个阳性的测试，如何计算出我患有癌症的概率？</p>
+<p>根据题意，可以得到公式<br>$p(c)=0.001$，$p(\neg c)=0.999$，$p(pos|c)=0.8$，$p(pos|\neg c)=0.1$，求 $p(c|pos)=?$</p>
+<p>\begin{equation}<br>p(c|pos)=\frac{p(c,pos)}{p(pos)}=\frac{p(pos|c)p(c)}{p(pos|c)p(c)+p(pos|\neg c)p(\neg c)}= \frac{0.001\times 0.8}{0.001 \times 0.8+0.999 \times 0.1} = 0.0079<br>\end{equation}</p>
+<h3 id="3-2-狼人杀"><a href="#3-2-狼人杀" class="headerlink" title="3.2 狼人杀"></a>3.2 狼人杀</h3><p>游戏规则，一开始有3个狼人(werwolf)，3个神(god)和4个村民(villager)，其中狼人说自己是村民的概率是0.6，神说自己是村民的概率是0.4，村民说自己是村民的概率是0.8，小明参加了这个游戏，当他说出自己是村民时，他是狼人的概率是多少？</p>
+<p>根据题意，可以得到公式<br>$p(w)=0.3$，$p(g)=0.3$，$p(v)=0.4$，$p(v|w)=0.6$，$p(v|g)=0.4$，$p(v|v)=0.8$，求 $p(w|v)=?$</p>
+<p>\begin{equation}<br>p(w|v)= \frac {p(w,v)}{p(v)} = \frac {p(v|w)p(w)}{p(v|w)p(w)+p(v|g)p(g)+p(v|v)p(v)} = \frac {0.18} {0.94} = 0.191<br>\end{equation}</p>
 
             </div>
             <hr/>
@@ -1023,7 +1029,7 @@ pUndershoot <span class="token operator">=</span> <span class="token number">0.1
            &copy;<a href="https://suljaxm.github.io/" target="_blank">2019 SULJAXM. All Rights Reserved.
             
                 &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
-                <span class="white-color">19.1k</span>
+                <span class="white-color">19.7k</span>
             
 
             <br>
